@@ -1,4 +1,4 @@
-# Nix
+# Nixin CLI
 
 A bunch of useful configurable Gulp tasks global to many projects,
 to manage development and production tasks with ease.
