@@ -1,0 +1,108 @@
+{
+  "name": "nixin-cli",
+  "version": "1.0.0",
+  "description": "global gulp tasks",
+  "main": "index.js",
+  "scripts": {
+    "stylus": "stylus --sourcemap-inline nixin/source/styles/index.styl -o nixin/_dist/app.css",
+    "sass": "node-sass --include-path sass nixin/source/sass/**/*.{scss,sass} -o nixin/_dist/sass.css",
+    "pug": "pug nixin/source/markup/* nixin/source/markup/**/* -P -o nixin/_dist",
+    "browserify": "browserify -d nixin/source/scripts/index.js -o nixin/_dist/app.js",
+    "watch-stylus": "stylus --sourcemap-inline -w nixin/source/styles/index.styl -o nixin/_dist/app.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreo/nixin.git"
+  },
+  "keywords": [
+    "nix",
+    "gulp",
+    "global",
+    "tasks",
+    "stylus",
+    "browserify"
+  ],
+  "author": "@kreo - Fabio Cencetti <hey@kreo.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kreo/nixin/issues"
+  },
+  "homepage": "https://github.com/kreo/nixin#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "autoprefixer-stylus": "^0.9.3",
+    "browser-sync": "^2.12.12",
+    "browserify": "^13.0.1",
+    "chalk": "^1.1.3",
+    "cssnano": "^3.7.0",
+    "del": "^2.2.0",
+    "globby": "^4.1.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-cached": "^1.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-css-globbing": "^0.1.8",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-dedupe": "0.0.2",
+    "gulp-group-css-media-queries": "^1.1.0",
+    "gulp-gzip": "^1.4.0",
+    "gulp-if": "^2.0.1",
+    "gulp-inject": "^4.1.0",
+    "gulp-inline-css": "^3.1.0",
+    "gulp-jade-globbing": "^0.1.9",
+    "gulp-mirror": "^1.0.0",
+    "gulp-order": "^1.1.1",
+    "gulp-pug": "^3.0.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.2.0",
+    "gulp-shell": "^0.5.2",
+    "gulp-size": "^2.1.0",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-style-inject": "0.0.3",
+    "gulp-stylus": "^2.4.0",
+    "gulp-task-listing": "^1.0.1",
+    "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
+    "hashmark": "^3.1.0",
+    "imagemin": "4.0.0",
+    "imagemin-gifsicle": "4.0.0",
+    "imagemin-jpegtran": "4.0.0",
+    "imagemin-optipng": "4.0.0",
+    "imagemin-pngquant": "4.0.0",
+    "imagemin-svgo": "4.0.0",
+    "map-stream": "0.0.6",
+    "reactify": "^1.1.1",
+    "require-globify": "^1.3.0",
+    "run-sequence": "^1.2.1",
+    "spritesmith": "^3.1.0",
+    "underscore": "^1.8.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-fs": "^2.4.3",
+    "vinyl-paths": "^2.1.0",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^4.7.1"
+  },
+  "bin": {
+    "nix": "./bin/nix"
+  },
+  "config": {
+    "styles": {
+      "source": "nix/source/styles/index.styl",
+      "dest": "nix/_dist/app.css",
+      "opt": {}
+    },
+    "scripts": {
+      "source": "nix/source/scripts/index.js",
+      "dest": "nix/_dist/app.js",
+      "opt": {}
+    },
+    "port": "9001"
+  },
+  "preferGlobal": true,
+  "private": false,
+  "publishConfig": {},
+  "analyze": true
+}

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+GULPJS="gulp"
+basedir=`dirname "$0"`
+NIX="$basedir/index.js"
+
+"$GULPJS" --gulpfile gulpfile.js "$@"
