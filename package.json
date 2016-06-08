@@ -28,8 +28,7 @@
     "url": "https://github.com/kreo/nixin-cli/issues"
   },
   "homepage": "https://github.com/kreo/nixin-cli#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "^6.3.6",
     "autoprefixer-stylus": "^0.9.3",
     "browser-sync": "^2.12.12",
@@ -85,6 +84,7 @@
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^4.7.1"
   },
+  "devDependencies": {},
   "bin": {
     "nix": "./bin/nix"
   },
