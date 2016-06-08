@@ -1,18 +1,18 @@
 {
   "name": "nixin-cli",
   "version": "1.0.0",
-  "description": "global gulp tasks",
+  "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
-    "stylus": "stylus --sourcemap-inline nixin/source/styles/index.styl -o nixin/_dist/app.css",
-    "sass": "node-sass --include-path sass nixin/source/sass/**/*.{scss,sass} -o nixin/_dist/sass.css",
-    "pug": "pug nixin/source/markup/* nixin/source/markup/**/* -P -o nixin/_dist",
-    "browserify": "browserify -d nixin/source/scripts/index.js -o nixin/_dist/app.js",
-    "watch-stylus": "stylus --sourcemap-inline -w nixin/source/styles/index.styl -o nixin/_dist/app.css"
+    "stylus": "stylus --sourcemap-inline _demo/source/styles/index.styl -o _demo/_dist/app.css",
+    "sass": "node-sass --include-path _demo/source/sass/**/*.{scss,sass} -o _demo/_dist/sass.css",
+    "pug": "pug nixin/source/markup/* _demo/source/markup/**/* -P -o _demo/_dist",
+    "browserify": "browserify -d _demo/source/scripts/index.js -o _demo/_dist/app.js",
+    "watch-stylus": "stylus --sourcemap-inline -w _demo/source/styles/index.styl -o _demo/_dist/app.css"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kreo/nixin.git"
+    "url": "git+https://github.com/kreo/nixin-cli.git"
   },
   "keywords": [
     "nix",
@@ -25,9 +25,9 @@
   "author": "@kreo - Fabio Cencetti <hey@kreo.me>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kreo/nixin/issues"
+    "url": "https://github.com/kreo/nixin-cli/issues"
   },
-  "homepage": "https://github.com/kreo/nixin#readme",
+  "homepage": "https://github.com/kreo/nixin-cli#readme",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.3.6",
@@ -90,13 +90,13 @@
   },
   "config": {
     "styles": {
-      "source": "nix/source/styles/index.styl",
-      "dest": "nix/_dist/app.css",
+      "source": "nixin-cli/source/styles/index.styl",
+      "dest": "nixin-cli/_dist/app.css",
       "opt": {}
     },
     "scripts": {
-      "source": "nix/source/scripts/index.js",
-      "dest": "nix/_dist/app.js",
+      "source": "nixin-cli/source/scripts/index.js",
+      "dest": "nixin-cli/_dist/app.js",
       "opt": {}
     },
     "port": "9001"
