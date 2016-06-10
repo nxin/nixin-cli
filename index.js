@@ -11,10 +11,10 @@ module.exports = function(gulp, settings) {
 
     // --- Dependencies ----------------------------------------------------
     var _ = require("underscore"),
-        $ = require("./shell/lib"),
-        config = require("./shell/config"),
-        utils = require("./shell/utils"),
-        routes = require("./shell/routes");
+        $ = require("./system/lib"),
+        config = require("./system/config"),
+        utils = require("./system/utils"),
+        routes = require("./system/routes");
 
     // --- Config ----------------------------------------------------------
     _.extend(config, settings);
