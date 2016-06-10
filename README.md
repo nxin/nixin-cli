@@ -3,7 +3,7 @@
 A bunch of useful configurable Gulp tasks global to many projects,
 to manage development and production tasks with ease.
 
-- Asset pipeline for Stylus, JavaScript, Images, Sprites, Fonts and HTML that does compilation with sourcemaps
+- Asset pipeline for Stylus, JavaScript, Images, Sprites, Fonts and Pug(Jade) templates that does compilation with sourcemaps
 and syntax checking in development mode and minification for production mode
 - Advanced Bower integration
 - Watch changed files with [BrowserSync](https://www.browsersync.io/) integration
@@ -12,11 +12,11 @@ and syntax checking in development mode and minification for production mode
 - Routes manager (in progress)
 - Context manager (in progress)
 
-![alt=gulp](https://raw.githubusercontent.com/kreo/nix/master/__static/gulp.png)
-![alt=bower](https://raw.githubusercontent.com/kreo/nix/master/__static/bower.png)
-![alt=browser-sync](https://raw.githubusercontent.com/kreo/nix/master/__static/browser-sync.png)
-![alt=browserify](https://raw.githubusercontent.com/kreo/nix/master/__static/browserify.png)
-![alt=browserify](https://raw.githubusercontent.com/kreo/nix/master/__static/npm.png)
+![alt=gulp](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/gulp.png)
+![alt=bower](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/bower.png)
+![alt=browser-sync](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/browser-sync.png)
+![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/browserify.png)
+![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/npm.png)
 
 ```bash
 
@@ -85,19 +85,28 @@ brew install node
 And verify that gulp and bower are installed globally
 
 ```bash
-$ sudo npm install -g gulp bower
+$ sudo npm install -g gulp
 ```
 
-Then you can install nix through npm
+Then you can install nixin-cli through npm
 
 ```bash
-$ sudo npm install -g nix
+$ sudo npm install -g nixin-cli
 ```
 
-Or through github (you must add the nix and nix/tasks path to your NODE_PATH)
+Or through github
 
 ```bash
-$ git clone git@github.com:kreo/nix.git
+$ git clone git@github.com:kreo/nixin-cli.git
+```
+
+and the create symlink into global node_modules
+
+```bash
+$ cd path/to/nixin-cli
+$ npm link
+$ cd path/to/your/application
+$ npm link nixin-cli
 ```
 
 ## Set Global Gulp
