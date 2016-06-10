@@ -1,14 +1,15 @@
 {
   "name": "nixin-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
-    "stylus": "stylus --sourcemap-inline _demo/source/styles/index.styl -o _demo/_dist/app.css",
-    "sass": "node-sass --include-path _demo/source/sass/**/*.{scss,sass} -o _demo/_dist/sass.css",
-    "pug": "pug nixin/source/markup/* _demo/source/markup/**/* -P -o _demo/_dist",
-    "browserify": "browserify -d _demo/source/scripts/index.js -o _demo/_dist/app.js",
-    "watch-stylus": "stylus --sourcemap-inline -w _demo/source/styles/index.styl -o _demo/_dist/app.css"
+    "preinstall": "npm install gulp bower npm-check-updates -g",
+    "postinstall": "find node_modules/ -name '*.info' -type f -delete",
+    "stylus": "stylus --sourcemap-inline resources/styles/index.styl -o public/_dist/app.css",
+    "stylus-serve": "stylus --sourcemap-inline -w resources/styles/index.styl -o public/_dist/app.css",
+    "browserify": "browserify -d resources/scripts/index.js -o public/_dist/app.js",
+    "autoprefixer": "postcss --use autoprefixer --autoprefixer.browsers \"last 2 versions\" -r public/_dist/*.css"
   },
   "repository": {
     "type": "git",
@@ -73,6 +74,7 @@
     "imagemin-pngquant": "4.0.0",
     "imagemin-svgo": "4.0.0",
     "map-stream": "0.0.6",
+    "npm-check-updates": "^2.6.7",
     "reactify": "^1.1.1",
     "require-globify": "^1.3.0",
     "run-sequence": "^1.2.1",
