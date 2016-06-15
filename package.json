@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
@@ -35,9 +35,9 @@
     "browser-sync": "^2.12.12",
     "browserify": "^13.0.1",
     "chalk": "^1.1.3",
-    "cssnano": "^3.7.0",
+    "cssnano": "^3.7.1",
     "del": "^2.2.0",
-    "globby": "^4.1.0",
+    "globby": "^5.0.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
     "gulp-cached": "^1.1.0",
