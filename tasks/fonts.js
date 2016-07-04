@@ -20,13 +20,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function clean() {
         gulp.task("clean:fonts", function(){
-            $.del(config.dest + config.fonts.path + "/*." + config.fonts.ext);
+            $.del(config.dest + config.fonts.path + "/**/*." + config.fonts.ext);
         });
     }
 
     function create() {
         gulp.task("fonts", ["clean:fonts"], function() {
-            gulp.src(config.source + config.fonts.path + "/*." + config.fonts.ext)
+            gulp.src(config.source + config.fonts.path + "/**/*." + config.fonts.ext)
                 .pipe(gulp.dest(config.dest + config.fonts.path))
                 .pipe($.size({
                     showFiles: true
