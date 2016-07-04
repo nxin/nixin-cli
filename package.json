@@ -1,13 +1,11 @@
 {
     "name": "nixin-cli",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Nixin CLI - A bunch of useful gulp tasks",
     "main": "index.js",
     "scripts": {
-        "preinstall": "",
-        "postinstall": "",
-        "install:globals": "sudo npm install gulp bower npm-check-updates -g",
-        "clean:node-modules": "sudo find node_modules/ -name '*.info' -type f -delete",
+        "preinstall": "sudo npm install gulp bower -g",
+        "postinstall": "sudo find node_modules/ -name '*.info' -type f -delete",
         "stylus": "stylus --sourcemap-inline resources/styles/index.styl -o public/_dist/app.css",
         "stylus-serve": "stylus --sourcemap-inline -w resources/styles/index.styl -o public/_dist/app.css",
         "browserify": "browserify -d resources/scripts/index.js -o public/_dist/app.js",
