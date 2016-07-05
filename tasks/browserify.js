@@ -22,7 +22,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         through: require("through2"),
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
-        obfuscate: require("gulp-js-obfuscator")
+        obfuscate: require("gulp-js-obfuscator"),
+        // protect: require("gulp-protect")
     });
 
     // Config
@@ -38,7 +39,25 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     _.extend(config.browserify = {
         entries: [config.source + "/scripts/*.js"],
         transform: [$.globify],
-        debug: !process.isProd
+        debug: !process.isProd,
+        uglify: {
+            wrap: 'spesafacile',
+            mangle: true,
+            outSourceMap: false,
+            sourceMapIncludeSources: true
+        },
+        // protect: {
+        //     key: "d!crypt@er?",
+        //     options: {
+        //         partials: {
+        //             auth: '/_dist/d.js'
+        //         },
+        //         options: {
+        //             url: 'http://your.authentication.api'
+        //         }
+        //     },
+        //     callback: 'function () {}'
+        // }
     });
 
     // Public
@@ -75,12 +94,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                 .pipe($.sourcemaps.init())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.uglify({
-                        mangle: true
-                    }).pipe($.obfuscate()),
-                    $.uglify({
-                        mangle: true
-                    }).pipe($.obfuscate()).pipe($.gzip())
+                    $.uglify(config.browserify.uglify).pipe($.obfuscate()),
+                    $.uglify(config.browserify.uglify).pipe($.obfuscate()).pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({

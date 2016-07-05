@@ -26,7 +26,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // extending default config with project config
     _.extend(config.bower, {
         styles: config.source + "/" + config.vendor + "/**/*.css",
-        scripts: config.source + "/" + config.vendor + "/**/*.js"
+        scripts: config.source + "/" + config.vendor + "/**/*.js",
+        uglify: {
+            wrap: 'spesafacile',
+            mangle: true,
+            outSourceMap: false,
+            sourceMapIncludeSources: true
+        }
     });
 
     // Private
@@ -128,12 +134,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                 .pipe($.concat(config.vendor + ".js"))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.uglify({
-                        mangle: true
-                    }).pipe($.obfuscate()),
-                    $.uglify({
-                        mangle: true
-                    }).pipe($.obfuscate()).pipe($.gzip())
+                    $.uglify(config.bower.uglify).pipe($.obfuscate()),
+                    $.uglify(config.bower.uglify).pipe($.obfuscate()).pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
                 .on('error', utils.errors)
