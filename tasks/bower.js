@@ -92,13 +92,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function cleanImages() {
         gulp.task("clean:bower.images", function(){
-            $.del(config.dest + "/images/*.{jpeg,jpg,gif,png,svg}");
+            $.del(config.dest + "/" + config.vendor + ".{jpeg,jpg,gif,png,svg}");
         });
     }
 
     function cleanFonts() {
         gulp.task("clean:bower.fonts", function(){
-            $.del(config.dest + "/fonts/*.{woff2,woff,ttf,svg,eot}");
+            $.del(config.dest + "/" + config.vendor + ".{woff2,woff,ttf,svg,eot}");
         });
     }
 
