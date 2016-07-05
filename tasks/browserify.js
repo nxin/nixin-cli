@@ -21,7 +21,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         gzip: require("gulp-gzip"),
         through: require("through2"),
         buffer: require("vinyl-buffer"),
-        globify: require("require-globify")
+        globify: require("require-globify"),
+        obfuscate: require("gulp-js-obfuscator")
     });
 
     // Config
@@ -76,10 +77,11 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                 .pipe($.if(process.isProd, $.mirror(
                     $.uglify({
                         mangle: true
-                    }),
+                    }).pipe($.obfuscate()),
                     $.uglify({
                         mangle: true
-                    }).pipe($.gzip()))))
+                    }).pipe($.obfuscate()).pipe($.gzip())
+                )))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

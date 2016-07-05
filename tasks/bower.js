@@ -16,7 +16,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         replace: require("gulp-replace"),
         concat: require("gulp-concat"),
         cssnano: require("gulp-cssnano"),
-        uglify: require("gulp-uglify")
+        uglify: require("gulp-uglify"),
+        obfuscate: require("gulp-js-obfuscator")
     });
 
     // Config
@@ -129,10 +130,10 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                 .pipe($.if(process.isProd, $.mirror(
                     $.uglify({
                         mangle: true
-                    }),
+                    }).pipe($.obfuscate()),
                     $.uglify({
                         mangle: true
-                    }).pipe($.gzip())
+                    }).pipe($.obfuscate()).pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
                 .on('error', utils.errors)
