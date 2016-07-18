@@ -22,8 +22,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         through: require("through2"),
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
-        obfuscate: require("gulp-js-obfuscator"),
-        // protect: require("gulp-protect")
+        obfuscate: require("gulp-js-obfuscator")
     });
 
     // Config
@@ -45,19 +44,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
             mangle: true,
             outSourceMap: false,
             sourceMapIncludeSources: true
-        },
-        // protect: {
-        //     key: "d!crypt@er?",
-        //     options: {
-        //         partials: {
-        //             auth: '/_dist/d.js'
-        //         },
-        //         options: {
-        //             url: 'http://your.authentication.api'
-        //         }
-        //     },
-        //     callback: 'function () {}'
-        // }
+        }
     });
 
     // Public

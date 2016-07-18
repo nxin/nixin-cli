@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "browser-sync": "^2.12.12",
     "browserify": "^13.0.1",
     "chalk": "^1.1.3",
-    "cssnano": "^3.7.1",
+    "cssnano": "^3.7.3",
     "del": "^2.2.1",
     "globby": "^5.0.0",
     "gulp-autoprefixer": "^3.1.0",
@@ -44,7 +44,6 @@
     "gulp-concat": "^2.6.0",
     "gulp-css-globbing": "^0.1.8",
     "gulp-cssnano": "^2.1.2",
-    "gulp-dedupe": "0.0.2",
     "gulp-gnirts": "^0.4.5",
     "gulp-group-css-media-queries": "^1.1.0",
     "gulp-gzip": "^1.4.0",
@@ -55,7 +54,6 @@
     "gulp-js-obfuscator": "^1.0.0",
     "gulp-mirror": "^1.0.0",
     "gulp-order": "^1.1.1",
-    "gulp-protect": "^1.0.1",
     "gulp-pug": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
@@ -76,9 +74,7 @@
     "imagemin-optipng": "4.0.0",
     "imagemin-pngquant": "4.0.0",
     "imagemin-svgo": "4.0.0",
-    "map-stream": "0.0.6",
-    "npm-check-updates": "^2.6.8",
-    "reactify": "^1.1.1",
+    "npm-check-updates": "^2.7.1",
     "require-globify": "^1.4.0",
     "run-sequence": "^1.2.2",
     "spritesmith": "^3.1.0",
@@ -87,9 +83,11 @@
     "vinyl-fs": "^2.4.3",
     "vinyl-paths": "^2.1.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^4.7.1"
+    "yargs": "^4.8.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "npm-check-updates": "^2.7.1"
+  },
   "bin": {
     "nix": "./bin/nix"
   },
