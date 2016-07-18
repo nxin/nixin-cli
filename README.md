@@ -4,7 +4,7 @@ A bunch of useful configurable Gulp tasks global to many projects,
 to manage development and production tasks with ease.
 
 - Asset pipeline for Stylus, JavaScript, Images, Sprites, Fonts and Pug(Jade) templates that does compilation with sourcemaps
-and syntax checking in development mode and minification for production mode
+and syntax checking in development mode and minification with obfuscator for production mode
 - Advanced Bower integration
 - Watch changed files with [BrowserSync](https://www.browsersync.io/) integration
 - Mail inliner
@@ -69,51 +69,41 @@ and syntax checking in development mode and minification for production mode
 
 ## Get Started
 
-Before get started with nix, verify that you have installed node with npm
+Before get started with nixin-cli, verify that you have installed node
 
 ```bash
-which node
-which npm
+$ which node
 ```
 
-if are not installed, install it with brew or similar
+if are not installed, install it with brew
 
 ```bash
-brew install node
+$ brew install node
 ```
 
-And verify that gulp and bower are installed globally
+
+Or through n (node version manager)
 
 ```bash
-$ sudo npm install -g gulp
+$ curl -L http://git.io/n-install | bash
 ```
 
-Then you can install nixin-cli through npm
+
+Then install nixin-cli
 
 ```bash
 $ sudo npm install -g nixin-cli
 ```
 
-Or through github
+Or clone the repo and then create symlink into global node_modules
+and set into your .bashrc or .zshenv the global node_modules path
 
 ```bash
 $ git clone git@github.com:kreo/nixin-cli.git
-```
-
-and the create symlink into global node_modules
-
-```bash
 $ cd path/to/nixin-cli
 $ npm link
 $ cd path/to/your/application
 $ npm link nixin-cli
-```
-
-## Set Global Gulp
-
-You must add to your .bashrc or .zshenv the global node_modules path
-
-``` bash
 export NODE_PATH=/path/to/node_modules/
 ```
 
@@ -346,7 +336,7 @@ Add flag "-p" || "--prod" || "--env=prod":
 sourcemaps
 
 and, parallelly:
-- compile your JS browserify files to one unified file and uglified JS file removing
+- compile your JS browserify files to one unified file and uglified and obfuscated JS file removing
   sourcemaps
 
 ``` bash
