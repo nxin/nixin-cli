@@ -22,7 +22,7 @@ var config = {
     vendor: "vendor",
     sourcemaps: {
         includeContent: true,
-        addComment: !process.isProd
+        addComment: true
     },
     autoprefixer: {
         browsers: ['last 3 versions'],

@@ -55,7 +55,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init())
+                .pipe($.sourcemaps.init({loadMaps: true}))
                 .pipe($.cssGlobbing({
                     extensions: ['.scss', '.sass']
                 }))

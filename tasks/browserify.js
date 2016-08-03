@@ -17,6 +17,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         cached: require("gulp-cached"),
         mirror: require("gulp-mirror"),
         source: require("vinyl-source-stream"),
+        sourcemaps: require("gulp-sourcemaps"),
         uglify: require("gulp-uglify"),
         gzip: require("gulp-gzip"),
         through: require("through2"),
@@ -78,7 +79,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                     extension: '.js'
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init())
+                .pipe($.sourcemaps.init({loadMaps: true}))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
                     $.uglify(config.browserify.uglify).pipe($.obfuscate()),
