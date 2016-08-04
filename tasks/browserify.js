@@ -41,7 +41,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
         transform: [$.globify],
         debug: !process.isProd,
         uglify: {
-            wrap: 'spesafacile',
+            wrap: 'app',
             mangle: true,
             outSourceMap: false,
             sourceMapIncludeSources: true

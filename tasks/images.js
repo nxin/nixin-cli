@@ -12,12 +12,11 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // extending module dependencies with project dependencies
     // using $ as alias
     _.extend($, {
-        imagemin: require("imagemin"),
+        imagemin: require('gulp-imagemin'),
+        pngquant: require('imagemin-pngquant'),
         gifsicle: require("imagemin-gifsicle"),
         jpegtran: require("imagemin-jpegtran"),
-        optipng: require("imagemin-optipng"),
-        svgo: require("imagemin-svgo"),
-        pngquant: require("imagemin-pngquant")
+        svgo: require("imagemin-svgo")
     });
 
     // Config
@@ -26,55 +25,75 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // extending default config with project config
     _.extend(config.images = {
         path: "/images",
-        imagesExt: "{gif,jpg,jpeg,png,svg,cur}",
+        imagesExt: "{gif,jpg,jpeg,png,svg}",
         spriteExt: "{css,scss,sass,less,gif,jpg,jpeg,png,svg}"
     });
 
     // Private
     // ---------------------------------------------
 
-    function images(ext, plugin, option) {
-        new $.imagemin()
-            .src([
-                config.source + config.images.path + '/**/*.' + ext,
-                '!' + config.source + '/sprite/*'
+    function imagesJpeg() {
+        gulp.task("imagesJpeg", function (cb) {
+            gulp.src([
+                config.source + config.images.path + "/**/*." + "{jpg,jpeg}",
+                "!" + config.source + "/sprite/*"
             ])
-            .use($.rename({
-                dirname: 'images'
-            }))
-            .dest(config.dest)
-            .use(plugin(option))
-            .use($.size({
-                showFiles: true
-            }))
-            .run((err, files) => {
-                //console.log(files[0]);
-            });
-    }
-
-    function jpegMin() {
-        images("{jpg,jpeg}", $.jpegtran, {
-            progressive: true
+                .pipe($.imagemin($.jpegtran({
+                    progressive: true
+                })))
+                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe($.size({
+                    showFiles: true
+                }));
         });
     }
 
-    function pngMin() {
-        //images("png", $.optipng, {optimizationLevel: 3});
-        images("png", $.pngquant, {
-            quality: "65-80",
-            speed: 4
+    function imagesPng() {
+        gulp.task("imagesPng", function () {
+            gulp.src([
+                config.source + config.images.path + "/**/*." + "png",
+                "!" + config.source + "/sprite/*"
+            ])
+                .pipe($.imagemin($.pngquant({
+                    quality: "65-80",
+                    speed: 4
+                })))
+                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe($.size({
+                    showFiles: true
+                }));
         });
     }
 
-    function gifMin() {
-        images("gif", $.gifsicle, {
-            interlaced: true
+    function imagesGif() {
+        gulp.task("imagesGif", function () {
+            gulp.src([
+                config.source + config.images.path + "/**/*." + "gif",
+                "!" + config.source + "/sprite/*"
+            ])
+                .pipe($.imagemin($.gifsicle({
+                    interlaced: true
+                })))
+                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe($.size({
+                    showFiles: true
+                }));
         });
     }
 
-    function svgMin() {
-        images("svg", $.svgo, {
-            removeViewBox: false
+    function imagesSvg() {
+        gulp.task("imagesSvg", function () {
+            gulp.src([
+                config.source + config.images.path + "/**/*." + "svg",
+                "!" + config.source + "/sprite/*"
+            ])
+                .pipe($.imagemin($.svgo({
+                    removeViewBox: false
+                })))
+                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe($.size({
+                    showFiles: true
+                }));
         });
     }
 
@@ -83,19 +102,20 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function clean() {
         gulp.task("clean:images", function(){
-            $.del(config.dest + '/images');
+            $.del(config.dest + '/images/**');
         });
     }
 
     function create() {
-        gulp.task("images", ["clean:images"], function() {
-            // @TODO fix sprite function or path
+        gulp.task("images", ["clean:images"], function () {
             // sprite();
             // if (process.isProd) sprite(isGzip = true);
-            jpegMin();
-            pngMin();
-            gifMin();
-            svgMin();
+            $.runSequence([
+                "imagesPng",
+                "imagesJpeg",
+                "imagesGif",
+                "imagesSvg"
+            ]);
         });
     }
 
@@ -104,7 +124,11 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     return {
         clean: clean(),
-        create: create()
+        create: create(),
+        imagesPng: imagesPng(),
+        imagesJpeg: imagesJpeg(),
+        imagesGif: imagesGif(),
+        imagesSvg: imagesSvg()
     };
 
 };

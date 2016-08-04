@@ -153,7 +153,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function createImages() {
         gulp.task("create:bower.images", ["clean:bower.images"], function() {
-            createSrc(config.bower.plugins, '/*.{gif,png,jpg,jpeg,cur}');
+            createSrc(config.bower.plugins, '/*.{gif,png,jpg,jpeg,cur,svg}');
         });
     }
 
