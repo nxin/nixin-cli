@@ -108,8 +108,6 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function create() {
         gulp.task("images", ["clean:images"], function () {
-            // sprite();
-            // if (process.isProd) sprite(isGzip = true);
             $.runSequence([
                 "imagesPng",
                 "imagesJpeg",
