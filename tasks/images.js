@@ -33,7 +33,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // ---------------------------------------------
 
     function imagesJpeg() {
-        gulp.task("imagesJpeg", function (cb) {
+        gulp.task("imagesJpeg", function () {
             gulp.src([
                 config.source + config.images.path + "/**/*." + "{jpg,jpeg}",
                 "!" + config.source + "/sprite/*"

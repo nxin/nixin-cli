@@ -12,7 +12,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // using $ as alias
     _.extend($, {
         stylus: require("gulp-stylus"),
-        autoprefixer: require("gulp-autoprefixer"), // @TODO autoprefixer doesn't work
+        autoprefixer: require("gulp-autoprefixer"),
         sourcemaps: require("gulp-sourcemaps"),
         cached: require("gulp-cached"),
         gzip: require("gulp-gzip"),
@@ -72,7 +72,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                     cb(e);
                 })
                 .pipe($.if(process.isProd, $.stylus(config.stylus.opts)))
-                .pipe($.autoprefixer(config.autoprefixer)) // @TODO autoprefixer doesn't work
+                .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename({
                     basename: config.app
                 }))
