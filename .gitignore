@@ -10,8 +10,8 @@ tags
 tags*
 composer.lock
 /nbproject
-/node_modules
-/bower_components
-/vendor
-/resources/vendor
+node_modules
+bower_components
+vendor
+resources/vendor
 _dist
