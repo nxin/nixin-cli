@@ -1,0 +1,14 @@
+{
+  "name": "sf2",
+  "version": "2.0.0",
+  "main": "./src/main/webapp/app/index.html",
+  "dependencies": {
+    "ace": "1.1.7"
+  },
+  "install": {
+    "path": "build/src",
+    "sources": {
+      "ace": "bower_components/ace/lib/ace/**"
+    }
+  }
+}

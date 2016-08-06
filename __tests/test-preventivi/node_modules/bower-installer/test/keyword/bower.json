@@ -1,0 +1,21 @@
+{
+    "name": "sf2",
+    "version": "2.0.0",
+    "main": "src/main/app.js",
+
+    "dependencies": {
+        "bootstrap": "~3.0.3"
+    },
+
+    "install": {
+        "__base":  "build",
+        "path" : {
+            "js": "build/{name}/{version}/js",
+            "css": "build/{name}/{version}/css",
+            "eot": "build/{name}/{version}/fonts",
+            "svg": "build/{name}/{version}/fonts",
+            "ttf": "build/{name}/{version}/fonts",
+            "woff": "build/{name}/{version}/fonts"
+        }       
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "name": "test",
+    "version": "0.0.1",
+
+    "dependencies": {
+        "normalize-css": "latest",
+        "flair": "latest"
+    },
+
+    "install": {
+        "path": {
+            "/\\.font\\.css/": "build/src/Asset/Lib/{name}/Font",
+            "/[sc|le]ss$/": "build/src/Style/Lib/{name}",
+            "/(woff.*|eot|ttf)$/": "build/src/Asset/Lib/{name}/Font"
+        }
+    }
+}

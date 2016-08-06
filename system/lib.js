@@ -19,7 +19,10 @@ $ = {
     gutil: require("gulp-util"),
     stripDebug: require("gulp-strip-debug"),
     colors: require("chalk"),
-    hashmark: require('hashmark')
+    hashmark: require('hashmark'),
+    path: require('path'),
+    merge: require('merge-stream'),
+    flatten: require('gulp-flatten')
 };
 
 module.exports = $;

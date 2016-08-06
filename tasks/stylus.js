@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, routes, utils, $, _) {
+module.exports = function (gulp, config, routes, utils, $, _) {
 
     // --- Dependencies -------------------------------------------------
 
@@ -44,30 +44,92 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     // --- Public -------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:stylus", function() {
+        gulp.task("clean:stylus", function () {
             $.del(config.dest + "/" + config.app + ".{css,css.map,css.gz}");
         });
     }
 
-    function stylus(){
-        gulp.task("stylus", ["clean:stylus"], function(cb) {
+    // function stylus() {
+    //     gulp.task("stylus", ["clean:stylus"], function (cb) {
+    //
+    //         function getPath(theme, context) {
+    //             var pathTheme = "/" + theme;
+    //             var pathContext = "/" + context;
+    //
+    //             return (pathTheme + pathContext);
+    //         }
+    //
+    //         config.themes.map(function (theme) {
+    //             config.contexts.map(function (context) {
+    //
+    //                 return gulp.src(config.source + getPath(theme, context) + config.stylus.paths)
+    //                     .pipe($.cached(config.dest, {
+    //                         extension: ".css"
+    //                     }))
+    //                     .pipe($.buffer())
+    //                     .pipe($.sourcemaps.init({loadMaps: true}))
+    //                     .pipe($.stylus(config.stylus.opts), function (res) {
+    //                         $.gutil.log("in result");
+    //                         console.log(res);
+    //                         res.on("end", function () {
+    //                             console.log('res.end');
+    //                             cb();
+    //                         });
+    //                         res.on("data", function () {
+    //                             console.log("res.data");
+    //                         });
+    //                     }).on("error", function (e) {
+    //                         $.gutil.log("in error");
+    //                         cb(e);
+    //                     })
+    //                     .pipe($.if(process.isProd, $.stylus(config.stylus.opts)))
+    //                     .pipe($.autoprefixer(config.autoprefixer))
+    //                     .pipe($.rename({
+    //                         basename: config.app
+    //                     }))
+    //                     .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+    //                     .pipe($.if(process.isProd, $.mirror(
+    //                         $.cssnano(),
+    //                         $.cssnano().pipe($.gzip())
+    //                     )))
+    //                     .pipe($.flatten())
+    //                     .pipe($.rename({
+    //                         suffix: "." + theme + "." + context
+    //                     }))
+    //                     .pipe(gulp.dest(config.dest))
+    //                     .pipe($.size({
+    //                         showFiles: true
+    //                     }))
+    //                     .pipe($.browserSync.reload({
+    //                         stream: true
+    //                     }));
+    //             });
+    //         });
+    //
+    //     });
+    // }
+
+
+    function stylus() {
+        gulp.task("stylus", ["clean:stylus"], function (cb) {
+
             return gulp.src(config.source + config.stylus.paths)
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
                 .pipe($.sourcemaps.init({loadMaps: true}))
-                .pipe($.stylus(config.stylus.opts), function(res) {
+                .pipe($.stylus(config.stylus.opts), function (res) {
                     $.gutil.log("in result");
                     console.log(res);
-                    res.on("end", function() {
+                    res.on("end", function () {
                         console.log('res.end');
                         cb();
                     });
-                    res.on("data", function() {
+                    res.on("data", function () {
                         console.log("res.data");
                     });
-                }).on("error", function(e) {
+                }).on("error", function (e) {
                     $.gutil.log("in error");
                     cb(e);
                 })
@@ -92,7 +154,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
     }
 
     function create() {
-        gulp.task("css", function(cb){
+        gulp.task("css", function (cb) {
             return gulp.src(config.dest + "/app.css")
                 .pipe($.groupMq())
                 .pipe(gulp.dest(config.dest))

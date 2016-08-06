@@ -27,7 +27,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.sass = {
-        paths: ["/sass/*.{sass,scss}"],
+        paths: ["/styles/*.{sass,scss}"],
         opts: {
             includePaths: [],
             indentedSyntax: true,
