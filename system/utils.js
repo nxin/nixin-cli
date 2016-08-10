@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (function (gulp, config, routes, $, _) {
+module.exports = function (gulp, config, $, _) {
 
     var spawn = require("child_process").spawn;
 
@@ -49,9 +49,60 @@ module.exports = (function (gulp, config, routes, $, _) {
         });
     }
 
+    function setPathSuffix(dir, divider) {
+
+        var path = null;
+
+        if (dir[0] === ".") path = "";
+        else if (dir[1] === undefined) path = divider + dir[0];
+        else path = divider + dir[0] + divider + dir[1];
+
+        return path;
+    }
+
+    function setSourceStack(taskName, filesExt) {
+
+        // console.log(config[taskName]);
+        // console.log(config.source + config[taskName].paths + filesExt);
+
+        var ext = filesExt || "";
+
+        return [
+            config.source + config[taskName].paths + ext,
+            config.source + "{/theme--!(default),/theme--!(default)/context--!(common)}" + config[taskName].paths + ext
+        ];
+    }
+
+    function rewritePath(getPath, filepath, filename) {
+
+        var dirPath = getPath.dirname(filepath.dirname).split("/");
+
+        if(filename !== undefined) {
+            filepath.basename = getPath.basename(filename) + setPathSuffix(dirPath, ".");
+        }
+        else{
+            filepath.basename = filepath.basename + setPathSuffix(dirPath, ".");
+        }
+
+        filepath.dirname = "";
+
+        // console.log(filepath);
+        // console.log(filename);
+    }
+
+    function setCleanStack(taskName, filename){
+
+        return [
+            config.dest + "/" + filename + "*." + config[taskName].outputExt
+        ]
+    }
+
     return {
         errors: errors,
-        getGitHash: getGitHash
+        getGitHash: getGitHash,
+        rewritePath: rewritePath,
+        setSourceStack: setSourceStack,
+        setCleanStack: setCleanStack
     };
 
-})();
+};

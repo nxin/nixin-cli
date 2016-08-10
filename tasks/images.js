@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, routes, utils, $, _) {
+module.exports = function(gulp, config, utils, $, _) {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -24,9 +24,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.images = {
-        path: "/images",
-        imagesExt: "{gif,jpg,jpeg,png,svg}",
-        spriteExt: "{css,scss,sass,less,gif,jpg,jpeg,png,svg}"
+        paths: "/images/*.",
+        jpegExt: "{jpg,jpeg}",
+        pngExt: "png",
+        gifExt: "gif",
+        svgExt: "svg",
+        dest: "/images",
+        outputExt: "{gif,jpg,jpeg,png,svg}"
     });
 
     // Private
@@ -34,14 +38,14 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function imagesJpeg() {
         gulp.task("imagesJpeg", function () {
-            gulp.src([
-                config.source + config.images.path + "/**/*." + "{jpg,jpeg}",
-                "!" + config.source + "/sprite/*"
-            ])
+            gulp.src(utils.setSourceStack("images", config.images.jpegExt))
                 .pipe($.imagemin($.jpegtran({
                     progressive: true
                 })))
-                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath);
+                }))
+                .pipe(gulp.dest(config.dest + config.images.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -50,14 +54,14 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function imagesPng() {
         gulp.task("imagesPng", function () {
-            gulp.src([
-                config.source + config.images.path + "/**/*." + "png",
-                "!" + config.source + "/sprite/*"
-            ])
+            gulp.src(utils.setSourceStack("images", config.images.pngExt))
                 .pipe($.imagemin($.pngquant({
                     quality: "65-80",
                     speed: 4
                 })))
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath);
+                }))
                 .pipe(gulp.dest(config.dest + config.images.path))
                 .pipe($.size({
                     showFiles: true
@@ -67,13 +71,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function imagesGif() {
         gulp.task("imagesGif", function () {
-            gulp.src([
-                config.source + config.images.path + "/**/*." + "gif",
-                "!" + config.source + "/sprite/*"
-            ])
+            gulp.src(utils.setSourceStack("images", config.images.gifExt))
                 .pipe($.imagemin($.gifsicle({
                     interlaced: true
                 })))
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath);
+                }))
                 .pipe(gulp.dest(config.dest + config.images.path))
                 .pipe($.size({
                     showFiles: true
@@ -83,13 +87,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function imagesSvg() {
         gulp.task("imagesSvg", function () {
-            gulp.src([
-                config.source + config.images.path + "/**/*." + "svg",
-                "!" + config.source + "/sprite/*"
-            ])
+            gulp.src(utils.setSourceStack("images", config.images.svgExt))
                 .pipe($.imagemin($.svgo({
                     removeViewBox: false
                 })))
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath);
+                }))
                 .pipe(gulp.dest(config.dest + config.images.path))
                 .pipe($.size({
                     showFiles: true
@@ -102,7 +106,7 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function clean() {
         gulp.task("clean:images", function(){
-            $.del(config.dest + '/images/**');
+            $.del(utils.setCleanStack("images", "images/"));
         });
     }
 

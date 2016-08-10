@@ -30,6 +30,7 @@ var config = {
     },
     stylus: {},
     sass: {},
+    less: {},
     browserify: {},
     pug: {},
     bower: {

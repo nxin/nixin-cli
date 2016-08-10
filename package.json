@@ -39,6 +39,7 @@
     "globby": "^6.0.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
+    "gulp-browserify": "^0.5.1",
     "gulp-cached": "^1.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-css-globbing": "^0.1.8",

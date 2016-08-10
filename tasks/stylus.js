@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, routes, utils, $, _) {
+module.exports = function (gulp, config, utils, $, _) {
 
     // --- Dependencies -------------------------------------------------
 
@@ -38,14 +38,15 @@ module.exports = function (gulp, config, routes, utils, $, _) {
             "include css": true,
             compress: process.isProd,
             comment: !process.isProd
-        }
+        },
+        outputExt: "{css,css.map,css.gz}"
     });
 
     // --- Public -------------------------------------------------------
 
     function clean() {
         gulp.task("clean:stylus", function () {
-            $.del(config.dest + "/" + config.app + ".{css,css.map,css.gz}");
+            $.del(utils.setCleanStack("stylus", config.app))
         });
     }
 
@@ -94,7 +95,7 @@ module.exports = function (gulp, config, routes, utils, $, _) {
     //                     )))
     //                     .pipe($.flatten())
     //                     .pipe($.rename({
-    //                         suffix: "." + theme + "." + context
+    //                         suffix: "-" + theme + "-" + context
     //                     }))
     //                     .pipe(gulp.dest(config.dest))
     //                     .pipe($.size({
@@ -110,10 +111,9 @@ module.exports = function (gulp, config, routes, utils, $, _) {
     // }
 
 
-    function stylus() {
+    function create() {
         gulp.task("stylus", ["clean:stylus"], function (cb) {
-
-            return gulp.src(config.source + config.stylus.paths)
+            gulp.src(utils.setSourceStack("stylus"))
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))
@@ -133,10 +133,9 @@ module.exports = function (gulp, config, routes, utils, $, _) {
                     $.gutil.log("in error");
                     cb(e);
                 })
-                .pipe($.if(process.isProd, $.stylus(config.stylus.opts)))
                 .pipe($.autoprefixer(config.autoprefixer))
-                .pipe($.rename({
-                    basename: config.app
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
@@ -153,22 +152,21 @@ module.exports = function (gulp, config, routes, utils, $, _) {
         });
     }
 
-    function create() {
-        gulp.task("css", function (cb) {
-            return gulp.src(config.dest + "/app.css")
-                .pipe($.groupMq())
-                .pipe(gulp.dest(config.dest))
-                .pipe($.size({
-                    showFiles: true
-                }));
-        });
-    }
+    // function postCss() {
+    //     gulp.task("css", function (cb) {
+    //         return gulp.src(config.dest + "/app.css")
+    //             .pipe($.groupMq())
+    //             .pipe(gulp.dest(config.dest))
+    //             .pipe($.size({
+    //                 showFiles: true
+    //             }));
+    //     });
+    // }
 
     // --- API ----------------------------------------------------------
 
     return {
         clean: clean(),
-        stylus: stylus(),
         create: create()
     };
 

@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, routes, utils, $, _) {
+module.exports = function(gulp, config, utils, $, _) {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -34,7 +34,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
             precision: 10,
             outputStyle: "expanded",
             importer: []
-        }
+        },
+        outputExt: "{css,css.map,css.gz}"
     });
 
     // Public Methods
@@ -42,15 +43,13 @@ module.exports = function(gulp, config, routes, utils, $, _) {
 
     function clean() {
         gulp.task("clean:sass", function() {
-            $.del(config.dest + "/" + config.app + ".{css,css.map,css.gz}", {
-                force: true
-            });
+            $.del(utils.setCleanStack("sass", config.app))
         });
     }
 
     function create() {
-        gulp.task("create:sass", ["clean:sass"], function() {
-            return gulp.src(config.source + config.sass.paths)
+        gulp.task("sass", ["clean:sass"], function() {
+            return gulp.src(utils.setSourceStack("sass"))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
                 }))
@@ -62,8 +61,8 @@ module.exports = function(gulp, config, routes, utils, $, _) {
                 .pipe($.sass(config.sass.opts))
                 .on('error', utils.errors)
                 .pipe($.autoprefixer(config.autoprefixer))
-                .pipe($.rename({
-                    basename: config.app
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath($.path, filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(

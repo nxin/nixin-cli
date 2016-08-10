@@ -12,18 +12,19 @@ module.exports = function(gulp, settings) {
     // --- Dependencies ----------------------------------------------------
     var _ = require("underscore"),
         $ = require("./system/lib"),
-        config = require("./system/config"),
-        utils = require("./system/utils"),
-        routes = require("./system/routes");
+        config = require("./system/config");
 
     // --- Config ----------------------------------------------------------
     _.extend(config, settings);
+
+    // --- Utils -----------------------------------------------------------
+    var utils = require("./system/utils")(gulp, config, $, _);
 
     // --- Public ----------------------------------------------------------
 
     function run(tasks) {
         tasks.forEach(function(task){
-            require("./tasks/" + task)(gulp, config, routes, utils, $, _);
+            require("./tasks/" + task)(gulp, config, utils, $, _);
         });
     }
 

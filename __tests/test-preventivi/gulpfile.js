@@ -46,15 +46,7 @@ var nix = require("nixin-cli")(gulp, {
         host: "localhost",
         proxy: "localhost/",
         port: "9001"
-    },
-    themes: [
-        "default",
-        "halo"
-    ],
-    contexts: [
-        "desktop",
-        "mobile"
-    ]
+    }
 });
 
 
@@ -64,6 +56,8 @@ nix.run([
     "fonts",
     "bower",
     "stylus",
+    "sass",
+    "less",
     "browserify"
 ]);
 
