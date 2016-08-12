@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "2.0",
+  "version": "2.0.0",
   "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
