@@ -78,9 +78,11 @@ module.exports = function (gulp, config, $, _, ext) {
 
         // console.log(filepath);
 
-        var dir = $.path.dirname(filepath.dirname).split("/");
+        var dir = filepath.dirname.split("/");
+        //
+        // console.log(dir);
 
-        var path = null;
+        var path = "";
 
         if (dir[0] === ".") path = "";
         else if (dir[1] === undefined) path = "." + dir[0];
@@ -91,16 +93,18 @@ module.exports = function (gulp, config, $, _, ext) {
 
     function rewritePath(filepath, filename) {
 
-        var suffixPath = setPathSuffix(filepath);
+        if (typeof filepath.basename !== "function") {
+            var suffixPath = setPathSuffix(filepath);
 
-        if(filename !== undefined) {
-            filepath.basename = $.path.basename(filename) + suffixPath;
-        }
-        else{
-            filepath.basename = filepath.basename + suffixPath;
+            if(filename !== undefined) {
+                filepath.basename = $.path.basename(filename) + suffixPath;
+            }
+            else{
+                filepath.basename = filepath.basename + suffixPath;
+            }
+            filepath.dirname = "";
         }
 
-        filepath.dirname = "";
 
         return filepath;
     }

@@ -81,7 +81,7 @@ module.exports = function (gulp, config, utils, $, _) {
                 .pipe($.buffer())
                 .pipe($.sourcemaps.init({loadMaps: true}))
                 .pipe($.rename(function (filepath) {
-                    utils.rewritePath($.path, filepath, config.app);
+                    utils.rewritePath(filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(

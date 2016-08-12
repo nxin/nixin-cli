@@ -89,7 +89,7 @@ module.exports = function (gulp, config, utils, $, _) {
                 //         process.stdout.write(hr);
                 //     }
                 // })
-                // .pipe($.groupMq())
+                .pipe($.groupMq())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
                     $.cssnano(),
