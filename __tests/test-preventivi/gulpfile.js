@@ -10,7 +10,6 @@
 
 /*jshint esversion: 6 */
 
-
 var gulp = require("gulp"),
     rupture = require("rupture"),
     jeet = require("jeet"),
