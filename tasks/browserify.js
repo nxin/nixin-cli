@@ -37,7 +37,10 @@ module.exports = function (gulp, config, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.browserify = {
-        paths: ["/scripts/*.js"],
+        source: ["/scripts"],
+        dest: "",
+        inputExt: "js",
+        outputExt: "{js,js.map,js.gz}",
         transform: [$.globify],
         debug: !process.isProd,
         uglify: {
@@ -45,8 +48,7 @@ module.exports = function (gulp, config, utils, $, _) {
             mangle: true,
             outSourceMap: false,
             sourceMapIncludeSources: true
-        },
-        outputExt: "{js,js.map,js.gz}"
+        }
     });
 
     // Public
@@ -60,7 +62,7 @@ module.exports = function (gulp, config, utils, $, _) {
 
     function create() {
         gulp.task("browserify", ["clean:browserify"], function (cb) {
-            gulp.src(utils.setSourceStack("browserify"))
+            gulp.src(utils.setSourceStack("browserify", config.browserify.inputExt))
                 .pipe($.browserify(config.browserify.opts), function (res) {
                     $.gutil.log("in result");
                     console.log(res);

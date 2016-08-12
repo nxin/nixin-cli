@@ -49,44 +49,39 @@ module.exports = function (gulp, config, $, _, ext) {
         });
     }
 
-    function setCleanStack(taskName, filename){
+    function setCleanStack(taskName, partialPath){
         return [
-            config.dest + "/" + filename + "*." + config[taskName].outputExt
+            config.dest + "/" + partialPath + "*." + config[taskName].outputExt
         ]
     }
 
-    function setSourceStack(taskName, filesExt) {
-
-        var ext = filesExt || "";
-
+    function setSourceStack(taskName, inputExt) {
         return [
-            config.source + config[taskName].paths + ext,
-            config.source + "{/theme--!(default),/theme--!(default)/context--!(common)}" + config[taskName].paths + ext
+            config.source + config[taskName].source + "/*." + inputExt,
+            config.source + "{/theme--!(default),/context--!(common),/theme--!(default)/context--!(common)}" + config[taskName].source + "/*." + inputExt
         ];
-    }
-
-    function parsePath(path) {
-        var extname = Path.extname(path);
-        return {
-            dirname: Path.dirname(path),
-            basename: Path.basename(path, extname),
-            extname: extname
-        };
     }
 
     function setPathSuffix(filepath) {
 
-        // console.log(filepath);
-
         var dir = filepath.dirname.split("/");
-        //
-        // console.log(dir);
-
         var path = "";
 
-        if (dir[0] === ".") path = "";
-        else if (dir[1] === undefined) path = "." + dir[0];
-        else path = "." + dir[0] + "." + dir[1];
+        switch (dir[1]) {
+            case undefined:
+                if (dir[0] !== undefined && dir[0] !== ".") {
+                    path = "." + dir[0];
+                }
+                break;
+            default:
+                if (dir.length === 2) {
+                    path = "." + dir[0];
+                } else {
+                    path = "." + dir[0] + "." + dir[1];
+                }
+
+                break;
+        }
 
         return path;
     }
@@ -105,7 +100,6 @@ module.exports = function (gulp, config, $, _, ext) {
             filepath.dirname = "";
         }
 
-
         return filepath;
     }
 
@@ -119,7 +113,7 @@ module.exports = function (gulp, config, $, _, ext) {
                 },
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|svg|eot)))/ig,
-                    replacement: './images/$2' + suffixPath + '$3'
+                    replacement: './fonts/$2' + suffixPath + '$3'
                 }
             ];
         }
@@ -136,7 +130,7 @@ module.exports = function (gulp, config, $, _, ext) {
             cb(null, file);
         }
 
-        return require('event-stream').map(transform);
+        return $.eventStream.map(transform);
     }
 
     return {
@@ -146,7 +140,6 @@ module.exports = function (gulp, config, $, _, ext) {
         setSourceStack: setSourceStack,
         setCleanStack: setCleanStack,
         rewritePath: rewritePath,
-        parsePath: parsePath,
         addSuffixPath: addSuffixPath
     };
 

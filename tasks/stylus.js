@@ -31,16 +31,17 @@ module.exports = function (gulp, config, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.stylus = {
-        paths: ["/styles/*.styl"],
+        source: ["/styles"],
+        dest: "",
+        inputExt: "styl",
+        outputExt: "{css,css.map,css.gz}",
         opts: {
             import: [],
             use: plugins,
             "include css": true,
             compress: process.isProd,
             comment: !process.isProd
-        },
-        outputExt: "{css,css.map,css.gz}",
-        suffixPath: "--no-suffix"
+        }
     });
 
     // --- Public -------------------------------------------------------
@@ -53,7 +54,7 @@ module.exports = function (gulp, config, utils, $, _) {
 
     function create() {
         gulp.task("stylus", ["clean:stylus"], function (cb) {
-            return gulp.src(utils.setSourceStack("stylus"))
+            return gulp.src(utils.setSourceStack("stylus", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))

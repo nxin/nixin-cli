@@ -11,8 +11,10 @@ module.exports = function(gulp, config, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.fonts = {
-        path: "/fonts",
-        ext: "{ttf,eot,svg,woff,woff2}"
+        source: ["/fonts"],
+        dest: "/fonts",
+        inputExt: "{ttf,eot,svg,woff,woff2}",
+        outputExt: "{ttf,eot,svg,woff,woff2}"
     });
 
     // Public
@@ -20,14 +22,17 @@ module.exports = function(gulp, config, utils, $, _) {
 
     function clean() {
         gulp.task("clean:fonts", function(){
-            $.del(config.dest + config.fonts.path + "/**/*." + config.fonts.ext);
+            $.del(utils.setCleanStack("fonts", config.fonts.dest + "/"));
         });
     }
 
     function create() {
         gulp.task("fonts", ["clean:fonts"], function() {
-            gulp.src(config.source + config.fonts.path + "/**/*." + config.fonts.ext)
-                .pipe(gulp.dest(config.dest + config.fonts.path))
+            gulp.src(utils.setSourceStack("fonts", config.fonts.inputExt))
+                .pipe($.rename(function (filepath) {
+                    utils.rewritePath(filepath);
+                }))
+                .pipe(gulp.dest(config.dest + config.fonts.dest))
                 .pipe($.size({
                     showFiles: true
                 }));

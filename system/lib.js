@@ -25,7 +25,8 @@ $ = {
     flatten: require("gulp-flatten"),
     stream: require("stream"),
     through2: require("through2"),
-    frep: require("frep")
+    frep: require("frep"),
+    eventStream: require('event-stream')
 };
 
 module.exports = $;

@@ -27,15 +27,17 @@ module.exports = function(gulp, config, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.sass = {
-        paths: ["/styles/*.{sass,scss}"],
+        source: ["/styles"],
+        dest: "",
+        inputExt: "{sass,scss}",
+        outputExt: "{css,css.map,css.gz}",
         opts: {
             includePaths: [],
             indentedSyntax: true,
             precision: 10,
             outputStyle: "expanded",
             importer: []
-        },
-        outputExt: "{css,css.map,css.gz}"
+        }
     });
 
     // Public Methods
@@ -43,13 +45,13 @@ module.exports = function(gulp, config, utils, $, _) {
 
     function clean() {
         gulp.task("clean:sass", function() {
-            $.del(utils.setCleanStack("sass", config.app))
+            $.del(utils.setCleanStack("sass", config.app));
         });
     }
 
     function create() {
         gulp.task("sass", ["clean:sass"], function() {
-            return gulp.src(utils.setSourceStack("sass"))
+            return gulp.src(utils.setSourceStack("sass", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
                 }))
@@ -62,8 +64,9 @@ module.exports = function(gulp, config, utils, $, _) {
                 .on('error', utils.errors)
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename(function (filepath) {
-                    utils.rewritePath($.path, filepath, config.app);
+                    utils.rewritePath(filepath, config.app);
                 }))
+                .pipe(utils.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
                     $.cssnano(),
