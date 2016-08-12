@@ -12,7 +12,6 @@ var $ = require("./lib");
 // --prod || -p \\ --env=prod
 process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
 
-
 // Default config
 // @config {paths}
 var config = {

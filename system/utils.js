@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, $, _) {
+module.exports = function (gulp, config, $, _, ext) {
 
     var spawn = require("child_process").spawn;
 
@@ -49,17 +49,6 @@ module.exports = function (gulp, config, $, _) {
         });
     }
 
-    function setPathSuffix(dir, divider) {
-
-        var path = null;
-
-        if (dir[0] === ".") path = "";
-        else if (dir[1] === undefined) path = divider + dir[0];
-        else path = divider + dir[0] + divider + dir[1];
-
-        return path;
-    }
-
     function setSourceStack(taskName, filesExt) {
 
         // console.log(config[taskName]);
@@ -73,25 +62,64 @@ module.exports = function (gulp, config, $, _) {
         ];
     }
 
-    function rewritePath(getPath, filepath, filename) {
+    function parsePath(path) {
+        var extname = Path.extname(path);
+        return {
+            dirname: Path.dirname(path),
+            basename: Path.basename(path, extname),
+            extname: extname
+        };
+    }
 
-        var dirPath = getPath.dirname(filepath.dirname).split("/");
+    function setPathSuffix(filepath) {
+
+        var dir = $.path.dirname(filepath.dirname).split("/");
+
+        var path = null;
+
+        if (dir[0] === ".") path = "";
+        else if (dir[1] === undefined) path = "." + dir[0];
+        else path = "." + dir[0] + "." + dir[1];
+
+        process.env.path = path;
+
+        return path;
+    }
+
+    function replacePath(streamOutput){
+
+        console.log(streamOutput);
+
+        // return $.replace(/[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig, './images/$2' + suffixPath + '$3');
+    }
+
+    function rewritePath(filepath, filename) {
+
+        // console.log("filepath ========>")
+        // console.log(filepath);
+
+        var suffixPath = setPathSuffix(filepath);
 
         if(filename !== undefined) {
-            filepath.basename = getPath.basename(filename) + setPathSuffix(dirPath, ".");
+            filepath.basename = $.path.basename(filename) + suffixPath;
         }
         else{
-            filepath.basename = filepath.basename + setPathSuffix(dirPath, ".");
+            filepath.basename = filepath.basename + suffixPath;
         }
 
         filepath.dirname = "";
 
+        // console.log("rewrite => " + suffixPath);
+
+        return suffixPath;
+
         // console.log(filepath);
         // console.log(filename);
+
+        // return suffixPath;
     }
 
     function setCleanStack(taskName, filename){
-
         return [
             config.dest + "/" + filename + "*." + config[taskName].outputExt
         ]
@@ -100,9 +128,12 @@ module.exports = function (gulp, config, $, _) {
     return {
         errors: errors,
         getGitHash: getGitHash,
+        setPathSuffix: setPathSuffix,
         rewritePath: rewritePath,
         setSourceStack: setSourceStack,
-        setCleanStack: setCleanStack
+        setCleanStack: setCleanStack,
+        parsePath: parsePath,
+        replacePath: replacePath
     };
 
 };

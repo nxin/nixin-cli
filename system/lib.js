@@ -6,6 +6,7 @@
 
 var gulp = require("gulp");
 $ = {
+    fs: require("fs"),
     vinylPaths: require("vinyl-paths"),
     del: require("del"),
     browserSync: require('browser-sync').create(),
@@ -19,10 +20,14 @@ $ = {
     gutil: require("gulp-util"),
     stripDebug: require("gulp-strip-debug"),
     colors: require("chalk"),
-    hashmark: require('hashmark'),
-    path: require('path'),
-    merge: require('merge-stream'),
-    flatten: require('gulp-flatten')
+    hashmark: require("hashmark"),
+    path: require("path"),
+    merge: require("merge-stream"),
+    flatten: require("gulp-flatten"),
+    stream: require("stream"),
+    through2: require("through2"),
+    frep: require("frep"),
+    env: require("gulp-env")
 };
 
 module.exports = $;
