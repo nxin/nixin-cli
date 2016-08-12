@@ -7,7 +7,6 @@
 var gulp = require("gulp");
 $ = {
     fs: require("fs"),
-    vinylPaths: require("vinyl-paths"),
     del: require("del"),
     browserSync: require('browser-sync').create(),
     size: require("gulp-size"),
@@ -26,8 +25,7 @@ $ = {
     flatten: require("gulp-flatten"),
     stream: require("stream"),
     through2: require("through2"),
-    frep: require("frep"),
-    env: require("gulp-env")
+    frep: require("frep")
 };
 
 module.exports = $;

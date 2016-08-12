@@ -46,10 +46,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-css-globbing": "^0.1.8",
     "gulp-cssnano": "^2.1.2",
-    "gulp-env": "^0.4.0",
     "gulp-flatten": "^0.3.0",
-    "gulp-frep": "^0.1.3",
-    "gulp-gnirts": "^0.4.5",
     "gulp-group-css-media-queries": "^1.1.0",
     "gulp-gzip": "^1.4.0",
     "gulp-if": "^2.0.1",
@@ -89,7 +86,6 @@
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-fs": "^2.4.3",
-    "vinyl-paths": "^2.1.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^4.8.1"
   },

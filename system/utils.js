@@ -49,10 +49,13 @@ module.exports = function (gulp, config, $, _, ext) {
         });
     }
 
-    function setSourceStack(taskName, filesExt) {
+    function setCleanStack(taskName, filename){
+        return [
+            config.dest + "/" + filename + "*." + config[taskName].outputExt
+        ]
+    }
 
-        // console.log(config[taskName]);
-        // console.log(config.source + config[taskName].paths + filesExt);
+    function setSourceStack(taskName, filesExt) {
 
         var ext = filesExt || "";
 
@@ -73,6 +76,8 @@ module.exports = function (gulp, config, $, _, ext) {
 
     function setPathSuffix(filepath) {
 
+        // console.log(filepath);
+
         var dir = $.path.dirname(filepath.dirname).split("/");
 
         var path = null;
@@ -81,22 +86,10 @@ module.exports = function (gulp, config, $, _, ext) {
         else if (dir[1] === undefined) path = "." + dir[0];
         else path = "." + dir[0] + "." + dir[1];
 
-        process.env.path = path;
-
         return path;
     }
 
-    function replacePath(streamOutput){
-
-        console.log(streamOutput);
-
-        // return $.replace(/[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig, './images/$2' + suffixPath + '$3');
-    }
-
     function rewritePath(filepath, filename) {
-
-        // console.log("filepath ========>")
-        // console.log(filepath);
 
         var suffixPath = setPathSuffix(filepath);
 
@@ -109,31 +102,48 @@ module.exports = function (gulp, config, $, _, ext) {
 
         filepath.dirname = "";
 
-        // console.log("rewrite => " + suffixPath);
-
-        return suffixPath;
-
-        // console.log(filepath);
-        // console.log(filename);
-
-        // return suffixPath;
+        return filepath;
     }
 
-    function setCleanStack(taskName, filename){
-        return [
-            config.dest + "/" + filename + "*." + config[taskName].outputExt
-        ]
+    function addSuffixPath(){
+
+        function patterns(suffixPath){
+            return [
+                {
+                    pattern: /[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig,
+                    replacement: './images/$2' + suffixPath + '$3'
+                },
+                {
+                    pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|svg|eot)))/ig,
+                    replacement: './images/$2' + suffixPath + '$3'
+                }
+            ];
+        }
+
+        function transform(file, cb) {
+
+            var suffix = file.path.split(config.app)[1].split(".css")[0];
+            var fileContentTrimmed = String(file.contents).trim();
+
+            fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(suffix));
+            file.contents = new Buffer(fileContentTrimmed);
+
+            // if there was some error, just pass as the first parameter here
+            cb(null, file);
+        }
+
+        return require('event-stream').map(transform);
     }
 
     return {
         errors: errors,
         getGitHash: getGitHash,
         setPathSuffix: setPathSuffix,
-        rewritePath: rewritePath,
         setSourceStack: setSourceStack,
         setCleanStack: setCleanStack,
+        rewritePath: rewritePath,
         parsePath: parsePath,
-        replacePath: replacePath
+        addSuffixPath: addSuffixPath
     };
 
 };
