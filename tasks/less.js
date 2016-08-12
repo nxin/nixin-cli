@@ -27,9 +27,11 @@ module.exports = function(gulp, config, utils, $, _) {
 
     // extending default config with project config
     _.extend(config.less = {
-        paths: ["/styles/*.less"],
-        opts: {},
-        outputExt: "{css,css.map,css.gz}"
+        source: ["/styles"],
+        dest: "",
+        inputExt: "less",
+        outputExt: "{css,css.map,css.gz}",
+        opts: {}
     });
 
     // Public Methods
@@ -43,7 +45,7 @@ module.exports = function(gulp, config, utils, $, _) {
 
     function create() {
         gulp.task("less", ["clean:less"], function() {
-            return gulp.src(utils.setSourceStack("less"))
+            return gulp.src(utils.setSourceStack("less", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
                 }))
@@ -57,8 +59,9 @@ module.exports = function(gulp, config, utils, $, _) {
                 .on('error', utils.errors)
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename(function (filepath) {
-                    utils.rewritePath($.path, filepath, config.app);
+                    utils.rewritePath(filepath, config.app);
                 }))
+                .pipe(utils.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
                     $.cssnano(),
