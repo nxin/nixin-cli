@@ -12,15 +12,13 @@ module.exports = function (gulp, config, utils, $, _) {
     // extending module dependencies with project dependencies
     // using $ as alias
     _.extend($, {
-        browserify: require("gulp-browserify"),
-        globby: require("globby"),
+        browserify: require("browserify"),
         cached: require("gulp-cached"),
         mirror: require("gulp-mirror"),
         source: require("vinyl-source-stream"),
         sourcemaps: require("gulp-sourcemaps"),
         uglify: require("gulp-uglify"),
         gzip: require("gulp-gzip"),
-        through: require("through2"),
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
         obfuscate: require("gulp-js-obfuscator")
@@ -61,22 +59,41 @@ module.exports = function (gulp, config, utils, $, _) {
     }
 
     function create() {
-        gulp.task("browserify", ["clean:browserify"], function (cb) {
-            gulp.src(utils.setSourceStack("browserify", config.browserify.inputExt))
-                .pipe($.browserify(config.browserify.opts), function (res) {
-                    $.gutil.log("in result");
-                    console.log(res);
-                    res.on("end", function () {
-                        console.log('res.end');
-                        cb();
-                    });
-                    res.on("data", function () {
-                        console.log("res.data");
-                    });
-                }).on("error", function (e) {
-                $.gutil.log("in error");
-                cb(e);
-            })
+        gulp.task('browserify', ["clean:browserify"], function () {
+            var browserified = function () {
+                return $.through.obj(function (chunk, enc, callback) {
+                    if (chunk.isBuffer()) {
+                        var b = $.browserify({
+                            entries: chunk.path,
+                            transform: config.browserify.transform,
+                            debug: config.browserify.debug
+                        }, function (res) {
+                            $.gutil.log("in result");
+                            console.log(res);
+                            res.on("end", function () {
+                                console.log('res.end');
+                                cb();
+                            });
+                            res.on("data", function () {
+                                console.log("res.data");
+                            });
+                        }).on("error", function (e) {
+                            $.gutil.log("in error");
+                            cb(e);
+                        });
+                        // Any custom browserify stuff should go here
+                        //.transform(to5browserify);
+
+                        chunk.contents = b.bundle();
+                        this.push(chunk);
+
+                    }
+                    callback();
+                });
+            };
+
+            return gulp.src(utils.setSourceStack("browserify", config.browserify.inputExt))
+                .pipe(browserified())
                 .pipe($.cached(config.dest, {
                     extension: '.js'
                 }))
@@ -99,6 +116,46 @@ module.exports = function (gulp, config, utils, $, _) {
                 }));
         });
     }
+
+    // function create() {
+    //     gulp.task("browserify", ["clean:browserify"], function (cb) {
+    //         gulp.src(utils.setSourceStack("browserify", config.browserify.inputExt))
+    //             .pipe($.browserify(config.browserify.opts), function (res) {
+    //                 $.gutil.log("in result");
+    //                 console.log(res);
+    //                 res.on("end", function () {
+    //                     console.log('res.end');
+    //                     cb();
+    //                 });
+    //                 res.on("data", function () {
+    //                     console.log("res.data");
+    //                 });
+    //             }).on("error", function (e) {
+    //             $.gutil.log("in error");
+    //             cb(e);
+    //         })
+    //             .pipe($.cached(config.dest, {
+    //                 extension: '.js'
+    //             }))
+    //             .pipe($.buffer())
+    //             .pipe($.sourcemaps.init({loadMaps: true}))
+    //             .pipe($.rename(function (filepath) {
+    //                 utils.rewritePath(filepath, config.app);
+    //             }))
+    //             .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+    //             .pipe($.if(process.isProd, $.mirror(
+    //                 $.uglify(config.browserify.uglify).pipe($.obfuscate()),
+    //                 $.uglify(config.browserify.uglify).pipe($.obfuscate()).pipe($.gzip())
+    //             )))
+    //             .pipe(gulp.dest(config.dest))
+    //             .pipe($.size({
+    //                 showFiles: true
+    //             }))
+    //             .pipe($.browserSync.reload({
+    //                 stream: true
+    //             }));
+    //     });
+    // }
 
     // API
     // ---------------------------------------------------------

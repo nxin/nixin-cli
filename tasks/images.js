@@ -80,7 +80,7 @@ module.exports = function(gulp, config, utils, $, _) {
                 .pipe($.rename(function (filepath) {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.path))
+                .pipe(gulp.dest(config.dest + config.images.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -96,7 +96,7 @@ module.exports = function(gulp, config, utils, $, _) {
                 .pipe($.rename(function (filepath) {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.paths))
+                .pipe(gulp.dest(config.dest + config.images.dest))
                 .pipe($.size({
                     showFiles: true
                 }));

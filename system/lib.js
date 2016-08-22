@@ -24,7 +24,7 @@ $ = {
     merge: require("merge-stream"),
     flatten: require("gulp-flatten"),
     stream: require("stream"),
-    through2: require("through2"),
+    through: require("through2"),
     frep: require("frep"),
     eventStream: require('event-stream')
 };
