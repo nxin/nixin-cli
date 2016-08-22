@@ -1,10 +1,10 @@
 {
   "name": "nixin-cli",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Nixin CLI - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
-    "preinstall": "sudo npm install gulp bower -g",
+    "preinstall": "npm install gulp -g",
     "stylus": "stylus --sourcemap-inline resources/styles/index.styl -o public/_dist/app.css",
     "stylus-serve": "stylus --sourcemap-inline -w resources/styles/index.styl -o public/_dist/app.css",
     "browserify": "browserify -d resources/scripts/index.js -o public/_dist/app.js",
@@ -29,8 +29,6 @@
   },
   "homepage": "https://github.com/kreo/nixin-cli#readme",
   "dependencies": {
-    "autoprefixer": "^6.4.0",
-    "autoprefixer-stylus": "^0.9.4",
     "browser-sync": "^2.14.0",
     "browserify": "^13.1.0",
     "chalk": "^1.1.3",
@@ -44,7 +42,6 @@
     "gulp-concat": "^2.6.0",
     "gulp-css-globbing": "^0.1.8",
     "gulp-cssnano": "^2.1.2",
-    "gulp-flatten": "^0.3.0",
     "gulp-group-css-media-queries": "^1.1.0",
     "gulp-gzip": "^1.4.0",
     "gulp-if": "^2.0.1",
@@ -63,7 +60,6 @@
     "gulp-shell": "^0.5.2",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-strip-debug": "^1.1.0",
     "gulp-style-inject": "0.0.3",
     "gulp-stylus": "^2.5.0",
     "gulp-task-listing": "^1.0.1",
@@ -80,8 +76,6 @@
     "through2": "^2.0.1",
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-fs": "^2.4.3",
-    "vinyl-source-stream": "^1.1.0",
     "yargs": "^4.8.1"
   },
   "bin": {
