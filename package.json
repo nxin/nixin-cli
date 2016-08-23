@@ -1,7 +1,7 @@
 {
   "name": "nixin-cli",
-  "version": "2.1.1",
-  "description": "Nixin CLI - A bunch of useful gulp tasks",
+  "version": "2.1.2",
+  "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
     "preinstall": "npm install gulp -g",
@@ -76,7 +76,7 @@
     "through2": "^2.0.1",
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
-    "yargs": "^4.8.1"
+    "yargs": "^5.0.0"
   },
   "bin": {
     "nix": "./bin/nix"

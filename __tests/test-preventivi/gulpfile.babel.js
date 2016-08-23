@@ -18,7 +18,7 @@ import rucksack from "rucksack-css";
 import poststylus from "poststylus";
 
 
-var nix = require("nixin-cli")(gulp, {
+const nix = require("nixin-cli")(gulp, {
     source: __dirname + "/resources",
     dest: __dirname + "/public/_dist",
     app: "app",
