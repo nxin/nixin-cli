@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Config
     // ---------------------------------------------------------
@@ -21,7 +21,7 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function watch() {
-        gulp.task("serve:watch", function() {
+        gulp.task("serve:watch", () => {
             gulp.watch(config.source + config.serve.stylus, ["stylus"]);
             gulp.watch(config.source + config.serve.browserify, ["browserify"]);
             gulp.watch(config.dest + config.serve.pug, $.browserSync.reload);
@@ -29,14 +29,14 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function sync() {
-        gulp.task("serve:sync", function() {
+        gulp.task("serve:sync", () => {
             $.browserSync.init({
                 watchTask: true,
                 open: 'external',
                 host: config.serve.host,
                 proxy: config.serve.proxy,
                 port: config.serve.port,
-                middleware: function(req, res, next) {
+                middleware: (req, res, next) => {
                     res.setHeader("Access-Control-Allow-Origin", "*");
                     next();
                 }

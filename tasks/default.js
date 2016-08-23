@@ -2,7 +2,7 @@
 // Default
 // ----------------------------------------------------------------------
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     function brand() {
         console.log($.colors.green(" "));
@@ -15,7 +15,7 @@ module.exports = function(gulp, config, utils, $, _) {
     // API
     // ---------------------------------------------------------
 
-    return gulp.task("default", function() {
+    return gulp.task("default", () => {
         brand();
         $.taskListing();
     });

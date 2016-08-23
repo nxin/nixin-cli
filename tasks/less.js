@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -38,13 +38,13 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:less", function() {
+        gulp.task("clean:less", () => {
             $.del(utils.setCleanStack("less", config.app))
         });
     }
 
     function create() {
-        gulp.task("less", ["clean:less"], function() {
+        gulp.task("less", ["clean:less"], () => {
             return gulp.src(utils.setSourceStack("less", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
@@ -56,9 +56,8 @@ module.exports = function(gulp, config, utils, $, _) {
                 }))
                 // .pipe($.less(config.less.opts))
                 .pipe($.less())
-                .on('error', utils.errors)
                 .pipe($.autoprefixer(config.autoprefixer))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath, config.app);
                 }))
                 .pipe(utils.addSuffixPath())

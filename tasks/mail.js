@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // @TODO FIX ALL PATHS (testing)
 
@@ -33,7 +33,7 @@ module.exports = function(gulp, config, utils, $, _) {
 
 
     function inlineStyles() {
-        gulp.task("inline:mail.styles", function() {
+        gulp.task("inline:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
                 .pipe($.inject(
                     gulp.src(config.dest + "/mail.css", {
@@ -57,7 +57,7 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function convertStyles() {
-        gulp.task("convert:mail.styles", function() {
+        gulp.task("convert:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
                 .pipe($.replace(/<link.*?href="(.+?\.css)"[^>]*>/g, function(s, filename) {
                     var style = $.fs.readFileSync(filename, "utf8");
@@ -74,7 +74,7 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:mail", function() {
+        gulp.task("clean:mail", () => {
             $.del([
                 config.dist + "/mail/markup",
                 config.dist + "/mail/styles"
@@ -85,7 +85,7 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function createStyles() {
-        gulp.task("create:mail.styles", function() {
+        gulp.task("create:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/styles/*.styl")
                 .pipe($.cached(config.dest, {
                     extension: ".css"
@@ -101,8 +101,7 @@ module.exports = function(gulp, config, utils, $, _) {
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
-                .pipe($.gulp.dest(config.dest + config.mail.paths))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.dest + config.mail.paths))
                 .pipe($.size({
                     showFiles: true
                 }))
@@ -113,9 +112,12 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function bundle() {
-        gulp.task("mail", ["clean:mail"], function() {
+        gulp.task("mail", ["clean:mail"], () => {
             $.runSequence(
-                'create:mail.styles', ['inline:mail.styles'], ['inject:mail.styles'], ['convert:mail.styles']
+                'create:mail.styles',
+                ['inline:mail.styles'],
+                ['inject:mail.styles'],
+                ['convert:mail.styles']
             );
         });
     }

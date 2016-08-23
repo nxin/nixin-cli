@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -39,12 +39,12 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------
 
     function imagesJpeg() {
-        gulp.task("imagesJpeg", function () {
+        gulp.task("imagesJpeg", () => {
             gulp.src(utils.setSourceStack("images", config.images.inputExt.jpeg))
                 .pipe($.imagemin($.jpegtran({
                     progressive: true
                 })))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest + config.images.dest))
@@ -55,13 +55,13 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function imagesPng() {
-        gulp.task("imagesPng", function () {
+        gulp.task("imagesPng", () => {
             gulp.src(utils.setSourceStack("images", config.images.inputExt.png))
                 .pipe($.imagemin($.pngquant({
                     quality: "65-80",
                     speed: 4
                 })))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest + config.images.dest))
@@ -72,12 +72,12 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function imagesGif() {
-        gulp.task("imagesGif", function () {
+        gulp.task("imagesGif", () => {
             gulp.src(utils.setSourceStack("images", config.images.inputExt.gif))
                 .pipe($.imagemin($.gifsicle({
                     interlaced: true
                 })))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest + config.images.dest))
@@ -88,12 +88,12 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function imagesSvg() {
-        gulp.task("imagesSvg", function () {
+        gulp.task("imagesSvg", () => {
             gulp.src(utils.setSourceStack("images", config.images.inputExt.svg))
                 .pipe($.imagemin($.svgo({
                     removeViewBox: false
                 })))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest + config.images.dest))
@@ -107,13 +107,13 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:images", function(){
+        gulp.task("clean:images", () => {
             $.del(utils.setCleanStack("images", config.images.dest + "/"));
         });
     }
 
     function create() {
-        gulp.task("images", ["clean:images"], function () {
+        gulp.task("images", ["clean:images"], () => {
             $.runSequence([
                 "imagesPng",
                 "imagesJpeg",

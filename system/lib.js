@@ -5,6 +5,7 @@
 /*jshint esversion: 6 */
 
 var gulp = require("gulp");
+
 $ = {
     fs: require("fs"),
     del: require("del"),

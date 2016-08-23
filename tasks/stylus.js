@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // --- Dependencies -------------------------------------------------
 
@@ -47,35 +47,35 @@ module.exports = function (gulp, config, utils, $, _) {
     // --- Public -------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:stylus", function () {
+        gulp.task("clean:stylus", () => {
             $.del(utils.setCleanStack("stylus", config.app))
         });
     }
 
     function create() {
-        gulp.task("stylus", ["clean:stylus"], function (cb) {
+        gulp.task("stylus", ["clean:stylus"], (cb) => {
             return gulp.src(utils.setSourceStack("stylus", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
                 .pipe($.sourcemaps.init({loadMaps: true}))
-                .pipe($.stylus(config.stylus.opts), function (res) {
+                .pipe($.stylus(config.stylus.opts), (res) => {
                     $.gutil.log("in result");
                     console.log(res);
-                    res.on("end", function () {
+                    res.on("end", () => {
                         console.log('res.end');
                         cb();
                     });
-                    res.on("data", function () {
+                    res.on("data", () => {
                         console.log("res.data");
                     });
-                }).on("error", function (e) {
+                }).on("error", (e) => {
                     $.gutil.log("in error");
                     cb(e);
                 })
                 .pipe($.autoprefixer(config.autoprefixer))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath, config.app);
                 }))
                 .pipe(utils.addSuffixPath())

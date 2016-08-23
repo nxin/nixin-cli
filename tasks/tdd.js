@@ -4,6 +4,6 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (function(gulp, config, utils, $, _) {
+module.exports = ((gulp, config, utils, $, _) => {
 
 })();

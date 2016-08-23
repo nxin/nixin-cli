@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -34,7 +34,7 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:pug", function() {
+        gulp.task("clean:pug", () => {
             $.del(config.dest + "/markup/**/*.html", {
                 force: true
             });
@@ -42,7 +42,7 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function create() {
-        gulp.task("pug", ["clean:pug"], function() {
+        gulp.task("pug", ["clean:pug"], () => {
             return gulp.src(config.source + config.pug.paths)
                 .pipe($.cached(config.dest, {
                     extension: '.html'

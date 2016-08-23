@@ -19,7 +19,7 @@
         "rupture": "^0.6.1"
     },
     "dependencies": {
-        "nixin-cli": "^1.2.1"
+        "nixin-cli": "^2.0.3"
     },
     "bin": {},
     "config": {},

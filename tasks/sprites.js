@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -29,13 +29,13 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:sprites", function() {
+        gulp.task("clean:sprites", () => {
             $.del(config.dest + '/sprites');
         });
     }
 
     function create(isGzip) {
-        gulp.task("sprites", function() {
+        gulp.task("sprites", () => {
             gulp.src(config.source + config.images.path + "/sprite/*")
                 .pipe($.spritesmith({
                     imgName: "sprite.png",

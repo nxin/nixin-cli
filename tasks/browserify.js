@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -52,31 +52,31 @@ module.exports = function (gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:browserify", function () {
+        gulp.task("clean:browserify", () => {
             $.del(utils.setCleanStack("browserify", config.app))
         });
     }
 
     function create() {
         gulp.task('browserify', ["clean:browserify"], function () {
-            var browserified = function () {
+            var browserified = () => {
                 return $.through.obj(function (chunk, enc, callback) {
                     if (chunk.isBuffer()) {
                         var b = $.browserify({
                             entries: chunk.path,
                             transform: config.browserify.transform,
                             debug: config.browserify.debug
-                        }, function (res) {
+                        }, (res) => {
                             $.gutil.log("in result");
                             console.log(res);
-                            res.on("end", function () {
+                            res.on("end", () => {
                                 console.log('res.end');
                                 cb();
                             });
-                            res.on("data", function () {
+                            res.on("data", () => {
                                 console.log("res.data");
                             });
-                        }).on("error", function (e) {
+                        }).on("error", (e) => {
                             $.gutil.log("in error");
                             cb(e);
                         });
@@ -98,7 +98,7 @@ module.exports = function (gulp, config, utils, $, _) {
                 }))
                 .pipe($.buffer())
                 .pipe($.sourcemaps.init({loadMaps: true}))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))

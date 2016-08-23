@@ -8,7 +8,7 @@
  */
 
 
-module.exports = function(gulp, settings) {
+module.exports = (gulp, settings) => {
 
     // --- Dependencies ----------------------------------------------------
     var _ = require("underscore"),
@@ -24,7 +24,7 @@ module.exports = function(gulp, settings) {
     // --- Public ----------------------------------------------------------
 
     function run(tasks) {
-        tasks.forEach(function(task){
+        tasks.forEach((task) => {
             require("./tasks/" + task)(gulp, config, utils, $, _);
         });
     }

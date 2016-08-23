@@ -9,12 +9,13 @@
 
 
 /*jshint esversion: 6 */
+"use strict";
 
-var gulp = require("gulp"),
-    rupture = require("rupture"),
-    jeet = require("jeet"),
-    rucksack = require("rucksack-css"),
-    poststylus = require("poststylus");
+import gulp from "gulp";
+import rupture from "rupture";
+import jeet from "jeet";
+import rucksack from "rucksack-css";
+import poststylus from "poststylus";
 
 
 var nix = require("nixin-cli")(gulp, {
@@ -32,7 +33,7 @@ var nix = require("nixin-cli")(gulp, {
         browserify: []
     },
     bower: {
-        plugins: [
+        assets: [
             "bootstrap"
         ],
         order: [
@@ -61,7 +62,7 @@ nix.run([
 ]);
 
 
-gulp.task("build", ["bower"], function () {
+gulp.task("build", ["bower"], () => {
     $.runSequence(["browserify", "stylus", "fonts", "images"]);
 });
 

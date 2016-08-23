@@ -4,19 +4,19 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Public
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean", function(){
+        gulp.task("clean", () => {
             $.del(config.dest, {force: "true"});
         });
     }
 
     function build() {
-        gulp.task("build", ["bower"], function(){
+        gulp.task("build", ["bower"], () => {
             $.runSequence(["browserify", "stylus", "pug", "fonts", "images"]);
         });
     }

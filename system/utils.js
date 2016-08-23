@@ -4,9 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, $, _, ext) {
-
-    var spawn = require("child_process").spawn;
+module.exports = function (gulp, config, $, _) {
 
     function errors() {
         // Send error to notification center with gulp-notify
@@ -19,36 +17,6 @@ module.exports = function (gulp, config, $, _, ext) {
         this.emit("end");
     }
 
-    function getGitHash() {
-        var gitVersion = "na";
-        gulp.task("version", function() {
-            //git --git-dir=.git log --pretty='%ct %h' -1
-            //git --git-dir=.git log --pretty='%h' -1
-
-            var child = spawn("git", ["--git-dir=.git", "log", "--pretty=%h", "-1"], {
-                    cwd: process.cwd()
-                }),
-                stdout = "",
-                stderr = "";
-
-            child.stdout.setEncoding("utf8");
-            child.stdout.on("data", function(data) {
-                stdout += data;
-            });
-
-            child.stderr.setEncoding("utf8");
-            child.stderr.on("data", function(data) {
-                stderr += data;
-            });
-
-            child.on("close", function(code) {
-                var gitVersion = stdout.replace(/(?:\r\n|\r|\n)/g, "");
-            });
-
-            return gitVersion;
-        });
-    }
-
     function setCleanStack(taskName, partialPath){
         return [
             config.dest + "/" + partialPath + "*." + config[taskName].outputExt
@@ -58,7 +26,8 @@ module.exports = function (gulp, config, $, _, ext) {
     function setSourceStack(taskName, inputExt) {
         return [
             config.source + config[taskName].source + "/*." + inputExt,
-            config.source + "{/theme--!(default),/context--!(common),/theme--!(default)/context--!(common)}" + config[taskName].source + "/*." + inputExt
+            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + "/*." + inputExt
+            // config.source + "{/theme--!(default),/context--!(common),/theme--!(default)/context--!(common)}" + config[taskName].source + "/*." + inputExt
         ];
     }
 
@@ -135,7 +104,6 @@ module.exports = function (gulp, config, $, _, ext) {
 
     return {
         errors: errors,
-        getGitHash: getGitHash,
         setPathSuffix: setPathSuffix,
         setSourceStack: setSourceStack,
         setCleanStack: setCleanStack,

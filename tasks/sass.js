@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -25,6 +25,10 @@ module.exports = function(gulp, config, utils, $, _) {
     // Config
     // ---------------------------------------------------------
 
+    // merging project plugins with default module plugins
+    // and assign to use option
+    var plugins = [].concat(config.npm.sass);
+
     // extending default config with project config
     _.extend(config.sass = {
         source: ["/styles"],
@@ -32,7 +36,7 @@ module.exports = function(gulp, config, utils, $, _) {
         inputExt: "{sass,scss}",
         outputExt: "{css,css.map,css.gz}",
         opts: {
-            includePaths: [],
+            includePaths: plugins,
             indentedSyntax: true,
             precision: 10,
             outputStyle: "expanded",
@@ -44,14 +48,14 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function clean() {
-        gulp.task("clean:sass", function() {
+        gulp.task("clean:sass", () => {
             $.del(utils.setCleanStack("sass", config.app));
         });
     }
 
     function create() {
-        gulp.task("sass", ["clean:sass"], function() {
-            return gulp.src(utils.setSourceStack("sass", config.stylus.inputExt))
+        gulp.task("sass", ["clean:sass"], (cb) => {
+            return gulp.src(utils.setSourceStack("sass", config.sass.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
                 }))
@@ -60,10 +64,22 @@ module.exports = function(gulp, config, utils, $, _) {
                 .pipe($.cssGlobbing({
                     extensions: ['.scss', '.sass']
                 }))
-                .pipe($.sass(config.sass.opts))
-                .on('error', utils.errors)
+                .pipe($.sass(config.sass.opts), (res) => {
+                    $.gutil.log("in result");
+                    console.log(res);
+                    res.on("end", () => {
+                        console.log('res.end');
+                        cb();
+                    });
+                    res.on("data", () => {
+                        console.log("res.data");
+                    });
+                }).on("error", (e) => {
+                    $.gutil.log("in error");
+                    cb(e);
+                })
                 .pipe($.autoprefixer(config.autoprefixer))
-                .pipe($.rename(function (filepath) {
+                .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath, config.app);
                 }))
                 .pipe(utils.addSuffixPath())

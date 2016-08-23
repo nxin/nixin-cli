@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function(gulp, config, utils, $, _) {
+module.exports = (gulp, config, utils, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -40,11 +40,14 @@ module.exports = function(gulp, config, utils, $, _) {
 
     // get production flag state
     function getEnv() {
+
+        var productionFlag = '';
+
         if (process.isProd === true) {
-            return ' -p';
-        } else {
-            return '';
+            productionFlag = ' -p';
         }
+
+        return productionFlag;
     }
 
     // create vendor assets bundle
@@ -73,31 +76,31 @@ module.exports = function(gulp, config, utils, $, _) {
     // ---------------------------------------------------------
 
     function cleanInstall(){
-        gulp.task("clean:bower.install", function(){
+        gulp.task("clean:bower.install", () => {
             $.del(config.source + "/" + config.vendor);
         });
     }
 
     function cleanStyles() {
-        gulp.task("clean:bower.styles", function(){
+        gulp.task("clean:bower.styles", () => {
             $.del(config.dest + "/" + config.vendor + ".{css,css.gz,css.map}");
         });
     }
 
     function cleanScripts() {
-        gulp.task("clean:bower.scripts", function(){
+        gulp.task("clean:bower.scripts", () => {
             $.del(config.dest + "/" + config.vendor + ".{js,js.gz,js.map}");
         });
     }
 
     function cleanImages() {
-        gulp.task("clean:bower.images", function(){
+        gulp.task("clean:bower.images", () => {
             $.del(config.dest + "/" + config.vendor + ".{jpeg,jpg,gif,png,svg}");
         });
     }
 
     function cleanFonts() {
-        gulp.task("clean:bower.fonts", function(){
+        gulp.task("clean:bower.fonts", () => {
             $.del(config.dest + "/" + config.vendor + ".{woff2,woff,ttf,svg,eot}");
         });
     }
@@ -107,7 +110,7 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function createStyles() {
-        gulp.task("create:bower.styles", ["clean:bower.styles"], function() {
+        gulp.task("create:bower.styles", ["clean:bower.styles"], () => {
             return gulp.src(config.bower.styles)
                 .pipe($.order(config.bower.order))
                 .pipe($.sourcemaps.init())
@@ -127,7 +130,7 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function createScripts() {
-        gulp.task("create:bower.scripts", ["clean:bower.scripts"], function() {
+        gulp.task("create:bower.scripts", ["clean:bower.scripts"], () => {
             return gulp.src(config.bower.scripts)
                 .pipe($.order(config.bower.order))
                 .pipe($.sourcemaps.init())
@@ -146,19 +149,19 @@ module.exports = function(gulp, config, utils, $, _) {
     }
 
     function createFonts() {
-        gulp.task("create:bower.fonts", ["clean:bower.fonts"], function() {
-            createSrc(config.bower.plugins, '/*.{ttf,eot,svg,woff,woff2}');
+        gulp.task("create:bower.fonts", ["clean:bower.fonts"], () => {
+            createSrc(config.bower.assets, '/*.{ttf,eot,svg,woff,woff2}');
         });
     }
 
     function createImages() {
-        gulp.task("create:bower.images", ["clean:bower.images"], function() {
-            createSrc(config.bower.plugins, '/*.{gif,png,jpg,jpeg,cur,svg}');
+        gulp.task("create:bower.images", ["clean:bower.images"], () => {
+            createSrc(config.bower.assets, '/*.{gif,png,jpg,jpeg,cur,svg}');
         });
     }
 
     function bundle() {
-        gulp.task("bower", ["install:bower"], function() {
+        gulp.task("bower", ["install:bower"], () => {
             $.runSequence([
                 "create:bower.styles",
                 "create:bower.scripts",
