@@ -62,20 +62,20 @@ module.exports = function (gulp, config, $, _) {
     function rewritePath(filepath, filename) {
 
         if (typeof filepath.basename !== "function") {
+
             var suffixPath = setPathSuffix(filepath);
 
             if(filename !== undefined) {
                 filepath.basename = $.path.basename(filename) + suffixPath;
             }
+
             else{
                 filepath.basename = filepath.basename + suffixPath;
             }
+
             filepath.dirname = "";
+            filepath.basename = cleanSuffixPath(filepath.basename);
         }
-
-        filepath.basename = cleanSuffixPath(filepath.basename);
-
-        // console.log(filepath.basename);
 
         return filepath;
     }
@@ -101,9 +101,6 @@ module.exports = function (gulp, config, $, _) {
             var fileContentTrimmed = String(file.contents).trim();
 
             suffix = cleanSuffixPath(suffix);
-
-            // console.log(suffix);
-
             fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(suffix));
             file.contents = new Buffer(fileContentTrimmed);
 
