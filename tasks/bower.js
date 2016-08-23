@@ -83,25 +83,25 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function cleanStyles() {
         gulp.task("clean:bower.styles", () => {
-            $.del(config.dest + "/" + config.vendor + ".{css,css.gz,css.map}");
+            $.del(config.dest + "/" + config.vendor + "*.{css,css.gz,css.map}");
         });
     }
 
     function cleanScripts() {
         gulp.task("clean:bower.scripts", () => {
-            $.del(config.dest + "/" + config.vendor + ".{js,js.gz,js.map}");
+            $.del(config.dest + "/" + config.vendor + "*.{js,js.gz,js.map}");
         });
     }
 
     function cleanImages() {
         gulp.task("clean:bower.images", () => {
-            $.del(config.dest + "/" + config.vendor + ".{jpeg,jpg,gif,png,svg}");
+            $.del(config.dest + "/" + config.vendor + "/*.{jpeg,jpg,gif,png,svg}");
         });
     }
 
     function cleanFonts() {
         gulp.task("clean:bower.fonts", () => {
-            $.del(config.dest + "/" + config.vendor + ".{woff2,woff,ttf,svg,eot}");
+            $.del(config.dest + "/" + config.vendor + "/*.{woff2,woff,ttf,svg,eot}");
         });
     }
 

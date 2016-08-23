@@ -14,7 +14,8 @@ module.exports = (gulp, config, utils, $, _) => {
         source: ["/fonts"],
         dest: "/fonts",
         inputExt: "{ttf,eot,svg,woff,woff2}",
-        outputExt: "{ttf,eot,svg,woff,woff2}"
+        outputExt: "{ttf,eot,svg,woff,woff2}",
+        regExt: /\.(ttf|eot|svg|woff|woff2)$/
     });
 
     // Public
@@ -22,7 +23,7 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:fonts", () => {
-            $.del(utils.setCleanStack("fonts", config.fonts.dest + "/"));
+            $.del(utils.setCleanStack("fonts"));
         });
     }
 
@@ -32,7 +33,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.fonts.dest))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));

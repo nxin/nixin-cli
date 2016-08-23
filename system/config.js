@@ -17,6 +17,7 @@ process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
 var config = {
     source: "./source",
     dest: "./dist",
+    tree: "flatten", // flatten || tree
     app: "app",
     vendor: "vendor",
     sourcemaps: {

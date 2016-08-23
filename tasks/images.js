@@ -32,7 +32,8 @@ module.exports = (gulp, config, utils, $, _) => {
             gif: "gif",
             svg: "svg"
         },
-        outputExt: "{gif,jpg,jpeg,png,svg}"
+        outputExt: "{gif,jpg,jpeg,png,svg}",
+        regExt: /\.(gif|jpg|jpeg|png|svg)$/
     });
 
     // Private
@@ -47,7 +48,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.dest))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -64,7 +65,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.dest))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -80,7 +81,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.dest))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -96,7 +97,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.rename((filepath) => {
                     utils.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest + config.images.dest))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -108,7 +109,7 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:images", () => {
-            $.del(utils.setCleanStack("images", config.images.dest + "/"));
+            $.del(utils.setCleanStack("images"));
         });
     }
 

@@ -17,10 +17,42 @@ module.exports = function (gulp, config, $, _) {
         this.emit("end");
     }
 
-    function setCleanStack(taskName, partialPath){
-        return [
-            config.dest + "/" + partialPath + "*." + config[taskName].outputExt
-        ]
+    function setCleanStack(taskName, filename = "") {
+
+        var cleanStack = [];
+        var taskPath = "/";
+
+        switch(taskName) {
+            case "images":
+                taskPath = config.images.dest + "/";
+                break;
+
+            case "fonts":
+                taskPath = config.fonts.dest + "/";
+                break;
+
+            default:
+                break;
+        }
+
+        if(config.tree === "flatten"){
+            cleanStack.push(config.dest + taskPath + filename + "*." + config[taskName].outputExt)
+        }
+
+        if(config.tree === "tree"){
+            if (filename !== "") {
+                filename = "/" + filename;
+                if (taskPath === "/") {
+                    taskPath = "";
+                } else {
+                    filename = filename + "/";
+                }
+            }
+
+            cleanStack.push(config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt)
+        }
+
+        return cleanStack;
     }
 
     function setSourceStack(taskName, inputExt) {
@@ -36,41 +68,83 @@ module.exports = function (gulp, config, $, _) {
         var dir = filepath.dirname.split("/");
         var path = "";
 
-        switch (dir[1]) {
-            case undefined:
-                if (dir[0] !== undefined && dir[0] !== ".") {
-                    path = "__" + dir[0];
-                }
-                break;
-            default:
-                if (dir.length === 2) {
-                    path = "__" + dir[0];
-                } else {
-                    path = "__" + dir[0] + "__" + dir[1];
-                }
-
-                break;
+        if (dir[1] !== undefined) {
+            if (dir.length === 2) {
+                path = "-" + dir[0];
+            }
+            else {
+                path = "-" + dir[0] + "-" + dir[1];
+            }
         }
 
         return path;
     }
 
-    function cleanSuffixPath(suffix){
+    function setPathPrefix(filepath) {
+
+        var dir = filepath.dirname.split("/");
+        var path = "";
+
+        if (dir[1] !== undefined) {
+            if (dir.length === 2) {
+                path = "/" + dir[0] + "/";
+            }
+            else {
+                path = "/" + dir[0] + "/" + dir[1] + "/";
+            }
+        }
+
+        return path;
+    }
+
+    function cleanSuffixPath(suffix) {
         return suffix.replace("theme--", "").replace("context--", "");
+    }
+
+    function setTaskPath(filepath) {
+
+        var taskPath = "";
+
+        if (config.images.regExt.test(filepath.extname) === true) {
+            taskPath = config.images.dest + "/";
+        }
+
+        if (config.fonts.regExt.test(filepath.extname) === true) {
+            taskPath = config.fonts.dest + "/";
+        }
+
+        return taskPath;
     }
 
     function rewritePath(filepath, filename) {
 
         if (typeof filepath.basename !== "function") {
 
-            var suffixPath = setPathSuffix(filepath);
+            if (config.tree === "flatten") {
 
-            if(filename !== undefined) {
-                filepath.basename = $.path.basename(filename) + suffixPath;
+                var suffixPath = setPathSuffix(filepath);
+
+                if (filename !== undefined) {
+                    filepath.basename = setTaskPath(filepath) + $.path.basename(filename) + suffixPath;
+                }
+
+                else {
+                    filepath.basename = setTaskPath(filepath) + filepath.basename + suffixPath;
+                }
             }
 
-            else{
-                filepath.basename = filepath.basename + suffixPath;
+            else if (config.tree === "tree") {
+
+                var prefixPath = setPathPrefix(filepath) + setTaskPath(filepath);
+
+
+                if (filename !== undefined) {
+                    filepath.basename = prefixPath + $.path.basename(filename);
+                }
+
+                else {
+                    filepath.basename = prefixPath + filepath.basename;
+                }
             }
 
             filepath.dirname = "";
@@ -80,28 +154,30 @@ module.exports = function (gulp, config, $, _) {
         return filepath;
     }
 
-    function addSuffixPath(){
+    function addSuffixPath() {
 
-        function patterns(suffixPath){
+        function patterns(fileSuffix) {
             return [
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig,
-                    replacement: './images/$2' + suffixPath + '$3'
+                    replacement: './images/$2' + fileSuffix + '$3'
                 },
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|svg|eot)))/ig,
-                    replacement: './fonts/$2' + suffixPath + '$3'
+                    replacement: './fonts/$2' + fileSuffix + '$3'
                 }
             ];
         }
 
         function transform(file, cb) {
 
-            var suffix = file.path.split(config.app)[1].split(".css")[0];
             var fileContentTrimmed = String(file.contents).trim();
 
-            suffix = cleanSuffixPath(suffix);
-            fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(suffix));
+            var fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+
+            fileSuffix = cleanSuffixPath(fileSuffix);
+
+            fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(fileSuffix));
             file.contents = new Buffer(fileContentTrimmed);
 
             // if there was some error, just pass as the first parameter here
