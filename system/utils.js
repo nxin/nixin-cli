@@ -39,20 +39,24 @@ module.exports = function (gulp, config, $, _) {
         switch (dir[1]) {
             case undefined:
                 if (dir[0] !== undefined && dir[0] !== ".") {
-                    path = "." + dir[0];
+                    path = "__" + dir[0];
                 }
                 break;
             default:
                 if (dir.length === 2) {
-                    path = "." + dir[0];
+                    path = "__" + dir[0];
                 } else {
-                    path = "." + dir[0] + "." + dir[1];
+                    path = "__" + dir[0] + "__" + dir[1];
                 }
 
                 break;
         }
 
         return path;
+    }
+
+    function cleanSuffixPath(suffix){
+        return suffix.replace("theme--", "").replace("context--", "");
     }
 
     function rewritePath(filepath, filename) {
@@ -68,6 +72,10 @@ module.exports = function (gulp, config, $, _) {
             }
             filepath.dirname = "";
         }
+
+        filepath.basename = cleanSuffixPath(filepath.basename);
+
+        // console.log(filepath.basename);
 
         return filepath;
     }
@@ -91,6 +99,10 @@ module.exports = function (gulp, config, $, _) {
 
             var suffix = file.path.split(config.app)[1].split(".css")[0];
             var fileContentTrimmed = String(file.contents).trim();
+
+            suffix = cleanSuffixPath(suffix);
+
+            // console.log(suffix);
 
             fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(suffix));
             file.contents = new Buffer(fileContentTrimmed);
