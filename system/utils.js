@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = function (gulp, config, $, _) {
+module.exports = (gulp, config, $, _) => {
 
     function errors() {
         // Send error to notification center with gulp-notify

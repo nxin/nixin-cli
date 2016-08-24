@@ -63,7 +63,7 @@ nix.run([
 
 
 gulp.task("build", ["bower"], () => {
-    $.runSequence(["browserify", "stylus", "fonts", "images"]);
+    $.runSequence(["browserify", "stylus", "sass", "fonts", "images"]);
 });
 
 

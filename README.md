@@ -8,9 +8,9 @@ and syntax checking in development mode and minification with obfuscator for pro
 - Advanced Bower integration
 - Watch changed files with [BrowserSync](https://www.browsersync.io/) integration
 - Mail inliner
-- Project tasks customization
-- Routes manager (in progress)
-- Context manager (in progress)
+- Project tasks extend or override
+- Themes bundler 
+- Context bundler
 
 ![alt=gulp](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/gulp.png)
 ![alt=bower](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/bower.png)
@@ -102,8 +102,6 @@ and set into your .bashrc or .zshenv the global node_modules path
 $ git clone git@github.com:kreo/nixin-cli.git
 $ cd path/to/nixin-cli
 $ npm link
-$ cd path/to/your/application
-$ npm link nixin-cli
 export NODE_PATH=/path/to/node_modules/
 ```
 
@@ -197,45 +195,66 @@ Then create a nix at the same level
  */
 
 /*jshint esversion: 6 */
+"use strict";
 
-var gulp = require("gulp");
-var nix = require("nix")(gulp, {
-    source: __dirname + "/source",
-    dest: __dirname + "/dist",
+import gulp from "gulp";
+import rupture from "rupture";
+import jeet from "jeet";
+import rucksack from "rucksack-css";
+import poststylus from "poststylus";
+
+
+const nix = require("nixin-cli")(gulp, {
+    source: __dirname + "/resources",
+    dest: __dirname + "/public/_dist",
     app: "app",
     vendor: "vendor",
     mail: "mail",
+    npm: {
+        stylus: [
+            rupture(),
+            jeet(),
+            poststylus(rucksack),
+            typographic()
+        ],
+        browserify: []
+    },
     bower: {
-        plugins: ["plugin-1-name", "plugin-2-name"],
+        assets: [
+            "normalize-css",
+            "bootstrap",
+            "jquery.scrollbar",
+            "slideout.js",
+            "slick-carousel",
+            "magnific-popup",
+            "components-font-awesome",
+            "simple-line-icons"
+        ],
         order: [
-            "plugin-1/*.js",
-            "plugins-2/*.js",
+            "jquery/*",
+            "normalize-css/*",
+            "tether/*",
+            "bootstrap/*",
+            "slick-carousel/*",
             "**/*.js"
         ]
     },
     serve: {
-        host: "project.dev",
-        proxy: "project.dev/",
+        host: "localhost",
+        proxy: "localhost/",
         port: "9001"
     }
 });
 
-// Tasks
-// ---------------------------------------------------------
 
 nix.run([
     "default",
     "stylus",
     "browserify",
-    "pug",
     "images",
     "fonts",
     "bower",
-    "serve",
-    "build",
-    "sass",
-    "mail",
-    "sprites"
+    "serve"
 ]);
 
 ```
@@ -255,14 +274,24 @@ $ npm update -a
 
 Now you must simpy include css and js dist into your base template
 
+if tree dist structure is flatten
+
 ``` html
-<link rel="stylesheet" href="path/to/static/{{ core }}/_dist/app.css">
-<link rel="stylesheet" href="path/to/static/{{ wraith_name }}/_dist/app-{{ context }}.css">
+<link rel="stylesheet" href="path/to/static/_dist/app-{{ theme }}-{{ context }}.css">
 <link rel="stylesheet" href="path/to/static/_dist/vendor.css">
 ...
 <script src="path/to/static/_dist/vendor.js"></script>
-<script src="path/to/static/{{ core }}/_dist/app.js"></script>
-<script src="path/to/static/{{ theme_name }}/_dist/app-{{ context }}"></script>
+<script src="path/to/static/_dist/app-{{ theme }}-{{ context }}.js"></script>
+```
+
+else if tree dist structure is tree
+
+``` html
+<link rel="stylesheet" href="path/to/static/{{ theme }}/{{ context }}/_dist/app.css">
+<link rel="stylesheet" href="path/to/static/_dist/vendor.css">
+...
+<script src="path/to/static/_dist/vendor.js"></script>
+<script src="path/to/static/{{ theme }}/{{ context }}/_dist/app.js"></script>
 ```
 
 ## Tasks
@@ -341,20 +370,6 @@ and, parallelly:
 
 ``` bash
 nix build -p
-```
-
-### Context Manager (in progress)
-
-Create wraith application dist into specific context path :
-
-``` bash
-nix build -contextName
-```
-
-Create wraith application dist into all wraiths and core dir:
-
-``` bash
-nix build -a
 ```
 
 
