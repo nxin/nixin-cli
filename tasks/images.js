@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -41,12 +41,12 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function imagesJpeg() {
         gulp.task("imagesJpeg", () => {
-            gulp.src(utils.setSourceStack("images", config.images.inputExt.jpeg))
+            gulp.src(kernel.setSourceStack("images", config.images.inputExt.jpeg))
                 .pipe($.imagemin($.jpegtran({
                     progressive: true
                 })))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath);
+                    kernel.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
@@ -57,13 +57,13 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function imagesPng() {
         gulp.task("imagesPng", () => {
-            gulp.src(utils.setSourceStack("images", config.images.inputExt.png))
+            gulp.src(kernel.setSourceStack("images", config.images.inputExt.png))
                 .pipe($.imagemin($.pngquant({
                     quality: "65-80",
                     speed: 4
                 })))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath);
+                    kernel.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
@@ -74,12 +74,12 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function imagesGif() {
         gulp.task("imagesGif", () => {
-            gulp.src(utils.setSourceStack("images", config.images.inputExt.gif))
+            gulp.src(kernel.setSourceStack("images", config.images.inputExt.gif))
                 .pipe($.imagemin($.gifsicle({
                     interlaced: true
                 })))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath);
+                    kernel.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
@@ -90,12 +90,12 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function imagesSvg() {
         gulp.task("imagesSvg", () => {
-            gulp.src(utils.setSourceStack("images", config.images.inputExt.svg))
+            gulp.src(kernel.setSourceStack("images", config.images.inputExt.svg))
                 .pipe($.imagemin($.svgo({
                     removeViewBox: false
                 })))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath);
+                    kernel.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
@@ -109,19 +109,17 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:images", () => {
-            $.del(utils.setCleanStack("images"));
+            $.del(kernel.setCleanStack("images"));
         });
     }
 
     function create() {
-        gulp.task("images", ["clean:images"], () => {
-            $.runSequence([
-                "imagesPng",
-                "imagesJpeg",
-                "imagesGif",
-                "imagesSvg"
-            ]);
-        });
+        kernel.extendTask("images", ["clean:images"], [
+            "imagesPng",
+            "imagesJpeg",
+            "imagesGif",
+            "imagesSvg"
+        ]);
     }
 
     // API

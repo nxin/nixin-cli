@@ -2,7 +2,7 @@
 // Default
 // ----------------------------------------------------------------------
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     function brand() {
         console.log($.colors.green(" "));

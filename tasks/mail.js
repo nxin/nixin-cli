@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // @TODO FIX ALL PATHS (testing)
 
@@ -94,7 +94,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.sourcemaps.init())
                 .pipe($.stylus(config.stylus.opts))
                 .pipe($.if(process.isProd, $.stylus(config.stylus.opts)))
-                .on('error', utils.errors)
+                .on('error', kernel.errors)
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename({
                     basename: config.mail
@@ -112,14 +112,12 @@ module.exports = (gulp, config, utils, $, _) => {
     }
 
     function bundle() {
-        gulp.task("mail", ["clean:mail"], () => {
-            $.runSequence(
-                'create:mail.styles',
-                ['inline:mail.styles'],
-                ['inject:mail.styles'],
-                ['convert:mail.styles']
-            );
-        });
+        kernel.extendTask("mail", ["clean:mail"], [
+            'create:mail.styles',
+            ['inline:mail.styles'],
+            ['inject:mail.styles'],
+            ['convert:mail.styles']
+        ]);
     }
 
     // API

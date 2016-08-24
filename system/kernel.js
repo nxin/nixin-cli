@@ -1,10 +1,18 @@
 // ----------------------------------------------------------------------
-// Utils
+// Kernel
 // ----------------------------------------------------------------------
 
 /*jshint esversion: 6 */
 
 module.exports = (gulp, config, $, _) => {
+
+    function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
+        gulp.task(taskName, seriesTasks, () => {
+            if (parallelsTasks !== undefined){
+                $.runSequence(parallelsTasks)
+            }
+        }, cb);
+    }
 
     function errors() {
         // Send error to notification center with gulp-notify
@@ -188,6 +196,7 @@ module.exports = (gulp, config, $, _) => {
     }
 
     return {
+        extendTask: extendTask,
         errors: errors,
         setPathSuffix: setPathSuffix,
         setSourceStack: setSourceStack,

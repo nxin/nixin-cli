@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -49,13 +49,13 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:sass", () => {
-            $.del(utils.setCleanStack("sass", config.app));
+            $.del(kernel.setCleanStack("sass", config.app));
         });
     }
 
     function create() {
         gulp.task("sass", ["clean:sass"], (cb) => {
-            return gulp.src(utils.setSourceStack("sass", config.sass.inputExt))
+            return gulp.src(kernel.setSourceStack("sass", config.sass.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: '.css'
                 }))
@@ -80,9 +80,9 @@ module.exports = (gulp, config, utils, $, _) => {
                 })
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath, config.app);
+                    kernel.rewritePath(filepath, config.app);
                 }))
-                .pipe(utils.addSuffixPath())
+                .pipe(kernel.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
                     $.cssnano(),

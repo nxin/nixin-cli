@@ -58,13 +58,13 @@ nix.run([
     "stylus",
     "sass",
     "less",
-    "browserify"
+    "browserify",
+    "serve",
+    "build"
 ]);
 
+// nix.extend("build", ["images"], (() => {
+//     console.log("======> extended task!")
+// })());
 
-gulp.task("build", ["bower"], () => {
-    $.runSequence(["browserify", "stylus", "sass", "fonts", "images"]);
-});
 
-
-gulp.task("build:serve", ["build", "serve:watch"]);

@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -66,7 +66,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 dirname: config.vendor
             }))
             .pipe(gulp.dest(config.dest))
-            .on('error', utils.errors)
+            .on('error', kernel.errors)
             .pipe($.size({
                 showFiles: true
             }));
@@ -122,7 +122,7 @@ module.exports = (gulp, config, utils, $, _) => {
                     $.cssnano().pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
-                .on('error', utils.errors)
+                .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -137,11 +137,13 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.concat(config.vendor + ".js"))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.uglify(config.bower.uglify).pipe($.obfuscate()),
-                    $.uglify(config.bower.uglify).pipe($.obfuscate()).pipe($.gzip())
+                    // $.uglify(config.bower.uglify).pipe($.obfuscate()),
+                    // $.uglify(config.bower.uglify).pipe($.obfuscate()).pipe($.gzip())
+                    $.uglify(config.bower.uglify),
+                    $.uglify(config.bower.uglify).pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
-                .on('error', utils.errors)
+                .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true
                 }));
@@ -161,14 +163,12 @@ module.exports = (gulp, config, utils, $, _) => {
     }
 
     function bundle() {
-        gulp.task("bower", ["install:bower"], () => {
-            $.runSequence([
-                "create:bower.styles",
-                "create:bower.scripts",
-                "create:bower.fonts",
-                "create:bower.images"
-            ]);
-        });
+        kernel.extendTask("bower", ["install:bower"], [
+            "create:bower.styles",
+            "create:bower.scripts",
+            "create:bower.fonts",
+            "create:bower.images"
+        ]);
     }
 
     // API

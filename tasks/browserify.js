@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -53,12 +53,12 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:browserify", () => {
-            $.del(utils.setCleanStack("browserify", config.app))
+            $.del(kernel.setCleanStack("browserify", config.app))
         });
     }
 
     function create() {
-        gulp.task('browserify', ["clean:browserify"], function () {
+        gulp.task('browserify', ["clean:browserify"], function (cb) {
             var browserified = () => {
                 return $.through.obj(function (chunk, enc, callback) {
                     if (chunk.isBuffer()) {
@@ -91,7 +91,7 @@ module.exports = (gulp, config, utils, $, _) => {
                 });
             };
 
-            return gulp.src(utils.setSourceStack("browserify", config.browserify.inputExt))
+            return gulp.src(kernel.setSourceStack("browserify", config.browserify.inputExt))
                 .pipe(browserified())
                 .pipe($.cached(config.dest, {
                     extension: '.js'
@@ -99,12 +99,14 @@ module.exports = (gulp, config, utils, $, _) => {
                 .pipe($.buffer())
                 .pipe($.sourcemaps.init({loadMaps: true}))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath, config.app);
+                    kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.uglify(config.browserify.uglify).pipe($.obfuscate()),
-                    $.uglify(config.browserify.uglify).pipe($.obfuscate()).pipe($.gzip())
+                    // $.uglify(config.browserify.uglify).pipe($.obfuscate()),
+                    // $.uglify(config.browserify.uglify).pipe($.obfuscate()).pipe($.gzip())
+                    $.uglify(config.browserify.uglify),
+                    $.uglify(config.browserify.uglify).pipe($.gzip())
                 )))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({

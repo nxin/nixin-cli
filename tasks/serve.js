@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Config
     // ---------------------------------------------------------
@@ -12,9 +12,10 @@ module.exports = (gulp, config, utils, $, _) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     _.extend(config.serve, {
-        stylus: "/styles/**/*.styl",
-        browserify: "/scripts/**/*.js",
-        pug: "/markup/*.html"
+        stylus: "/**/styles/**/*.styl",
+        sass: "/**/styles/**/*.{scss,sass}",
+        browserify: "/**/scripts/**/*.js",
+        pug: "/**/markup/**/*.{pug,jade}"
     });
 
     // Public Methods
@@ -24,7 +25,7 @@ module.exports = (gulp, config, utils, $, _) => {
         gulp.task("serve:watch", () => {
             gulp.watch(config.source + config.serve.stylus, ["stylus"]);
             gulp.watch(config.source + config.serve.browserify, ["browserify"]);
-            gulp.watch(config.dest + config.serve.pug, $.browserSync.reload);
+            // gulp.watch(config.dest + config.serve.pug, $.browserSync.reload);
         });
     }
 

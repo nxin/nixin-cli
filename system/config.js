@@ -14,7 +14,7 @@ process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
 
 // Default config
 // @config {paths}
-var config = {
+const config = {
     source: "./source",
     dest: "./dist",
     tree: "flatten", // flatten || tree

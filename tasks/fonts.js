@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Config
     // ---------------------------------------------------------
@@ -23,15 +23,15 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:fonts", () => {
-            $.del(utils.setCleanStack("fonts"));
+            $.del(kernel.setCleanStack("fonts"));
         });
     }
 
     function create() {
         gulp.task("fonts", ["clean:fonts"], () => {
-            gulp.src(utils.setSourceStack("fonts", config.fonts.inputExt))
+            gulp.src(kernel.setSourceStack("fonts", config.fonts.inputExt))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath);
+                    kernel.rewritePath(filepath);
                 }))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({

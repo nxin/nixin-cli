@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // Dependencies
     // ---------------------------------------------------------
@@ -48,7 +48,7 @@ module.exports = (gulp, config, utils, $, _) => {
                     extension: '.html'
                 }))
                 .pipe($.pug(config.pug.opts))
-                .on('error', utils.errors)
+                .on('error', kernel.errors)
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

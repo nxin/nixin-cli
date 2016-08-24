@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, utils, $, _) => {
+module.exports = (gulp, config, kernel, $, _) => {
 
     // --- Dependencies -------------------------------------------------
 
@@ -48,13 +48,13 @@ module.exports = (gulp, config, utils, $, _) => {
 
     function clean() {
         gulp.task("clean:stylus", () => {
-            $.del(utils.setCleanStack("stylus", config.app))
+            $.del(kernel.setCleanStack("stylus", config.app))
         });
     }
 
     function create() {
         gulp.task("stylus", ["clean:stylus"], (cb) => {
-            return gulp.src(utils.setSourceStack("stylus", config.stylus.inputExt))
+            return gulp.src(kernel.setSourceStack("stylus", config.stylus.inputExt))
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))
@@ -76,9 +76,9 @@ module.exports = (gulp, config, utils, $, _) => {
                 })
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
-                    utils.rewritePath(filepath, config.app);
+                    kernel.rewritePath(filepath, config.app);
                 }))
-                .pipe(utils.addSuffixPath())
+                .pipe(kernel.addSuffixPath())
                 // .on('data', function (chunk) {
                 //     var contents = chunk.contents.toString().trim();
                 //     var bufLength = process.stdout.columns;
