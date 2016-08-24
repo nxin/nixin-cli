@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         browserify: require("browserify"),
         cached: require("gulp-cached"),
         mirror: require("gulp-mirror"),
@@ -33,7 +33,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     ].concat(config.npm.browserify);
 
     // extending default config with project config
-    _.extend(config.browserify = {
+    Object.assign(config.browserify = {
         source: ["/scripts"],
         dest: "",
         inputExt: "js",

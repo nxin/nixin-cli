@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         order: require("gulp-order"),
         replace: require("gulp-replace"),
         concat: require("gulp-concat"),
@@ -24,7 +24,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.bower, {
+    Object.assign(config.bower, {
         styles: config.source + "/" + config.vendor + "/**/*.css",
         scripts: config.source + "/" + config.vendor + "/**/*.js",
         uglify: {

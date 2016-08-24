@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, $, _) => {
+module.exports = (gulp, config, $) => {
 
     function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
         gulp.task(taskName, seriesTasks, () => {

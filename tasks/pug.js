@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         pug: require("gulp-pug"),
         jadeGlobbing: require("gulp-jade-globbing"),
         cached: require("gulp-cached")
@@ -21,7 +21,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.pug, {
+    Object.assign(config.pug, {
         paths: "/**/**/*.pug",
         opts: {
             base: "markup",

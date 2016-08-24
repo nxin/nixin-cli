@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         imagemin: require('gulp-imagemin'),
         pngquant: require('imagemin-pngquant'),
         gifsicle: require("imagemin-gifsicle"),
@@ -23,7 +23,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.images = {
+    Object.assign(config.images = {
         source: ["/images"],
         dest: "/images",
         inputExt: {

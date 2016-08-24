@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Config
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend(config.serve, {
+    Object.assign(config.serve, {
         stylus: "/**/styles/**/*.styl",
         sass: "/**/styles/**/*.{scss,sass}",
         browserify: "/**/scripts/**/*.js",

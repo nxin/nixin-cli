@@ -4,14 +4,12 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
-
-    // @TODO FIX ALL PATHS (testing)
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
-    _.extend($, {
+    Object.assign($, {
         stylus: require('gulp-stylus'),
         cached: require("gulp-cached"),
         buffer: require("vinyl-buffer"),
@@ -26,7 +24,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // Config
     // ---------------------------------------------------------
 
-    _.extend(config.mail = {
+    Object.assign(config.mail = {
         paths: ["/mail"],
     });
 

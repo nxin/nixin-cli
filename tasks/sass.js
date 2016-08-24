@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         sass: require("gulp-sass"),
         autoprefixer: require("gulp-autoprefixer"),
         sourcemaps: require("gulp-sourcemaps"),
@@ -30,7 +30,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     var plugins = [].concat(config.npm.sass);
 
     // extending default config with project config
-    _.extend(config.sass = {
+    Object.assign(config.sass = {
         source: ["/styles"],
         dest: "",
         inputExt: "{sass,scss}",

@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         less: require("gulp-less"),
         autoprefixer: require("gulp-autoprefixer"),
         sourcemaps: require("gulp-sourcemaps"),
@@ -26,7 +26,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.less = {
+    Object.assign(config.less = {
         source: ["/styles"],
         dest: "",
         inputExt: "less",

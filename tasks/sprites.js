@@ -4,14 +4,14 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     // extending module dependencies with project dependencies
     // using $ as alias
-    _.extend($, {
+    Object.assign($, {
         spritesmith: require("spritesmith")
     });
 
@@ -19,7 +19,7 @@ module.exports = (gulp, config, kernel, $, _) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.images = {
+    Object.assign(config.images = {
         path: "/sprites",
         imagesExt: "{gif,jpg,jpeg,png,svg,cur}",
         spriteExt: "{css,scss,sass,less,gif,jpg,jpeg,png,svg}"

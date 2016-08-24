@@ -1,32 +1,10 @@
 #!/bin/bash
 
-case "$1" in
+# Add your local node_modules bin to the path for this command
+#export PATH="./node_modules/.bin:$HOME/n/.bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+#export NODE_PATH="/usr/local/lib/node_modules:$HOME/n/lib/node_modules:$NODE_PATH"
+export PATH="./node_modules/.bin:$HOME/n/.bin:$PATH"
+export NODE_PATH="/usr/local/lib/node_modules:$HOME/n/lib/node_modules:$NODE_PATH"
 
-	'CENTOS')
-		 NPM_EXPORT_PATH="NODE_PATH=/usr/lib/node_modules/"  
-	;;
-	'LINUX')
-		 NPM_EXPORT_PATH="NODE_PATH=/usr/lib/node_modules/"  
-	;;
-
-	'MACOSX')
-		 NPM_EXPORT_PATH="NODE_PATH=/usr/local/lib/node_modules"  
-	;;
-
-	*)
-		echo -e "\nUSARE $0 con le seguenti OPZIONI: CENTOS, LINUX o MACOSX\n"
-		exit;
-	;;
-esac;
-
-USER_PATH=$(whoami)
-
-cat /home/$USER_PATH/.bash_profile | grep NODE_PATH >>/dev/null
-NPM_EXIST=$(echo $?)
-
-if [ $NPM_EXIST != 0 ]; then
-	echo -e "\n##########\n$NPM_EXPORT_PATH\n##########\n" >>/home/$USER_PATH/.bash_profile
-	echo -e "\nBASH_PROFILE AGGIORNATA\n"
-else 
-	echo -e "\nEXPORT PATH GIA' CONFIGURATA PER L'UTENTE\n"
-fi
+# execute the rest of the command
+exec "$@"

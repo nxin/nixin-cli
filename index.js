@@ -11,21 +11,20 @@
 module.exports = (gulp, settings) => {
 
     // --- Dependencies ----------------------------------------------------
-    const _ = require("underscore"),
-        $ = require("./system/lib"),
-        config = require("./system/config");
+    const $ = require("./system/lib"),
+          config = require("./system/config");
 
     // --- Config ----------------------------------------------------------
-    _.extend(config, settings);
+    Object.assign(config, settings);
 
     // --- Kernel -----------------------------------------------------------
-    const kernel = require("./system/kernel")(gulp, config, $, _);
+    const kernel = require("./system/kernel")(gulp, config, $);
 
     // --- Public ----------------------------------------------------------
 
     function run(tasks) {
         tasks.forEach((task) => {
-            require("./tasks/" + task)(gulp, config, kernel, $, _);
+            require("./tasks/" + task)(gulp, config, kernel, $);
         });
     }
 

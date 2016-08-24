@@ -4,13 +4,13 @@
 
 /*jshint esversion: 6 */
 
-module.exports = (gulp, config, kernel, $, _) => {
+module.exports = (gulp, config, kernel, $) => {
 
     // Config
     // ---------------------------------------------------------
 
     // extending default config with project config
-    _.extend(config.fonts = {
+    Object.assign(config.fonts = {
         source: ["/fonts"],
         dest: "/fonts",
         inputExt: "{ttf,eot,svg,woff,woff2}",
