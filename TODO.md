@@ -1,21 +1,18 @@
-#RoadMap
+#@TODO
 ------------------
 
-## To Read
+## Inspirations
 ------------------
 http://stackoverflow.com/questions/22330103/how-to-include-node-modules-in-a-separate-browserify-vendor-bundle
 http://stackoverflow.com/questions/31773546/the-best-way-to-run-npm-install-for-nested-folders
 
 
-## @TODO
+## Tasks
 ------------------
 1. install multiple bower bundles
-2 (no). install nested npm/node_modules
-3 (no). install nested gulpfile.js
-4 (ok). theme manager
-5 (ok). context manager
-6 (ok). bundle dist inside context and then copy into public dir
-7. migrate gulp 3.9.1 => 4.0.0
-8 (ok). migrate js => es2015 with babel
-9. integrate webpack
-10 (ok). integrate node-sass with globbing n indexing
+2. migrate gulp 3.9.1 => 4.0.0
+3. integrate webpack bundles 
+4. integrate babel with es6
+5. fix mail task paths
+6. new sprites task {jpg,jpeg,gif,png,svg}
+7. fonts bundler (svg icons)
