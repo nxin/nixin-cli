@@ -5,6 +5,7 @@
 !.env.*
 !.editorconfig
 !.stylintrc
+!.npmignore
 *.log
 tags
 tags*

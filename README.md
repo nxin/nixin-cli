@@ -12,11 +12,11 @@ and syntax checking in development mode and minification with obfuscator for pro
 - Themes bundler 
 - Context bundler
 
-![alt=gulp](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/gulp.png)
-![alt=bower](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/bower.png)
-![alt=browser-sync](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/browser-sync.png)
-![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/browserify.png)
-![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/__static/npm.png)
+![alt=gulp](https://raw.githubusercontent.com/kreo/nixin-cli/master/public/gulp.png)
+![alt=bower](https://raw.githubusercontent.com/kreo/nixin-cli/master/public/bower.png)
+![alt=browser-sync](https://raw.githubusercontent.com/kreo/nixin-cli/master/public/browser-sync.png)
+![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/public/browserify.png)
+![alt=browserify](https://raw.githubusercontent.com/kreo/nixin-cli/master/public/npm.png)
 
 ```bash
 
