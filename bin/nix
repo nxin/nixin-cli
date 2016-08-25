@@ -1,7 +1,5 @@
 #!/bin/sh
 
-bash "../env.sh"
-
 GULPJS="gulp"
 basedir=`dirname "$0"`
 NIX="$basedir/index.js"

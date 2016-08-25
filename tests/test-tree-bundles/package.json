@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "nixin": "^1.0.0",
-        "nixin-cli": "^2.2.0"
+        "nixin-cli": "^2.2.1"
     },
     "bin": {},
     "config": {},
