@@ -22,7 +22,7 @@ module.exports = (gulp, settings) => {
 
     // --- Public ----------------------------------------------------------
 
-    function run(tasks) {
+    function run (tasks) {
         tasks.forEach((task) => {
             require("./tasks/" + task)(gulp, config, kernel, $);
         });
