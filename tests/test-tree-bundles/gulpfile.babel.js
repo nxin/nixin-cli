@@ -63,8 +63,17 @@ nix.run([
     "build"
 ]);
 
-// nix.extend("build", ["images"], (() => {
-//     console.log("======> extended task!")
-// })());
+
+nix.extend("build", ["bower"], [
+    "images",
+    "fonts",
+    "bower",
+    "stylus",
+    "sass",
+    "less",
+    "browserify"
+], (() => {
+    console.log("======> extended task!")
+})());
 
 

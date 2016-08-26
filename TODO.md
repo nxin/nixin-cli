@@ -12,6 +12,7 @@ http://stackoverflow.com/questions/31773546/the-best-way-to-run-npm-install-for-
 <!--- sprint 1 --->
 1. fix sprites task {jpg,jpeg,gif,png,svg}
 2. add multiple bower bundles
+3. (OK) add transform babelify => browserify
 
 <!--- sprint 2 --->
 1. fix serve task
@@ -24,10 +25,9 @@ http://stackoverflow.com/questions/31773546/the-best-way-to-run-npm-install-for-
 
 <!--- sprint 4 --->
 1. add transform deamdify => browserify
-2. add transform babelify => browserify
-3. add transform es6/es7 => browserify
-4. add webpack bundles
-5. migrate gulp 3.9.1 => 4.0.0
+2. add transform es6/es7 => browserify
+3. add webpack bundles
+4. migrate gulp 3.9.1 => 4.0.0
 
 
 
