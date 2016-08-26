@@ -28,10 +28,10 @@ module.exports = (gulp, config, kernel, $) => {
         styles: config.source + "/" + config.vendor + "/**/*.css",
         scripts: config.source + "/" + config.vendor + "/**/*.js",
         uglify: {
-            wrap: 'spesafacile',
+            // wrap: 'vendor',
             mangle: true,
-            outSourceMap: false,
-            sourceMapIncludeSources: true
+            // outSourceMap: false,
+            // sourceMapIncludeSources: false
         }
     });
 
@@ -130,15 +130,13 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function createScripts() {
-        gulp.task("create:bower.scripts", ["clean:bower.scripts"], () => {
+        gulp.task("create:bower.scripts", ["clean:bower.scripts"], function() {
             return gulp.src(config.bower.scripts)
                 .pipe($.order(config.bower.order))
                 .pipe($.sourcemaps.init())
                 .pipe($.concat(config.vendor + ".js"))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    // $.uglify(config.bower.uglify).pipe($.obfuscate()),
-                    // $.uglify(config.bower.uglify).pipe($.obfuscate()).pipe($.gzip())
                     $.uglify(config.bower.uglify),
                     $.uglify(config.bower.uglify).pipe($.gzip())
                 )))

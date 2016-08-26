@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/kreo/nixin-cli#readme",
   "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
     "browser-sync": "^2.14.0",
     "browserify": "^13.1.0",
     "chalk": "^1.1.3",
@@ -93,5 +94,8 @@
   "preferGlobal": true,
   "private": false,
   "publishConfig": {},
-  "analyze": true
+  "analyze": true,
+  "devDependencies": {
+    "babelify": "^7.3.0"
+  }
 }

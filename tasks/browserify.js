@@ -20,7 +20,9 @@ module.exports = (gulp, config, kernel, $) => {
         gzip: require("gulp-gzip"),
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
-        obfuscate: require("gulp-js-obfuscator")
+        babelify: require("babelify"),
+        obfuscate: require("gulp-js-obfuscator"),
+        es2015: require("babel-preset-es2015")
     });
 
     // Config
@@ -29,7 +31,10 @@ module.exports = (gulp, config, kernel, $) => {
     // merging project plugins with default module plugins
     // and assign to use option
     var plugins = [
-        $.globify
+        $.globify,
+        $.babelify.configure({
+            presets: [$.es2015]
+        })
     ].concat(config.npm.browserify);
 
     // extending default config with project config
@@ -38,13 +43,13 @@ module.exports = (gulp, config, kernel, $) => {
         dest: "",
         inputExt: "js",
         outputExt: "{js,js.map,js.gz}",
-        transform: [$.globify],
+        transform: plugins,
         debug: !process.isProd,
         uglify: {
             wrap: 'app',
             mangle: true,
             outSourceMap: false,
-            sourceMapIncludeSources: true
+            sourceMapIncludeSources: false
         }
     });
 
@@ -58,7 +63,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function create() {
-        gulp.task('browserify', ["clean:browserify"], function (cb) {
+        gulp.task('browserify', ["clean:browserify"], (cb) => {
             var browserified = () => {
                 return $.through.obj(function (chunk, enc, callback) {
                     if (chunk.isBuffer()) {
@@ -81,7 +86,9 @@ module.exports = (gulp, config, kernel, $) => {
                             cb(e);
                         });
                         // Any custom browserify stuff should go here
-                        //.transform(to5browserify);
+                        // .transform($.babelify.configure({
+                        //     presets: [$.es2015]
+                        // }));
 
                         chunk.contents = b.bundle();
                         this.push(chunk);
@@ -103,8 +110,6 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.mirror(
-                    // $.uglify(config.browserify.uglify).pipe($.obfuscate()),
-                    // $.uglify(config.browserify.uglify).pipe($.obfuscate()).pipe($.gzip())
                     $.uglify(config.browserify.uglify),
                     $.uglify(config.browserify.uglify).pipe($.gzip())
                 )))
