@@ -19,10 +19,11 @@ module.exports = (gulp, config, kernel, $) => {
     // ---------------------------------------------------------
 
     // extending default config with project config
-    Object.assign(config.images = {
-        path: "/sprites",
-        imagesExt: "{gif,jpg,jpeg,png,svg,cur}",
-        spriteExt: "{css,scss,sass,less,gif,jpg,jpeg,png,svg}"
+    Object.assign(config.sprites = {
+        source: "/sprites",
+        dest: "",
+        inputExt: "{gif,jpg,jpeg,png,svg}",
+        outputExt: "css"
     });
 
     // Public
@@ -30,23 +31,23 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:sprites", () => {
-            $.del(config.dest + '/sprites');
+            // $.del(config.dest + '/sprites');
         });
     }
 
     function create(isGzip) {
         gulp.task("sprites", () => {
-            gulp.src(config.source + config.images.path + "/sprite/*")
+            gulp.src(kernel.setSourceStack("sprites", config.sprites.inputExt))
                 .pipe($.spritesmith({
                     imgName: "sprite.png",
-                    cssName: "sprite.css",
+                    cssName: "sprite" + config.sprites.outputExt,
                     width: 100,
                     height: 100
                 }))
-                .pipe($.rename({
-                    dirname: "sprite"
+                .pipe($.rename((filepath) => {
+                    kernel.rewritePath(filepath);
                 }))
-                .pipe($.if(isGzip, $.gzip()))
+                // .pipe($.if(isGzip, $.gzip()))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
