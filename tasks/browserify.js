@@ -47,7 +47,11 @@ module.exports = (gulp, config, kernel, $) => {
         debug: !process.isProd,
         uglify: {
             mangle: true,
-            preserveComments: "license"
+            preserveComments: false,
+            options: {
+                source_map: false,
+                comments: false
+            }
         }
     });
 
@@ -102,15 +106,13 @@ module.exports = (gulp, config, kernel, $) => {
                     extension: '.js'
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init({loadMaps: true}))
+                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.mirror(
-                    $.uglify(config.browserify.uglify),
-                    $.uglify(config.browserify.uglify).pipe($.gzip())
-                )))
+                .pipe($.if(process.isProd, $.uglify(config.browserify.uglify)))
+                .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

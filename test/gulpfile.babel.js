@@ -21,6 +21,7 @@ import poststylus from "poststylus";
 const nix = require("nixin-cli")(gulp, {
     source: __dirname + "/resources",
     dest: __dirname + "/public/_dist",
+    tree: "tree",
     app: "app",
     vendor: "vendor",
     mail: "mail",
@@ -60,20 +61,19 @@ nix.run([
     "less",
     "browserify",
     "serve",
-    "build"
+    "build",
+    "sprites"
 ]);
 
 
-// nix.extend("build", ["bower"], [
-//     "images",
-//     "fonts",
-//     "bower",
-//     "stylus",
-//     "sass",
-//     "less",
-//     "browserify"
-// ], (() => {
-//     console.log("======> extended task!")
-// })());
+nix.extend("build", ["bower"], [
+    "images",
+    "fonts",
+    "bower",
+    "stylus",
+    "sass",
+    "browserify",
+    "sprites"
+]);
 
 

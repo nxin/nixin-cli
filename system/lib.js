@@ -25,7 +25,8 @@ $ = {
     stream: require("stream"),
     through: require("through2"),
     frep: require("frep"),
-    eventStream: require('event-stream')
+    eventStream: require("event-stream"),
+    debug: require("gulp-debug")
 };
 
 module.exports = $;

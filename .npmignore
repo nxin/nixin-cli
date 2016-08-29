@@ -1,9 +1,8 @@
+.*
+!.npmignore
 public
 test
 tests
 example
 examples
-.gitignore
-.stylintrc
-.idea
-.editorconfig
+

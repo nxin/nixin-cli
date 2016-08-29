@@ -41,6 +41,11 @@ module.exports = (gulp, config, kernel, $) => {
             precision: 10,
             outputStyle: "expanded",
             importer: []
+        },
+        cssnano: {
+            discardComments: {
+                removeAll: true
+            }
         }
     });
 
@@ -60,7 +65,7 @@ module.exports = (gulp, config, kernel, $) => {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init({loadMaps: true}))
+                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
                 .pipe($.cssGlobbing({
                     extensions: ['.scss', '.sass']
                 }))
@@ -84,10 +89,8 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(kernel.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.mirror(
-                    $.cssnano(),
-                    $.cssnano().pipe($.gzip())
-                )))
+                .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
+                .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

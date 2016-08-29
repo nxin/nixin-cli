@@ -27,9 +27,18 @@ module.exports = (gulp, config, kernel, $) => {
     Object.assign(config.bower, {
         styles: config.source + "/" + config.vendor + "/**/*.css",
         scripts: config.source + "/" + config.vendor + "/**/*.js",
+        cssnano: {
+            discardComments: {
+                removeAll: true
+            }
+        },
         uglify: {
             mangle: true,
-            preserveComments: "license"
+            preserveComments: false,
+            options: {
+                source_map: false,
+                comments: false
+            }
         }
     });
 
@@ -58,7 +67,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     // create vendor fonts/images bundle
-    function createSrc(plugin, files){
+    function createSrc(plugin, files) {
         return gulp.src(createVendor(plugin, files))
             .pipe($.rename({
                 dirname: config.vendor
@@ -73,7 +82,7 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------------------
 
-    function cleanInstall(){
+    function cleanInstall() {
         gulp.task("clean:bower.install", () => {
             $.del(config.source + "/" + config.vendor);
         });
@@ -111,13 +120,13 @@ module.exports = (gulp, config, kernel, $) => {
         gulp.task("create:bower.styles", ["clean:bower.styles"], () => {
             return gulp.src(config.bower.styles)
                 .pipe($.order(config.bower.order))
-                .pipe($.sourcemaps.init())
+                .pipe($.if(!process.isProd, $.sourcemaps.init()))
                 .pipe($.concat(config.vendor + ".css"))
                 .pipe($.replace(/[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig, './vendor$1'))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+                .pipe($.if(process.isProd, $.cssnano(config.bower.cssnano)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.cssnano(),
-                    $.cssnano().pipe($.gzip())
+                    $.gzip({append: true})
                 )))
                 .pipe(gulp.dest(config.dest))
                 .on('error', kernel.errors)
@@ -128,15 +137,15 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function createScripts() {
-        gulp.task("create:bower.scripts", ["clean:bower.scripts"], function() {
+        gulp.task("create:bower.scripts", ["clean:bower.scripts"], function () {
             return gulp.src(config.bower.scripts)
                 .pipe($.order(config.bower.order))
-                .pipe($.sourcemaps.init())
+                .pipe($.if(!process.isProd, $.sourcemaps.init()))
                 .pipe($.concat(config.vendor + ".js"))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+                .pipe($.if(process.isProd, $.uglify(config.bower.uglify)))
                 .pipe($.if(process.isProd, $.mirror(
-                    $.uglify(config.bower.uglify),
-                    $.uglify(config.bower.uglify).pipe($.gzip())
+                    $.gzip({append: true})
                 )))
                 .pipe(gulp.dest(config.dest))
                 .on('error', kernel.errors)

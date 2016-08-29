@@ -41,6 +41,11 @@ module.exports = (gulp, config, kernel, $) => {
             "include css": true,
             compress: process.isProd,
             comment: !process.isProd
+        },
+        cssnano: {
+            discardComments: {
+                removeAll: true
+            }
         }
     });
 
@@ -59,7 +64,7 @@ module.exports = (gulp, config, kernel, $) => {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init({loadMaps: true}))
+                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
                 .pipe($.stylus(config.stylus.opts), (res) => {
                     $.gutil.log("in result");
                     console.log(res);
@@ -92,10 +97,8 @@ module.exports = (gulp, config, kernel, $) => {
                 // })
                 .pipe($.groupMq())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.mirror(
-                    $.cssnano(),
-                    $.cssnano().pipe($.gzip())
-                )))
+                .pipe($.if(process.isProd, $.cssnano()))
+                .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

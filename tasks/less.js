@@ -31,7 +31,12 @@ module.exports = (gulp, config, kernel, $) => {
         dest: "",
         inputExt: "less",
         outputExt: "{css,css.map,css.gz}",
-        opts: {}
+        opts: {},
+        cssnano: {
+            discardComments: {
+                removeAll: true
+            }
+        }
     });
 
     // Public Methods
@@ -50,11 +55,10 @@ module.exports = (gulp, config, kernel, $) => {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
-                .pipe($.sourcemaps.init({loadMaps: true}))
+                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
                 .pipe($.cssGlobbing({
                     extensions: ['.less']
                 }))
-                // .pipe($.less(config.less.opts))
                 .pipe($.less())
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
@@ -62,10 +66,8 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(kernel.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.mirror(
-                    $.cssnano(),
-                    $.cssnano().pipe($.gzip())
-                )))
+                .pipe($.if(process.isProd, $.cssnano()))
+                .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
