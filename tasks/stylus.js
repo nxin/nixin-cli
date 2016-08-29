@@ -42,11 +42,7 @@ module.exports = (gulp, config, kernel, $) => {
             compress: process.isProd,
             comment: !process.isProd
         },
-        cssnano: {
-            discardComments: {
-                removeAll: true
-            }
-        }
+        cssnano: config.cssnano
     });
 
     // --- Public -------------------------------------------------------

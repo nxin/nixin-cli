@@ -32,11 +32,7 @@ module.exports = (gulp, config, kernel, $) => {
         inputExt: "less",
         outputExt: "{css,css.map,css.gz}",
         opts: {},
-        cssnano: {
-            discardComments: {
-                removeAll: true
-            }
-        }
+        cssnano: config.cssnano
     });
 
     // Public Methods

@@ -40,15 +40,20 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
 
         var opts = {
-            spritesmith: function (options, sprite, icons){
-                if (sprite.indexOf('sprite--') !== -1) {
-                    // options.cssTemplate = themeTemplate
+            // spritesmith: function (options, sprite, icons){
+            //     if (sprite.indexOf('sprite--') !== -1) {
+            //         // options.cssTemplate = themeTemplate
+            //
+            //         console.log(sprite);
+            //         console.log(options);
+            //     }
+            //     return options
+            // },
 
-                    console.log(sprite);
-                    console.log(options);
-                }
-                return options
-            },
+            imgName: 'sprite.png',
+            cssName: 'sprite.styl',
+            engine: $.phantomjssmith
+
         };
 
         // var themeTemplate = $.spritesmith.util.createTemplate(
@@ -69,7 +74,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(kernel.addSuffixPath())
+                // .pipe(kernel.addSuffixPath())
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

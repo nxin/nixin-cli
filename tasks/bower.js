@@ -27,19 +27,8 @@ module.exports = (gulp, config, kernel, $) => {
     Object.assign(config.bower, {
         styles: config.source + "/" + config.vendor + "/**/*.css",
         scripts: config.source + "/" + config.vendor + "/**/*.js",
-        cssnano: {
-            discardComments: {
-                removeAll: true
-            }
-        },
-        uglify: {
-            mangle: true,
-            preserveComments: false,
-            options: {
-                source_map: false,
-                comments: false
-            }
-        }
+        cssnano: config.cssnano,
+        uglify: config.uglify
     });
 
     // Private

@@ -24,15 +24,23 @@ const config = {
         includeContent: true,
         addComment: true
     },
+    uglify: {
+        mangle: true,
+        preserveComments: false,
+        options: {
+            source_map: false,
+            comments: false
+        }
+    },
+    cssnano: {
+        discardComments: {
+            removeAll: true
+        }
+    },
     autoprefixer: {
         browsers: ['last 3 versions'],
         cascade: false
     },
-    stylus: {},
-    sass: {},
-    less: {},
-    browserify: {},
-    pug: {},
     bower: {
         plugins: [],
         order: []

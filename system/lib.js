@@ -26,7 +26,8 @@ $ = {
     through: require("through2"),
     frep: require("frep"),
     eventStream: require("event-stream"),
-    debug: require("gulp-debug")
+    debug: require("gulp-debug"),
+    phantomjssmith: require("phantomjssmith")
 };
 
 module.exports = $;

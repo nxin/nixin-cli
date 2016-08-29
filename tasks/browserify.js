@@ -45,14 +45,7 @@ module.exports = (gulp, config, kernel, $) => {
         outputExt: "{js,js.map,js.gz}",
         transform: plugins,
         debug: !process.isProd,
-        uglify: {
-            mangle: true,
-            preserveComments: false,
-            options: {
-                source_map: false,
-                comments: false
-            }
-        }
+        uglify: config.uglify
     });
 
     // Public

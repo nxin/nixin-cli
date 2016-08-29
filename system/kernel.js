@@ -11,7 +11,7 @@ module.exports = (gulp, config, $) => {
             if (parallelsTasks !== undefined){
                 $.runSequence(parallelsTasks)
             }
-        }, cb);
+        });
     }
 
     function errors() {
@@ -65,8 +65,8 @@ module.exports = (gulp, config, $) => {
 
     function setSourceStack(taskName, inputExt) {
         return [
-            config.source + config[taskName].source + "/*." + inputExt,
-            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + "/*." + inputExt
+            config.source + config[taskName].source + "{/sprite--*/*.,/*.}" + inputExt,
+            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + "{/sprite--*/*.,/*.}" + inputExt,
             // config.source + "{/theme--!(default),/context--!(common),/theme--!(default)/context--!(common)}" + config[taskName].source + "/*." + inputExt
         ];
     }
@@ -181,7 +181,17 @@ module.exports = (gulp, config, $) => {
 
             var fileContentTrimmed = String(file.contents).trim();
 
-            var fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+            // var fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+            var fileSuffix = "";
+
+            if(file.path.indexOf("sprite--") !== -1){
+                console.log(file.path + " => sprite!!!");
+                fileSuffix = file.path.split("sprite--")[1].split(".png")[0];
+            }
+            else if(file.path.indexOf(config.app) !== -1){
+                console.log("app!!!!");
+                fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+            }
 
             fileSuffix = cleanSuffixPath(fileSuffix);
 

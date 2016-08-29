@@ -70,6 +70,8 @@
     "hashmark": "^3.1.0",
     "imagemin-pngquant": "^5.0.0",
     "merge-stream": "^1.0.0",
+    "phantomjs": "^2.1.7",
+    "phantomjssmith": "^1.0.0",
     "require-globify": "^1.4.0",
     "run-sequence": "^1.2.2",
     "through2": "^2.0.1",

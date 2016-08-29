@@ -42,11 +42,7 @@ module.exports = (gulp, config, kernel, $) => {
             outputStyle: "expanded",
             importer: []
         },
-        cssnano: {
-            discardComments: {
-                removeAll: true
-            }
-        }
+        cssnano: config.cssnano
     });
 
     // Public Methods
