@@ -42,9 +42,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesJpeg() {
         gulp.task("imagesJpeg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.jpeg))
-                .pipe($.imagemin($.jpegtran({
-                    progressive: true
-                })))
+                .pipe($.imagemin($.jpegtran(config.imagemin.jpegtran)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -58,10 +56,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesPng() {
         gulp.task("imagesPng", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.png))
-                .pipe($.imagemin($.pngquant({
-                    quality: "65-80",
-                    speed: 4
-                })))
+                .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -75,9 +70,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesGif() {
         gulp.task("imagesGif", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.gif))
-                .pipe($.imagemin($.gifsicle({
-                    interlaced: true
-                })))
+                .pipe($.imagemin($.gifsicle(config.imagemin.gifsicle)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -91,9 +84,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesSvg() {
         gulp.task("imagesSvg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.svg))
-                .pipe($.imagemin($.svgo({
-                    removeViewBox: false
-                })))
+                .pipe($.imagemin($.svgo(config.imagemin.svgo)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))

@@ -77,10 +77,7 @@ module.exports = (gulp, config, kernel, $) => {
                     kernel.rewritePath(filepath);
                 }))
                 // .pipe(kernel.addSuffixPath())
-                .pipe($.imagemin($.pngquant({
-                    quality: "65-80",
-                    speed: 4
-                })))
+                .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true

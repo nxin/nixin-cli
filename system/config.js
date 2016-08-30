@@ -37,6 +37,21 @@ const config = {
             removeAll: true
         }
     },
+    imagemin: {
+        jpegtran: {
+            progressive: true
+        },
+        pngquant: {
+            quality: "65-80",
+            speed: 4
+        },
+        gifsicle: {
+            interlaced: true
+        },
+        svgo: {
+            removeViewBox: false
+        }
+    },
     autoprefixer: {
         browsers: ['last 3 versions'],
         cascade: false

@@ -185,11 +185,9 @@ module.exports = (gulp, config, $) => {
             var fileSuffix = "";
 
             if(file.path.indexOf("sprite--") !== -1){
-                console.log(file.path + " => sprite!!!");
                 fileSuffix = file.path.split("sprite--")[1].split(".png")[0];
             }
             else if(file.path.indexOf(config.app) !== -1){
-                console.log("app!!!!");
                 fileSuffix = file.path.split(config.app)[1].split(".css")[0];
             }
 
