@@ -35,7 +35,7 @@ module.exports = (gulp, config, kernel, $) => {
         $.babelify.configure({
             presets: [$.es2015]
         })
-    ].concat(config.npm.browserify);
+    ].concat(config.plugins.browserify);
 
     // extending default config with project config
     Object.assign(config.browserify = {

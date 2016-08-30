@@ -27,7 +27,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // merging project plugins with default module plugins
     // and assign to use option
-    var plugins = [].concat(config.npm.sass);
+    var plugins = [].concat(config.plugins.sass);
 
     // extending default config with project config
     Object.assign(config.sass = {
