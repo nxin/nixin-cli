@@ -18,7 +18,7 @@ import rucksack from "rucksack-css";
 import poststylus from "poststylus";
 
 
-const nix = require("nixin-cli")(gulp, {
+const Nix = require("nixin-cli")(gulp, {
     source: __dirname + "/resources",
     dest: __dirname + "/public/_dist",
     tree: "tree",
@@ -51,7 +51,7 @@ const nix = require("nixin-cli")(gulp, {
 });
 
 
-nix.run([
+Nix.get([
     "default",
     "images",
     "fonts",
@@ -66,7 +66,7 @@ nix.run([
 ]);
 
 
-nix.extend("build", ["bower"], [
+Nix.set("build", ["bower"], [
     "images",
     "fonts",
     "bower",

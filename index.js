@@ -10,28 +10,40 @@
 
 module.exports = (gulp, settings) => {
 
-    // --- Dependencies ----------------------------------------------------
-    const $ = require("./system/lib"),
-          config = require("./system/config");
+    "use strict";
 
-    // --- Config ----------------------------------------------------------
-    Object.assign(config, settings);
+    class Tasks {
+        constructor(config, dependencies, kernel) {
+            this.config = config;
+            this.$ = dependencies;
+            this.kernel = kernel;
+        }
 
-    // --- Kernel -----------------------------------------------------------
-    const kernel = require("./system/kernel")(gulp, config, $);
+        get(tasks) {
+            tasks.forEach((task) => {
+                return require("./tasks/" + task)(gulp, this.config, this.kernel, this.$);
+            });
+        }
 
-    // --- Public ----------------------------------------------------------
+        set(taskName, seriesTasks, parallelsTasks) {
+            gulp.task(taskName, seriesTasks, () => {
+                if (parallelsTasks !== undefined) {
+                    $.runSequence(parallelsTasks)
+                }
+            });
+        }
 
-    function run (tasks) {
-        tasks.forEach((task) => {
-            require("./tasks/" + task)(gulp, config, kernel, $);
-        });
     }
 
+    const config = require("./system/config");
+    const $ = require("./system/lib");
+
+    Object.assign(config, settings);
+
+    const kernel = require("./system/kernel")(gulp, config, $);
+
+
     // --- API ------------------------------------------------------------
-    return {
-        run: run,
-        extend: kernel.extendTask
-    };
+    return new Tasks(config, $, kernel);
 
 };
