@@ -12,6 +12,8 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
+        imagemin: require('gulp-imagemin'),
+        pngquant: require('imagemin-pngquant'),
         spritesmith: require("gulp.spritesmith-multi"),
         buffer: require("vinyl-buffer")
     });
@@ -51,7 +53,7 @@ module.exports = (gulp, config, kernel, $) => {
             // },
 
             imgName: 'sprite.png',
-            cssName: 'sprite.styl',
+            cssName: 'sprite.css',
             engine: $.phantomjssmith
 
         };
@@ -75,6 +77,10 @@ module.exports = (gulp, config, kernel, $) => {
                     kernel.rewritePath(filepath);
                 }))
                 // .pipe(kernel.addSuffixPath())
+                .pipe($.imagemin($.pngquant({
+                    quality: "65-80",
+                    speed: 4
+                })))
                 .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
