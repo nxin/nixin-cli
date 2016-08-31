@@ -1,15 +1,16 @@
 {
   "name": "nixin-cli",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
     "preinstall": "./env.sh",
+    "install": "sudo npm install gulp phantomjs -g",
+    "postinstall": "npm install phantomjssmith --save",
     "stylus": "stylus --sourcemap-inline resources/styles/index.styl -o public/_dist/app.css",
     "stylus-serve": "stylus --sourcemap-inline -w resources/styles/index.styl -o public/_dist/app.css",
     "browserify": "browserify -d resources/scripts/index.js -o public/_dist/app.js",
-    "autoprefixer": "postcss --use autoprefixer --autoprefixer.browsers \"last 2 versions\" -r public/_dist/*.css",
-    "postinstall": "npm install gulp -g"
+    "autoprefixer": "postcss --use autoprefixer --autoprefixer.browsers \"last 2 versions\" -r public/_dist/*.css"
   },
   "repository": {
     "type": "git",
@@ -72,7 +73,6 @@
     "hashmark": "^3.1.0",
     "imagemin-pngquant": "^5.0.0",
     "merge-stream": "^1.0.0",
-    "phantomjs": "^2.1.7",
     "phantomjssmith": "^1.0.0",
     "require-globify": "^1.4.0",
     "run-sequence": "^1.2.2",
