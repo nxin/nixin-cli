@@ -25,7 +25,7 @@ const Nix = require("nixin-cli")(gulp, {
     app: "app",
     vendor: "vendor",
     mail: "mail",
-    npm: {
+    plugins: {
         stylus: [
             rupture(),
             jeet(),

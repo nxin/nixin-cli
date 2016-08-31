@@ -6,6 +6,22 @@
 
 module.exports = (gulp, config, $) => {
 
+    function getSources(filename, string) {
+        var src = $.stream.Readable({ objectMode: true });
+
+        src._read = function () {
+            this.push(new $.gutil.File({
+                cwd: "",
+                base: "",
+                path: filename,
+                contents: new Buffer(string)
+            }));
+            this.push(null);
+        };
+
+        return src
+    }
+
     function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
         gulp.task(taskName, seriesTasks, () => {
             if (parallelsTasks !== undefined){
@@ -204,6 +220,7 @@ module.exports = (gulp, config, $) => {
     }
 
     return {
+        getSources: getSources,
         extendTask: extendTask,
         errors: errors,
         setPathSuffix: setPathSuffix,

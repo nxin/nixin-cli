@@ -32,7 +32,6 @@ module.exports = (gulp, settings) => {
                 }
             });
         }
-
     }
 
     const config = require("./system/config");
