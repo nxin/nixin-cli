@@ -7,7 +7,7 @@
 module.exports = (gulp, config, $) => {
 
     function getSources(filename, string) {
-        var src = $.stream.Readable({ objectMode: true });
+        var src = $.stream.Readable({objectMode: true});
 
         src._read = function () {
             this.push(new $.gutil.File({
@@ -24,9 +24,21 @@ module.exports = (gulp, config, $) => {
 
     function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
         gulp.task(taskName, seriesTasks, () => {
-            if (parallelsTasks !== undefined){
+            if (parallelsTasks !== undefined) {
                 $.runSequence(parallelsTasks)
             }
+        });
+    }
+
+    function getErrors(res) {
+        $.gutil.log("in result");
+        console.log(res);
+        res.on("end", () => {
+            console.log('res.end');
+            cb();
+        });
+        res.on("data", () => {
+            console.log("res.data");
         });
     }
 
@@ -46,7 +58,7 @@ module.exports = (gulp, config, $) => {
         var cleanStack = [];
         var taskPath = "/";
 
-        switch(taskName) {
+        switch (taskName) {
             case "images":
                 taskPath = config.images.dest + "/";
                 break;
@@ -59,11 +71,11 @@ module.exports = (gulp, config, $) => {
                 break;
         }
 
-        if(config.tree === "flatten"){
+        if (config.tree === "flatten") {
             cleanStack.push(config.dest + taskPath + filename + "*." + config[taskName].outputExt)
         }
 
-        if(config.tree === "tree"){
+        if (config.tree === "tree") {
             if (filename !== "") {
                 filename = "/" + filename;
                 if (taskPath === "/") {
@@ -200,10 +212,10 @@ module.exports = (gulp, config, $) => {
             // var fileSuffix = file.path.split(config.app)[1].split(".css")[0];
             var fileSuffix = "";
 
-            if(file.path.indexOf("sprite--") !== -1){
+            if (file.path.indexOf("sprite--") !== -1) {
                 fileSuffix = file.path.split("sprite--")[1].split(".png")[0];
             }
-            else if(file.path.indexOf(config.app) !== -1){
+            else if (file.path.indexOf(config.app) !== -1) {
                 fileSuffix = file.path.split(config.app)[1].split(".css")[0];
             }
 
@@ -222,6 +234,7 @@ module.exports = (gulp, config, $) => {
     return {
         getSources: getSources,
         extendTask: extendTask,
+        getErrors: getErrors,
         errors: errors,
         setPathSuffix: setPathSuffix,
         setSourceStack: setSourceStack,

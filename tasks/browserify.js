@@ -21,8 +21,11 @@ module.exports = (gulp, config, kernel, $) => {
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
         babelify: require("babelify"),
+        deamdify: require("deamdify"),
         obfuscate: require("gulp-js-obfuscator"),
-        es2015: require("babel-preset-es2015")
+        es2015: require("babel-preset-es2015"),
+        jshint: require("gulp-jshint"),
+        jshintStylish: require("jshint-stylish")
     });
 
     // Config
@@ -32,6 +35,7 @@ module.exports = (gulp, config, kernel, $) => {
     // and assign to use option
     var plugins = [
         $.globify,
+        $.deamdify,
         $.babelify.configure({
             presets: [$.es2015]
         })
@@ -66,19 +70,6 @@ module.exports = (gulp, config, kernel, $) => {
                             entries: chunk.path,
                             transform: config.browserify.transform,
                             debug: config.browserify.debug
-                        }, (res) => {
-                            $.gutil.log("in result");
-                            console.log(res);
-                            res.on("end", () => {
-                                console.log('res.end');
-                                cb();
-                            });
-                            res.on("data", () => {
-                                console.log("res.data");
-                            });
-                        }).on("error", (e) => {
-                            $.gutil.log("in error");
-                            cb(e);
                         });
                         // Any custom browserify stuff should go here
                         // .transform($.babelify.configure({
@@ -94,6 +85,9 @@ module.exports = (gulp, config, kernel, $) => {
             };
 
             return gulp.src(kernel.setSourceStack("browserify", config.browserify.inputExt))
+                .pipe($.jshint())
+                .pipe($.jshint.reporter($.jshintStylish))
+                .pipe($.plumber())
                 .pipe(browserified())
                 .pipe($.cached(config.dest, {
                     extension: '.js'

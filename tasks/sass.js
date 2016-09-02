@@ -19,7 +19,8 @@ module.exports = (gulp, config, kernel, $) => {
         cached: require("gulp-cached"),
         buffer: require("vinyl-buffer"),
         mirror: require("gulp-mirror"),
-        cssnano: require("gulp-cssnano")
+        cssnano: require("gulp-cssnano"),
+        sassLint: require("gulp-sass-lint")
     });
 
     // Config
@@ -65,20 +66,21 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.cssGlobbing({
                     extensions: ['.scss', '.sass']
                 }))
-                .pipe($.sass(config.sass.opts), (res) => {
-                    $.gutil.log("in result");
-                    console.log(res);
-                    res.on("end", () => {
-                        console.log('res.end');
-                        cb();
-                    });
-                    res.on("data", () => {
-                        console.log("res.data");
-                    });
-                }).on("error", (e) => {
-                    $.gutil.log("in error");
-                    cb(e);
-                })
+                .pipe($.sassLint({
+                    options: {
+                        'formatter': 'stylish',
+                        'merge-default-rules': false
+                    },
+                    files: {ignore: '**/*.scss'},
+                    rules: {
+                        'no-ids': 1,
+                        'no-mergeable-selectors': 0
+                    },
+                    config: '.sass-lint.yml'
+                }))
+                .pipe($.sassLint.format())
+                .pipe($.plumber())
+                .pipe($.sass(config.sass.opts))
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);

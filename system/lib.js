@@ -28,7 +28,8 @@ $ = {
     eventStream: require("event-stream"),
     debug: require("gulp-debug"),
     phantomjssmith: require("phantomjssmith"),
-    prompt: require("gulp-prompt")
+    prompt: require("gulp-prompt"),
+    plumber: require("gulp-plumber")
 };
 
 module.exports = $;

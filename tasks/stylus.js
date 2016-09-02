@@ -20,7 +20,9 @@ module.exports = (gulp, config, kernel, $) => {
         mirror: require("gulp-mirror"),
         cssnano: require("gulp-cssnano"),
         groupMq: require("gulp-group-css-media-queries"),
-        postcss: require("postcss")
+        postcss: require("postcss"),
+        stylint: require("stylint"),
+        stylintStylish: require("stylint-stylish")
     });
 
     // --- Config -------------------------------------------------------
@@ -61,20 +63,18 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.buffer())
                 .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-                .pipe($.stylus(config.stylus.opts), (res) => {
-                    $.gutil.log("in result");
-                    console.log(res);
-                    res.on("end", () => {
-                        console.log('res.end');
-                        cb();
-                    });
-                    res.on("data", () => {
-                        console.log("res.data");
-                    });
-                }).on("error", (e) => {
-                    $.gutil.log("in error");
-                    cb(e);
-                })
+                .pipe($.stylint({
+                    rules: { semicolons: 'always' },
+                    reporter: {
+                        reporter: "stylint-stylish",
+                        reporterOptions: {
+                            verbose: true
+                        }
+                    }
+                }))
+                .pipe($.stylint.reporter())
+                .pipe($.plumber())
+                .pipe($.stylus(config.stylus.opts))
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);

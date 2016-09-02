@@ -24,6 +24,7 @@ module.exports = (gulp, config, kernel, $) => {
     function watch() {
         gulp.task("serve:watch", () => {
             gulp.watch(config.source + config.serve.stylus, ["stylus"]);
+            gulp.watch(config.source + config.serve.sass, ["sass"]);
             gulp.watch(config.source + config.serve.browserify, ["browserify"]);
             // gulp.watch(config.dest + config.serve.pug, $.browserSync.reload);
         });
