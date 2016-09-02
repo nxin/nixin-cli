@@ -1,11 +1,10 @@
 {
   "name": "nixin-cli",
-  "version": "2.2.9",
+  "version": "2.3.0",
   "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
-    "preinstall": "./env.sh",
-    "install": "sudo npm install gulp phantomjs -g",
+    "preinstall": "./env.sh sudo npm install gulp phantomjs-prebuilt -g",
     "postinstall": "npm install phantomjssmith --save",
     "stylus": "stylus --sourcemap-inline resources/styles/index.styl -o public/_dist/app.css",
     "stylus-serve": "stylus --sourcemap-inline -w resources/styles/index.styl -o public/_dist/app.css",
