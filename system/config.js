@@ -63,12 +63,7 @@ const config = {
     serve: {
         host: "local.dev",
         proxy: "local.dev/",
-        port: "9001",
-        watch: {
-            "scripts": "browserify",
-            "styles": "stylus",
-            "markup": "pug"
-        }
+        port: "9001"
     }
 };
 

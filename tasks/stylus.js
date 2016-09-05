@@ -21,7 +21,7 @@ module.exports = (gulp, config, kernel, $) => {
         cssnano: require("gulp-cssnano"),
         groupMq: require("gulp-group-css-media-queries"),
         postcss: require("postcss"),
-        stylint: require("stylint"),
+        stylint: require("gulp-stylint"),
         stylintStylish: require("stylint-stylish")
     });
 
@@ -58,22 +58,22 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("stylus", ["clean:stylus"], (cb) => {
             return gulp.src(kernel.setSourceStack("stylus", config.stylus.inputExt))
+                .pipe($.stylint({
+                    config: '.stylintrc',
+                    reporter: "stylint-stylish",
+                    reporterOptions: {
+                        absolutePath: true,
+                        verbose: true
+                    }
+                }))
+                .pipe($.stylint.reporter())
+                .pipe($.plumber())
                 .pipe($.cached(config.dest, {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
                 .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-                .pipe($.stylint({
-                    rules: { semicolons: 'always' },
-                    reporter: {
-                        reporter: "stylint-stylish",
-                        reporterOptions: {
-                            verbose: true
-                        }
-                    }
-                }))
-                .pipe($.stylint.reporter())
-                .pipe($.plumber())
+
                 .pipe($.stylus(config.stylus.opts))
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {

@@ -58,14 +58,6 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("sass", ["clean:sass"], (cb) => {
             return gulp.src(kernel.setSourceStack("sass", config.sass.inputExt))
-                .pipe($.cached(config.dest, {
-                    extension: '.css'
-                }))
-                .pipe($.buffer())
-                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-                .pipe($.cssGlobbing({
-                    extensions: ['.scss', '.sass']
-                }))
                 .pipe($.sassLint({
                     options: {
                         'formatter': 'stylish',
@@ -80,6 +72,14 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.sassLint.format())
                 .pipe($.plumber())
+                .pipe($.cached(config.dest, {
+                    extension: '.css'
+                }))
+                .pipe($.buffer())
+                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
+                .pipe($.cssGlobbing({
+                    extensions: ['.scss', '.sass']
+                }))
                 .pipe($.sass(config.sass.opts))
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
