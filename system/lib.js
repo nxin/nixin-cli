@@ -27,7 +27,7 @@ $ = {
     frep: require("frep"),
     eventStream: require("event-stream"),
     debug: require("gulp-debug"),
-    phantomjssmith: require("phantomjssmith"),
+    // phantomjssmith: require("phantomjssmith"),
     prompt: require("gulp-prompt"),
     plumber: require("gulp-plumber")
 };

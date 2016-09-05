@@ -54,7 +54,7 @@ module.exports = (gulp, config, kernel, $) => {
 
             imgName: 'sprite.png',
             cssName: 'sprite.css',
-            engine: $.phantomjssmith
+            engine: 'pixelsmith'
 
         };
 

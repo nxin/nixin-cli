@@ -76,4 +76,4 @@ if [ -f $HOME/$USER_PATH/.zshenv ]; then
 fi
 
 # execute the rest of the command
-exec "$@"
+#exec "$@"
