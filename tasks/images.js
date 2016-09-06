@@ -36,8 +36,9 @@ module.exports = (gulp, config, kernel, $) => {
         regExt: /\.(gif|jpg|jpeg|png|svg)$/
     });
 
-    // Private
-    // ---------------------------------------------
+
+    // Public
+    // ---------------------------------------------------------
 
     function imagesJpeg() {
         gulp.task("imagesJpeg", () => {
@@ -94,9 +95,6 @@ module.exports = (gulp, config, kernel, $) => {
                 }));
         });
     }
-
-    // Public
-    // ---------------------------------------------------------
 
     function clean() {
         gulp.task("clean:images", () => {

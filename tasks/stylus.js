@@ -59,7 +59,7 @@ module.exports = (gulp, config, kernel, $) => {
         gulp.task("stylus", ["clean:stylus"], (cb) => {
             return gulp.src(kernel.setSourceStack("stylus", config.stylus.inputExt))
                 .pipe($.stylint({
-                    config: '.stylintrc',
+                    config: ".stylintrc",
                     reporter: "stylint-stylish",
                     reporterOptions: {
                         absolutePath: true,
@@ -73,7 +73,6 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.buffer())
                 .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-
                 .pipe($.stylus(config.stylus.opts))
                 .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
