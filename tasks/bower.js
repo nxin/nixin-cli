@@ -37,14 +37,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // get production flag state
     function getEnv() {
-
-        var productionFlag = '';
-
-        if (process.isProd === true) {
-            productionFlag = ' -p';
-        }
-
-        return productionFlag;
+        return process.isProd ? ' -p' : '';
     }
 
     // create vendor assets bundle
