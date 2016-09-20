@@ -13,14 +13,15 @@ module.exports = (gulp, config, kernel, $) => {
     // using $ as alias
     Object.assign($, {
         sass: require("gulp-sass"),
-        autoprefixer: require("gulp-autoprefixer"),
+        autoprefixer: require("autoprefixer"),
         sourcemaps: require("gulp-sourcemaps"),
-        cssGlobbing: require('gulp-css-globbing'),
+        sassGlobbing: require("gulp-sass-glob"),
         cached: require("gulp-cached"),
         buffer: require("vinyl-buffer"),
         mirror: require("gulp-mirror"),
         cssnano: require("gulp-cssnano"),
-        sassLint: require("gulp-sass-lint")
+        sassLint: require("gulp-sass-lint"),
+        postcss: require("gulp-postcss")
     });
 
     // Config
@@ -29,6 +30,7 @@ module.exports = (gulp, config, kernel, $) => {
     // merging project plugins with default module plugins
     // and assign to use option
     var plugins = [
+        '.',
         './bower_components',
         './node_modules'
     ].concat(config.plugins.sass);
@@ -44,6 +46,7 @@ module.exports = (gulp, config, kernel, $) => {
             indentedSyntax: true,
             precision: 10,
             outputStyle: "expanded",
+            style: "expanded",
             importer: []
         },
         cssnano: config.cssnano
@@ -79,17 +82,15 @@ module.exports = (gulp, config, kernel, $) => {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
-                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-                .pipe($.cssGlobbing({
-                    extensions: ['.scss', '.sass']
-                }))
+                .pipe($.if(!process.isProd, $.sourcemaps.init()))
+                .pipe($.sassGlobbing())
                 .pipe($.sass(config.sass.opts))
-                .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+                .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
                 .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe(gulp.dest(config.dest))

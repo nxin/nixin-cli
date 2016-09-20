@@ -21,7 +21,7 @@ const config = {
     app: "app",
     vendor: "vendor",
     sourcemaps: {
-        includeContent: true,
+        includeContent: false,
         addComment: true
     },
     uglify: {

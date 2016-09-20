@@ -12,7 +12,7 @@ module.exports = (gulp, config, kernel, $) => {
     // using $ as alias
     Object.assign($, {
         stylus: require("gulp-stylus"),
-        autoprefixer: require("gulp-autoprefixer"),
+        autoprefixer: require("autoprefixer"),
         sourcemaps: require("gulp-sourcemaps"),
         cached: require("gulp-cached"),
         gzip: require("gulp-gzip"),
@@ -20,7 +20,7 @@ module.exports = (gulp, config, kernel, $) => {
         mirror: require("gulp-mirror"),
         cssnano: require("gulp-cssnano"),
         groupMq: require("gulp-group-css-media-queries"),
-        postcss: require("postcss"),
+        postcss: require("gulp-postcss"),
         stylint: require("gulp-stylint"),
         stylintStylish: require("stylint-stylish")
     });
@@ -74,7 +74,6 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.buffer())
                 .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
                 .pipe($.stylus(config.stylus.opts))
-                .pipe($.autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
@@ -91,6 +90,7 @@ module.exports = (gulp, config, kernel, $) => {
                 //     }
                 // })
                 .pipe($.groupMq())
+                .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
