@@ -20,10 +20,10 @@ module.exports = (gulp, config, kernel, $) => {
         gzip: require("gulp-gzip"),
         buffer: require("vinyl-buffer"),
         globify: require("require-globify"),
-        babelify: require("babelify"),
-        deamdify: require("deamdify"),
+        // babelify: require("babelify"),
+        // deamdify: require("deamdify"),
         obfuscate: require("gulp-js-obfuscator"),
-        es2015: require("babel-preset-es2015"),
+        // es2015: require("babel-preset-es2015"),
         jshint: require("gulp-jshint"),
         jshintStylish: require("jshint-stylish")
     });
@@ -35,10 +35,10 @@ module.exports = (gulp, config, kernel, $) => {
     // and assign to use option
     var plugins = [
         $.globify,
-        $.deamdify,
-        $.babelify.configure({
-            presets: [$.es2015]
-        })
+        // $.deamdify,
+        // $.babelify.configure({
+        //     presets: [$.es2015]
+        // })
     ].concat(config.plugins.browserify);
 
     // extending default config with project config

@@ -89,7 +89,10 @@ module.exports = (gulp, config, kernel, $) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
-                .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
+                .pipe($.if(!process.isProd, $.sourcemaps.write({
+                    includeContent: false, // !! outer files sourcemaps broken if true
+                    addComment: true
+                })))
                 .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
                 .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
