@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "2.3.9-a",
+  "version": "2.4.0",
   "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
@@ -85,7 +85,7 @@
     "require-globify": "^1.4.1",
     "run-sequence": "^1.2.2",
     "stylint-stylish": "^1.4.0",
-    "through2": "^2.0.1",
+    "through2": "^2.0.2",
     "vinyl-buffer": "^1.0.0",
     "yargs": "^6.4.0"
   },
