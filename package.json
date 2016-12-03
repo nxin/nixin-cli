@@ -1,6 +1,6 @@
 {
   "name": "nixin-cli",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "nixin-cli - A bunch of useful gulp tasks",
   "main": "index.js",
   "scripts": {
@@ -60,7 +60,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^6.2.0",
     "gulp-prompt": "^0.2.0",
-    "gulp-pug": "^3.1.0",
+    "gulp-pug": "^3.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
@@ -85,9 +85,9 @@
     "require-globify": "^1.4.1",
     "run-sequence": "^1.2.2",
     "stylint-stylish": "^1.4.0",
-    "through2": "^2.0.2",
+    "through2": "^2.0.3",
     "vinyl-buffer": "^1.0.0",
-    "yargs": "^6.4.0"
+    "yargs": "^6.5.0"
   },
   "devDependencies": {},
   "bin": {
