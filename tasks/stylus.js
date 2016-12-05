@@ -33,7 +33,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.stylus = {
-        source: ["/styles"],
+        source: ["/" + config.styles],
         dest: "",
         inputExt: "styl",
         outputExt: "{css,css.map,css.gz}",

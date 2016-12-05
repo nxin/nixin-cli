@@ -27,7 +27,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.less = {
-        source: ["/styles"],
+        source: ["/" + config.styles],
         dest: "",
         inputExt: "less",
         outputExt: "{css,css.map,css.gz}",

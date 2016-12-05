@@ -24,7 +24,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.images = {
-        source: ["/images"],
+        source: ["/" + config.images],
         dest: "/images",
         inputExt: {
             jpeg: "{jpg,jpeg}",

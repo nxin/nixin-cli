@@ -11,7 +11,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.fonts = {
-        source: ["/fonts"],
+        source: ["/" + config.fonts],
         dest: "/fonts",
         inputExt: "{ttf,eot,svg,woff,woff2}",
         outputExt: "{ttf,eot,svg,woff,woff2}",
