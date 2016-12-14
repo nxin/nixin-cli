@@ -193,16 +193,21 @@ module.exports = (gulp, config, $) => {
     function addSuffixPath() {
 
         function patterns(fileSuffix) {
+            /// @start !!!
+            /// svg extension bug must be only in one pattern
+            /// replacement override styles image prefix path
+            /// temporary prefix path with config[typePath] doesn't works
             return [
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig,
                     replacement: './images/$2' + fileSuffix + '$3'
                 },
                 {
-                    pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|svg|eot)))/ig,
+                    pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|eot)))/ig,
                     replacement: './fonts/$2' + fileSuffix + '$3'
                 }
             ];
+            /// @end !!!
         }
 
         function transform(file, cb) {
