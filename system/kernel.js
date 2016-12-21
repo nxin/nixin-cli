@@ -96,6 +96,8 @@ module.exports = (gulp, config, $) => {
 
         switch (taskName) {
             case "images":
+            case "fonts":
+            case "sprites":
                 globPath = "{/**/*.,/*.}";
                 break;
             default:
