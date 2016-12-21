@@ -92,10 +92,20 @@ module.exports = (gulp, config, $) => {
     }
 
     function setSourceStack(taskName, inputExt) {
+        let globPath = "";
+
+        switch (taskName) {
+            case "images":
+                globPath = "{/**/*.,/*.}";
+                break;
+            default:
+                globPath = "/*.";
+                break;
+        }
+
         return [
-            config.source + config[taskName].source + "{/sprite--*/*.,/*.}" + inputExt,
-            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + "{/sprite--*/*.,/*.}" + inputExt,
-            // config.source + "{/theme--!(default),/context--!(common),/theme--!(default)/context--!(common)}" + config[taskName].source + "/*." + inputExt
+            config.source + config[taskName].source + globPath + inputExt,
+            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + globPath + inputExt
         ];
     }
 
@@ -134,7 +144,7 @@ module.exports = (gulp, config, $) => {
     }
 
     function cleanSuffixPath(suffix) {
-        return suffix.replace("theme--", "").replace("context--", "");
+        return suffix.replace("theme--", "").replace("context--", "").replace("//", "/");
     }
 
     function setTaskPath(filepath) {
@@ -170,9 +180,15 @@ module.exports = (gulp, config, $) => {
             }
 
             else if (config.tree === "tree") {
+                let pathPrefix = setPathPrefix(filepath);
+                let taskPath = setTaskPath(filepath);
+                let prefixPath = "";
 
-                var prefixPath = setPathPrefix(filepath) + setTaskPath(filepath);
-
+                if (pathPrefix.indexOf(taskPath) !== -1) {
+                    prefixPath = pathPrefix;
+                } else {
+                    prefixPath = pathPrefix + taskPath;
+                }
 
                 if (filename !== undefined) {
                     filepath.basename = prefixPath + $.path.basename(filename);
@@ -187,7 +203,6 @@ module.exports = (gulp, config, $) => {
             filepath.basename = cleanSuffixPath(filepath.basename);
         }
 
-        filepath.basename = filepath.basename.replace("//", "/");
         return filepath;
     }
 
