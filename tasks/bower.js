@@ -55,11 +55,11 @@ module.exports = (gulp, config, kernel, $) => {
             .pipe($.rename({
                 dirname: config.vendor
             }))
-            .pipe(gulp.dest(config.dest))
-            .on('error', kernel.errors)
             .pipe($.size({
                 showFiles: true
-            }));
+            }))
+            .pipe(gulp.dest(config.dest))
+            .on('error', kernel.errors);
     }
 
     // Public
@@ -111,11 +111,11 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.if(process.isProd, $.mirror(
                     $.gzip({append: true})
                 )))
-                .pipe(gulp.dest(config.dest))
-                .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest))
+                .on('error', kernel.errors);
         });
     }
 
@@ -130,11 +130,11 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.if(process.isProd, $.mirror(
                     $.gzip({append: true})
                 )))
-                .pipe(gulp.dest(config.dest))
-                .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest))
+                .on('error', kernel.errors);
         });
     }
 

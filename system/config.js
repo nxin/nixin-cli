@@ -47,7 +47,6 @@ const config = {
             progressive: true
         },
         pngquant: {
-            quality: "65-80",
             speed: 4
         },
         gifsicle: {

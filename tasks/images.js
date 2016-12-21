@@ -47,10 +47,10 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest));
         });
     }
 
@@ -61,10 +61,11 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest));
+
         });
     }
 
@@ -75,10 +76,10 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest));
         });
     }
 
@@ -89,10 +90,10 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest));
         });
     }
 

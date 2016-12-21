@@ -64,10 +64,10 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

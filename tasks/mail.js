@@ -47,10 +47,10 @@ module.exports = (gulp, config, kernel, $) => {
                     removeStyleTags: true,
                     removeLinkTags: true
                 }))
-                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"));
         });
     }
 
@@ -61,10 +61,10 @@ module.exports = (gulp, config, kernel, $) => {
                     var style = $.fs.readFileSync(filename, "utf8");
                     return "<style>\n" + style + "\n</style>";
                 }))
-                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"))
                 .pipe($.size({
                     showFiles: true
-                }));
+                }))
+                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"));
         });
     }
 
@@ -99,10 +99,10 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
-                .pipe(gulp.dest(config.dest + config.mail.paths))
                 .pipe($.size({
                     showFiles: true
                 }))
+                .pipe(gulp.dest(config.dest + config.mail.paths))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

@@ -49,10 +49,10 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.pug(config.pug.opts))
                 .on('error', kernel.errors)
-                .pipe(gulp.dest(config.dest))
                 .pipe($.size({
                     showFiles: true
                 }))
+                .pipe(gulp.dest(config.dest))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));
