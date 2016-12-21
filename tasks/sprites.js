@@ -23,7 +23,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.sprites = {
-        source: "/sprites",
+        source: "/" + config.sprites,
         dest: "",
         inputExt: "{gif,jpg,jpeg,png,svg}",
         outputExt: "css"

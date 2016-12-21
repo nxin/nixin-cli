@@ -17,6 +17,11 @@ process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
 const config = {
     source: "./source",
     dest: "./dist",
+    styles: "styles",
+    scripts: "scripts",
+    images: "images",
+    fonts: "fonts",
+    sprites: "sprites",
     tree: "flatten", // flatten || tree
     app: "app",
     vendor: "vendor",

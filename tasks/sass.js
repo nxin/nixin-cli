@@ -37,9 +37,9 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.sass = {
-        source: ["/styles"],
+        source: ["/" + config.styles],
         dest: "",
-        inputExt: "{sass,scss}",
+        inputExt: "{scss,sass}",
         outputExt: "{css,css.map,css.gz}",
         opts: {
             includePaths: plugins,

@@ -43,7 +43,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.browserify = {
-        source: ["/scripts"],
+        source: ["/" + config.scripts],
         dest: "",
         inputExt: "js",
         outputExt: "{js,js.map,js.gz}",

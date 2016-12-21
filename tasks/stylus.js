@@ -33,7 +33,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.stylus = {
-        source: ["/styles"],
+        source: ["/" + config.styles],
         dest: "",
         inputExt: "styl",
         outputExt: "{css,css.map,css.gz}",
@@ -89,8 +89,8 @@ module.exports = (gulp, config, kernel, $) => {
                 //         process.stdout.write(hr);
                 //     }
                 // })
-                .pipe($.groupMq())
                 .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
+                // .pipe($.groupMq()) //bug cannot read property '2' of null
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
