@@ -187,6 +187,7 @@ module.exports = (gulp, config, $) => {
             filepath.basename = cleanSuffixPath(filepath.basename);
         }
 
+        filepath.basename = filepath.basename.replace("//", "/");
         return filepath;
     }
 
