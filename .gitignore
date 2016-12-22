@@ -6,6 +6,7 @@
 !.editorconfig
 !.stylintrc
 !.npmignore
+yarn.lock
 *.log
 tags
 tags*
