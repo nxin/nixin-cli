@@ -91,7 +91,7 @@ module.exports = (gulp, config, $) => {
         return cleanStack;
     }
 
-    function setSourceStack(taskName, inputExt) {
+    function setSourceStack(taskName, inputExt, middlePath) {
         let globPath = "";
 
         switch (taskName) {

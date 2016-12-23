@@ -7,9 +7,9 @@
 !.stylintrc
 !.npmignore
 *.log
+*.lock
 tags
 tags*
-composer.lock
 /nbproject
 node_modules
 bower_components

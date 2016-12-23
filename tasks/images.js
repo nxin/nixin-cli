@@ -16,7 +16,9 @@ module.exports = (gulp, config, kernel, $) => {
         pngquant: require('imagemin-pngquant'),
         gifsicle: require("imagemin-gifsicle"),
         jpegtran: require("imagemin-jpegtran"),
-        svgo: require("imagemin-svgo")
+        svgo: require("imagemin-svgo"),
+        imageMagick: require("gm"),
+        imageResize: require("gulp-image-resize")
     });
 
     // Config
@@ -97,6 +99,40 @@ module.exports = (gulp, config, kernel, $) => {
         });
     }
 
+    function imagesResize() {
+        let sizes = {
+            "xs": 128,
+            "sm": 256,
+            "md": 512,
+            "lg": 1024,
+            "xl": 2048
+        };
+
+        gulp.task("imagesResize", () => {
+
+            for (let key in sizes) {
+                // skip loop if the property is from prototype
+                if (!sizes.hasOwnProperty(key)) continue;
+
+                let size = sizes[key];
+
+                gulp.src(config.source + "/resizeOrigin/" + key + "/*.{png,jpg,gif}")
+                    .pipe($.imageResize({
+                        width: size,
+                        crop: false,
+                        upscale: true
+                    }))
+                    .pipe($.rename({
+                        suffix: "--" + key
+                    }))
+                    .pipe($.size({
+                        showFiles: true
+                    }))
+                    .pipe(gulp.dest(config.source + "/images/resize--" + key));
+            }
+        });
+    }
+
     function clean() {
         gulp.task("clean:images", () => {
             $.del(kernel.setCleanStack("images"));
@@ -104,12 +140,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function create() {
-        kernel.extendTask("images", ["clean:images"], [
-            "imagesPng",
-            "imagesJpeg",
-            "imagesGif",
-            "imagesSvg"
-        ]);
+        kernel.extendTask("images", ["clean:images", "imagesResize"], ["imagesPng", "imagesJpeg", "imagesGif", "imagesSvg"]);
     }
 
     // API
@@ -121,7 +152,8 @@ module.exports = (gulp, config, kernel, $) => {
         imagesPng: imagesPng(),
         imagesJpeg: imagesJpeg(),
         imagesGif: imagesGif(),
-        imagesSvg: imagesSvg()
+        imagesSvg: imagesSvg(),
+        imagesResize: imagesResize()
     };
 
 };
