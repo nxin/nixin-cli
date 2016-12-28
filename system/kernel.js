@@ -72,7 +72,7 @@ module.exports = (gulp, config, $) => {
         }
 
         if (config.tree === "flatten") {
-            cleanStack.push(config.dest + taskPath + filename + "*." + config[taskName].outputExt)
+            cleanStack.push(config.destPublicDir + config.dest + taskPath + filename + "*." + config[taskName].outputExt)
         }
 
         if (config.tree === "tree") {
@@ -85,7 +85,7 @@ module.exports = (gulp, config, $) => {
                 }
             }
 
-            cleanStack.push(config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt)
+            cleanStack.push(config.destPublicDir + config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt)
         }
 
         return cleanStack;

@@ -56,7 +56,7 @@ module.exports = (gulp, config, kernel, $) => {
             .pipe($.rename({
                 dirname: config.vendor
             }))
-            .pipe(gulp.dest(config.dest))
+            .pipe(gulp.dest(config.destPublicDir + config.dest))
             .on('error', kernel.errors)
             .pipe($.size({
                 showFiles: true
@@ -74,25 +74,25 @@ module.exports = (gulp, config, kernel, $) => {
     //
     function cleanStyles() {
         gulp.task("clean:bower.styles", () => {
-            $.del(config.dest + "/" + config.vendor + "*.{css,css.gz,css.map}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "*.{css,css.gz,css.map}");
         });
     }
 
     function cleanScripts() {
         gulp.task("clean:bower.scripts", () => {
-            $.del(config.dest + "/" + config.vendor + "*.{js,js.gz,js.map}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "*.{js,js.gz,js.map}");
         });
     }
 
     function cleanImages() {
         gulp.task("clean:bower.images", () => {
-            $.del(config.dest + "/" + config.vendor + "/*.{jpeg,jpg,gif,png,svg}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "/*.{jpeg,jpg,gif,png,svg}");
         });
     }
 
     function cleanFonts() {
         gulp.task("clean:bower.fonts", () => {
-            $.del(config.dest + "/" + config.vendor + "/*.{woff2,woff,ttf,svg,eot}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "/*.{woff2,woff,ttf,svg,eot}");
         });
     }
 
@@ -100,7 +100,7 @@ module.exports = (gulp, config, kernel, $) => {
     //     gulp.task("install:bower2", ["clean:bower2.install"], $.shell.task("bower-installer" + getEnv()));
     // }
 
-    function install(){
+    function install() {
         gulp.task('vendor:desktop', function () {
             return gulp.src($.mainBowerFiles({
                 paths: '',
@@ -123,17 +123,17 @@ module.exports = (gulp, config, kernel, $) => {
                 checkExistence: true,
                 debugging: true
             }))
-            .on('data', function (chunk) {
-                var contents = chunk.contents.toString().trim();
-                var bufLength = process.stdout.columns;
-                var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
-                if (contents.length > 1) {
-                    process.stdout.write('\n');
-                    process.stdout.write(chunk.path);
-                    // process.stdout.write(contents);
-                    process.stdout.write(hr);
-                }
-            })
+                .on('data', function (chunk) {
+                    var contents = chunk.contents.toString().trim();
+                    var bufLength = process.stdout.columns;
+                    var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
+                    if (contents.length > 1) {
+                        process.stdout.write('\n');
+                        process.stdout.write(chunk.path);
+                        // process.stdout.write(contents);
+                        process.stdout.write(hr);
+                    }
+                })
                 .pipe($.rename({
                     dirname: "mobile"
                 }))
@@ -144,19 +144,19 @@ module.exports = (gulp, config, kernel, $) => {
     function createStyles() {
         gulp.task("create:bower.styles", ["clean:bower.styles"], () => {
             return gulp.src(config.bower.styles)
-                // .on('data', function (chunk) {
-                //     var contents = chunk.contents.toString().trim();
-                //     var bufLength = process.stdout.columns;
-                //     var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
-                //     if (contents.length > 1) {
-                //         process.stdout.write('\n');
-                //         process.stdout.write(chunk.path);
-                //         process.stdout.write(contents);
-                //         process.stdout.write(hr);
-                //     }
-                // })
-                // .pipe($.order(config.bower.order))
-                // .pipe($.if(!process.isProd, $.sourcemaps.init()))
+            // .on('data', function (chunk) {
+            //     var contents = chunk.contents.toString().trim();
+            //     var bufLength = process.stdout.columns;
+            //     var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
+            //     if (contents.length > 1) {
+            //         process.stdout.write('\n');
+            //         process.stdout.write(chunk.path);
+            //         process.stdout.write(contents);
+            //         process.stdout.write(hr);
+            //     }
+            // })
+            // .pipe($.order(config.bower.order))
+            // .pipe($.if(!process.isProd, $.sourcemaps.init()))
                 .pipe($.concat(config.vendor + ".css"))
                 .pipe($.replace(/[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig, './vendor$1'))
                 // .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
@@ -164,7 +164,7 @@ module.exports = (gulp, config, kernel, $) => {
                 // .pipe($.if(process.isProd, $.mirror(
                 //     $.gzip({append: true})
                 // )))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true
@@ -175,15 +175,15 @@ module.exports = (gulp, config, kernel, $) => {
     function createScripts() {
         gulp.task("create:bower.scripts", ["clean:bower.scripts"], function () {
             return gulp.src(config.bower.scripts)
-                // .pipe($.order(config.bower.order))
-                // .pipe($.if(!process.isProd, $.sourcemaps.init()))
+            // .pipe($.order(config.bower.order))
+            // .pipe($.if(!process.isProd, $.sourcemaps.init()))
                 .pipe($.concat(config.vendor + ".js"))
                 // .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 // .pipe($.if(process.isProd, $.uglify(config.bower.uglify)))
                 // .pipe($.if(process.isProd, $.mirror(
                 //     $.gzip({append: true})
                 // )))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true

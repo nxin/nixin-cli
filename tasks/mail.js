@@ -34,7 +34,7 @@ module.exports = (gulp, config, kernel, $) => {
         gulp.task("inline:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
                 .pipe($.inject(
-                    gulp.src(config.dest + "/mail.css", {
+                    gulp.src(config.destPublicDir + config.dest + "/mail.css", {
                         read: false
                     }), {
                         relative: true,
@@ -50,7 +50,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"));
+                .pipe(gulp.dest(config.destPublicDir + config.dest + config.mail.paths + "/markup"));
         });
     }
 
@@ -64,7 +64,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest + config.mail.paths + "/markup"));
+                .pipe(gulp.dest(config.destPublicDir + config.dest + config.mail.paths + "/markup"));
         });
     }
 
@@ -85,7 +85,7 @@ module.exports = (gulp, config, kernel, $) => {
     function createStyles() {
         gulp.task("create:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/styles/*.styl")
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
@@ -102,7 +102,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest + config.mail.paths))
+                .pipe(gulp.dest(config.destPublicDir + config.dest + config.mail.paths))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

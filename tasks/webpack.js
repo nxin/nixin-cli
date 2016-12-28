@@ -52,7 +52,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.jshint.reporter($.jshintStylish))
                 .pipe($.plumber())
                 .pipe($.webpackStream(config.webpack.opts, $.webpack))
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: '.js'
                 }))
                 .pipe($.buffer())
@@ -63,7 +63,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.uglify(config.webpack.uglify)))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.size({
                     showFiles: true
                 }))

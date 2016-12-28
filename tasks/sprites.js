@@ -35,7 +35,7 @@ module.exports = (gulp, config, kernel, $) => {
     function clean() {
         gulp.task("clean:sprites", () => {
             $.del(kernel.setCleanStack("sprites"));
-            $.del(config.dest + "/images/sprite--*");
+            $.del(config.destPublicDir + config.dest + "/images/sprite--*");
         });
     }
 
@@ -78,7 +78,7 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 // .pipe(kernel.addSuffixPath())
                 .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));

@@ -35,7 +35,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:pug", () => {
-            $.del(config.dest + "/markup/**/*.html", {
+            $.del(config.destPublicDir + config.dest + "/markup/**/*.html", {
                 force: true
             });
         });
@@ -44,7 +44,7 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("pug", ["clean:pug"], () => {
             return gulp.src(config.source + config.pug.paths)
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: '.html'
                 }))
                 .pipe($.pug(config.pug.opts))
@@ -52,7 +52,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

@@ -16,7 +16,8 @@ process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
 // @config {paths}
 const config = {
     source: "./source",
-    dest: "./dist",
+    destPublicDir: "./public",
+    dest: "/dist",
     styles: "styles",
     scripts: "scripts",
     images: "images",

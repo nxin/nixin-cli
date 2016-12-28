@@ -11,7 +11,7 @@ module.exports = (gulp, config, kernel, $, _) => {
 
     function clean() {
         gulp.task("clean:build", () => {
-            $.del(config.dest, {force: "true"});
+            $.del(config.destPublicDir + config.dest, {force: "true"});
         });
     }
 

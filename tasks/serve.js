@@ -26,7 +26,7 @@ module.exports = (gulp, config, kernel, $) => {
             gulp.watch(config.source + config.serve.stylus, ["stylus"]);
             gulp.watch(config.source + config.serve.sass, ["sass"]);
             gulp.watch(config.source + config.serve.browserify, ["browserify"]);
-            // gulp.watch(config.dest + config.serve.pug, $.browserSync.reload);
+            // gulp.watch(config.destPublicDir + config.dest + config.serve.pug, $.browserSync.reload);
         });
     }
 

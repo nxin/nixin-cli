@@ -68,7 +68,7 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.stylint.reporter())
                 .pipe($.plumber())
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: ".css"
                 }))
                 .pipe($.buffer())
@@ -97,7 +97,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.browserSync.reload({
                     stream: true
                 }));

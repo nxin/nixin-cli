@@ -52,7 +52,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest));
+                .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
     }
 
@@ -66,7 +66,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest));
+                .pipe(gulp.dest(config.destPublicDir + config.dest));
 
         });
     }
@@ -81,7 +81,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest));
+                .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
     }
 
@@ -95,7 +95,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest));
+                .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
     }
 

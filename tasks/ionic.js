@@ -38,7 +38,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.size({
                     showFiles: true
                 }));

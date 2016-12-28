@@ -47,7 +47,7 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("less", ["clean:less"], () => {
             return gulp.src(kernel.setSourceStack("less", config.stylus.inputExt))
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
@@ -67,7 +67,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

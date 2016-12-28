@@ -78,7 +78,7 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe($.sassLint.format())
                 .pipe($.plumber())
-                .pipe($.cached(config.dest, {
+                .pipe($.cached(config.destPublicDir + config.dest, {
                     extension: '.css'
                 }))
                 .pipe($.buffer())
@@ -93,13 +93,13 @@ module.exports = (gulp, config, kernel, $) => {
                     includeContent: false, // !! outer files sourcemaps broken if true
                     addComment: true
                 })))
-                .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
+                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
                 .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.if(process.isProd, $.browserSync.reload({
                     stream: true
                 })));

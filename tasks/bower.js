@@ -58,7 +58,7 @@ module.exports = (gulp, config, kernel, $) => {
             .pipe($.size({
                 showFiles: true
             }))
-            .pipe(gulp.dest(config.dest))
+            .pipe(gulp.dest(config.destPublicDir + config.dest))
             .on('error', kernel.errors);
     }
 
@@ -73,25 +73,25 @@ module.exports = (gulp, config, kernel, $) => {
 
     function cleanStyles() {
         gulp.task("clean:bower.styles", () => {
-            $.del(config.dest + "/" + config.vendor + "*.{css,css.gz,css.map}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "*.{css,css.gz,css.map}");
         });
     }
 
     function cleanScripts() {
         gulp.task("clean:bower.scripts", () => {
-            $.del(config.dest + "/" + config.vendor + "*.{js,js.gz,js.map}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "*.{js,js.gz,js.map}");
         });
     }
 
     function cleanImages() {
         gulp.task("clean:bower.images", () => {
-            $.del(config.dest + "/" + config.vendor + "/*.{jpeg,jpg,gif,png,svg}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "/*.{jpeg,jpg,gif,png,svg}");
         });
     }
 
     function cleanFonts() {
         gulp.task("clean:bower.fonts", () => {
-            $.del(config.dest + "/" + config.vendor + "/*.{woff2,woff,ttf,svg,eot}");
+            $.del(config.destPublicDir + config.dest + "/" + config.vendor + "/*.{woff2,woff,ttf,svg,eot}");
         });
     }
 
@@ -115,7 +115,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .on('error', kernel.errors);
         });
     }
@@ -134,7 +134,7 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .on('error', kernel.errors);
         });
     }
