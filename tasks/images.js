@@ -16,7 +16,9 @@ module.exports = (gulp, config, kernel, $) => {
         pngquant: require('imagemin-pngquant'),
         gifsicle: require("imagemin-gifsicle"),
         jpegtran: require("imagemin-jpegtran"),
-        svgo: require("imagemin-svgo")
+        svgo: require("imagemin-svgo"),
+        imageMagick: require("gm"),
+        imageResize: require("gulp-image-resize")
     });
 
     // Config
@@ -41,7 +43,7 @@ module.exports = (gulp, config, kernel, $) => {
     // ---------------------------------------------------------
 
     function imagesJpeg() {
-        gulp.task("imagesJpeg", () => {
+        gulp.task("create:images.jpeg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.jpeg))
                 .pipe($.imagemin($.jpegtran(config.imagemin.jpegtran)))
                 .pipe($.rename((filepath) => {
@@ -55,7 +57,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function imagesPng() {
-        gulp.task("imagesPng", () => {
+        gulp.task("create:images.png", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.png))
                 .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
                 .pipe($.rename((filepath) => {
@@ -70,7 +72,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function imagesGif() {
-        gulp.task("imagesGif", () => {
+        gulp.task("create:images.gif", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.gif))
                 .pipe($.imagemin($.gifsicle(config.imagemin.gifsicle)))
                 .pipe($.rename((filepath) => {
@@ -84,7 +86,7 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function imagesSvg() {
-        gulp.task("imagesSvg", () => {
+        gulp.task("create:images.svg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.svg))
                 .pipe($.imagemin($.svgo(config.imagemin.svgo)))
                 .pipe($.rename((filepath) => {
@@ -97,6 +99,40 @@ module.exports = (gulp, config, kernel, $) => {
         });
     }
 
+    function imagesResize() {
+        let sizes = {
+            "xs": 128,
+            "sm": 256,
+            "md": 512,
+            "lg": 1024,
+            "xl": 2048
+        };
+
+        gulp.task("create:images.resize", () => {
+
+            for (let key in sizes) {
+                // skip loop if the property is from prototype
+                if (!sizes.hasOwnProperty(key)) continue;
+
+                let size = sizes[key];
+
+                gulp.src(config.source + "/resizeOrigin/" + key + "/*.{png,jpg,gif}")
+                    .pipe($.imageResize({
+                        width: size,
+                        crop: false,
+                        upscale: true
+                    }))
+                    .pipe($.rename({
+                        suffix: "--" + key
+                    }))
+                    .pipe($.size({
+                        showFiles: true
+                    }))
+                    .pipe(gulp.dest(config.source + "/images/resize--" + key));
+            }
+        });
+    }
+
     function clean() {
         gulp.task("clean:images", () => {
             $.del(kernel.setCleanStack("images"));
@@ -104,12 +140,9 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function create() {
-        kernel.extendTask("images", ["clean:images"], [
-            "imagesPng",
-            "imagesJpeg",
-            "imagesGif",
-            "imagesSvg"
-        ]);
+        imagesResize((() => {
+            kernel.extendTask("images", ["clean:images"], ["create:images.png", "create:images.jpeg", "create:images.gif", "create:images.svg"]);
+        })());
     }
 
     // API
@@ -121,7 +154,8 @@ module.exports = (gulp, config, kernel, $) => {
         imagesPng: imagesPng(),
         imagesJpeg: imagesJpeg(),
         imagesGif: imagesGif(),
-        imagesSvg: imagesSvg()
+        imagesSvg: imagesSvg(),
+        imagesResize: imagesResize()
     };
 
 };
