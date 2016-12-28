@@ -105,7 +105,8 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.order(config.bower.order))
                 .pipe($.if(!process.isProd, $.sourcemaps.init()))
                 .pipe($.concat(config.vendor + ".css"))
-                .pipe($.replace(/[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig, './vendor$1'))
+                // .pipe($.replace(/[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig, './vendor$1'))
+                .pipe(kernel.addSuffixPath("vendor"))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano(config.bower.cssnano)))
                 .pipe($.if(process.isProd, $.mirror(

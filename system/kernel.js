@@ -208,9 +208,18 @@ module.exports = (gulp, config, $) => {
         return filepath;
     }
 
-    function addSuffixPath() {
+    function addSuffixPath(isVendor = null) {
 
         function patterns(fileSuffix) {
+
+            // set vendor path
+            if (isVendor === "vendor") {
+                return [{
+                    pattern: /[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig,
+                    replacement: config.dest + '/vendor$1'
+                }]
+            }
+
             /// @start !!!
             /// svg extension bug must be only in one pattern
             /// replacement override styles image prefix path
@@ -218,11 +227,11 @@ module.exports = (gulp, config, $) => {
             return [
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig,
-                    replacement: './images/$2' + fileSuffix + '$3'
+                    replacement: config.dest + '/images/$2' + fileSuffix + '$3'
                 },
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|eot)))/ig,
-                    replacement: './fonts/$2' + fileSuffix + '$3'
+                    replacement: config.dest + '/fonts/$2' + fileSuffix + '$3'
                 }
             ];
             /// @end !!!
@@ -244,7 +253,7 @@ module.exports = (gulp, config, $) => {
 
             fileSuffix = cleanSuffixPath(fileSuffix);
 
-            if (config.tree === "tree") {
+            if (config.tree === "tree" || isVendor === "vendor") {
                 fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(fileSuffix));
             }
 
