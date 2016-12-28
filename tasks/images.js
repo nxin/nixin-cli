@@ -109,14 +109,13 @@ module.exports = (gulp, config, kernel, $) => {
         };
 
         gulp.task("create:images.resize", () => {
-
             for (let key in sizes) {
                 // skip loop if the property is from prototype
                 if (!sizes.hasOwnProperty(key)) continue;
 
                 let size = sizes[key];
 
-                gulp.src(config.source + "/resizeOrigin/" + key + "/*.{png,jpg,gif}")
+                gulp.src(config.source + "/resizeOrigin/" + "**/*.{png,jpg,gif}")
                     .pipe($.imageResize({
                         width: size,
                         crop: false,
@@ -128,7 +127,7 @@ module.exports = (gulp, config, kernel, $) => {
                     .pipe($.size({
                         showFiles: true
                     }))
-                    .pipe(gulp.dest(config.source + "/images/resize--" + key));
+                    .pipe(gulp.dest(config.source + "/images/resized"));
             }
         });
     }
@@ -140,9 +139,9 @@ module.exports = (gulp, config, kernel, $) => {
     }
 
     function create() {
-        imagesResize((() => {
+        // imagesResize((() => {
             kernel.extendTask("images", ["clean:images"], ["create:images.png", "create:images.jpeg", "create:images.gif", "create:images.svg"]);
-        })());
+        // })());
     }
 
     // API
