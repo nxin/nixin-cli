@@ -244,7 +244,10 @@ module.exports = (gulp, config, $) => {
 
             fileSuffix = cleanSuffixPath(fileSuffix);
 
-            fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(fileSuffix));
+            if (config.tree === "tree") {
+                fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(fileSuffix));
+            }
+
             file.contents = new Buffer(fileContentTrimmed);
 
             // if there was some error, just pass as the first parameter here
