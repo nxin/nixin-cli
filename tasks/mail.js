@@ -58,7 +58,7 @@ module.exports = (gulp, config, kernel, $) => {
         gulp.task("convert:mail.styles", () => {
             return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
                 .pipe($.replace(/<link.*?href="(.+?\.css)"[^>]*>/g, function(s, filename) {
-                    var style = $.fs.readFileSync(filename, "utf8");
+                    let style = $.fs.readFileSync(filename, "utf8");
                     return "<style>\n" + style + "\n</style>";
                 }))
                 .pipe($.size({

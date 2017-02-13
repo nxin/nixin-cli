@@ -43,8 +43,8 @@ module.exports = (gulp, config, kernel, $) => {
 
     // create vendor assets bundle
     function createVendor(source, files) {
-        var vendor = [];
-        for (var i = 0; i < source.length; i++) {
+        let vendor = [];
+        for (let i = 0; i < source.length; i++) {
             vendor.push(config.source + "/" + config.vendor + "/" + source[i] + files);
         }
         return vendor;
@@ -124,9 +124,9 @@ module.exports = (gulp, config, kernel, $) => {
                 debugging: true
             }))
                 .on('data', function (chunk) {
-                    var contents = chunk.contents.toString().trim();
-                    var bufLength = process.stdout.columns;
-                    var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
+                    let contents = chunk.contents.toString().trim();
+                    let bufLength = process.stdout.columns;
+                    let hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
                     if (contents.length > 1) {
                         process.stdout.write('\n');
                         process.stdout.write(chunk.path);

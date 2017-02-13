@@ -29,7 +29,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // merging project plugins with default module plugins
     // and assign to use option
-    var plugins = [].concat(config.plugins.stylus);
+    let plugins = [].concat(config.plugins.stylus);
 
     // extending default config with project config
     Object.assign(config.stylus = {

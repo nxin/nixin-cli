@@ -2,7 +2,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function create() {
         gulp.task("init", () => {
-            var pkg = require('package.json');
+            let pkg = require('package.json');
 
             // return kernel.getSources("version", pkg.version)
             //     .on("data", (file) => {

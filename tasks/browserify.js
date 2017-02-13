@@ -33,7 +33,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // merging project plugins with default module plugins
     // and assign to use option
-    var plugins = [
+    let plugins = [
         $.globify,
         // $.deamdify,
         // $.babelify.configure({
@@ -63,10 +63,10 @@ module.exports = (gulp, config, kernel, $) => {
 
     function create() {
         gulp.task('browserify', ["clean:browserify"], (cb) => {
-            var browserified = () => {
+            let browserified = () => {
                 return $.through.obj(function (chunk, enc, callback) {
                     if (chunk.isBuffer()) {
-                        var b = $.browserify({
+                        let b = $.browserify({
                             entries: chunk.path,
                             transform: config.browserify.transform,
                             debug: config.browserify.debug

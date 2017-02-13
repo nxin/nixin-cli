@@ -21,7 +21,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // merging project plugins with default module plugins
     // and assign to use option
-    var plugins = [
+    let plugins = [
 
     ].concat(config.plugins.webpack);
 

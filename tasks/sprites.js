@@ -41,7 +41,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function create() {
 
-        var opts = {
+        let opts = {
             // spritesmith: function (options, sprite, icons){
             //     if (sprite.indexOf('sprite--') !== -1) {
             //         // options.cssTemplate = themeTemplate
