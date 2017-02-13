@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-var $ = require("./lib");
+let $ = require("./lib");
 
 // --- Config ------------------------------------------------------------
 

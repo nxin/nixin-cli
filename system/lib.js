@@ -4,7 +4,7 @@
 
 /*jshint esversion: 6 */
 
-var gulp = require("gulp");
+let gulp = require("gulp");
 
 $ = {
     fs: require("fs"),

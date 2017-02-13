@@ -7,7 +7,7 @@
 module.exports = (gulp, config, $) => {
 
     function getSources(filename, string) {
-        var src = $.stream.Readable({objectMode: true});
+        let src = $.stream.Readable({objectMode: true});
 
         src._read = function () {
             this.push(new $.gutil.File({
@@ -55,8 +55,8 @@ module.exports = (gulp, config, $) => {
 
     function setCleanStack(taskName, filename = "") {
 
-        var cleanStack = [];
-        var taskPath = "/";
+        let cleanStack = [];
+        let taskPath = "/";
 
         switch (taskName) {
             case "images":
@@ -113,8 +113,8 @@ module.exports = (gulp, config, $) => {
 
     function setPathSuffix(filepath) {
 
-        var dir = filepath.dirname.split("/");
-        var path = "";
+        let dir = filepath.dirname.split("/");
+        let path = "";
 
         if (dir[1] !== undefined) {
             if (dir.length === 2) {
@@ -130,8 +130,8 @@ module.exports = (gulp, config, $) => {
 
     function setPathPrefix(filepath) {
 
-        var dir = filepath.dirname.split("/");
-        var path = "";
+        let dir = filepath.dirname.split("/");
+        let path = "";
 
         if (dir[1] !== undefined) {
             if (dir.length === 2) {
@@ -151,7 +151,7 @@ module.exports = (gulp, config, $) => {
 
     function setTaskPath(filepath) {
 
-        var taskPath = "";
+        let taskPath = "";
 
         if (config.images.regExt.test(filepath.extname) === true) {
             taskPath = config.images.dest + "/";
@@ -167,10 +167,9 @@ module.exports = (gulp, config, $) => {
     function rewritePath(filepath, filename) {
 
         if (typeof filepath.basename !== "function") {
-
             if (config.tree === "flatten") {
 
-                var suffixPath = setPathSuffix(filepath);
+                let suffixPath = setPathSuffix(filepath);
 
                 if (filename !== undefined) {
                     filepath.basename = setTaskPath(filepath) + $.path.basename(filename) + suffixPath;
@@ -239,10 +238,10 @@ module.exports = (gulp, config, $) => {
 
         function transform(file, cb) {
 
-            var fileContentTrimmed = String(file.contents).trim();
+            let fileContentTrimmed = String(file.contents).trim();
 
-            // var fileSuffix = file.path.split(config.app)[1].split(".css")[0];
-            var fileSuffix = "";
+            // let fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+            let fileSuffix = "";
 
             if (file.path.indexOf("sprite--") !== -1) {
                 fileSuffix = file.path.split("sprite--")[1].split(".png")[0];
