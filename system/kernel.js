@@ -215,7 +215,7 @@ module.exports = (gulp, config, $) => {
             if (isVendor === "vendor") {
                 return [{
                     pattern: /[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig,
-                    replacement: config.dest + '/vendor$1'
+                    replacement: './vendor$1'
                 }]
             }
 
@@ -226,11 +226,11 @@ module.exports = (gulp, config, $) => {
             return [
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(jpeg|jpg|gif|png|svg)))/ig,
-                    replacement: config.dest + '/images/$2' + fileSuffix + '$3'
+                    replacement: './images/$2' + fileSuffix + '$3'
                 },
                 {
                     pattern: /[^'"()]*(\/([\w-]*)(\.(woff2|woff|ttf|eot)))/ig,
-                    replacement: config.dest + '/fonts/$2' + fileSuffix + '$3'
+                    replacement: './fonts/$2' + fileSuffix + '$3'
                 }
             ];
             /// @end !!!
