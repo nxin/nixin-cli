@@ -142,14 +142,12 @@ module.exports = (gulp, config, kernel, $) => {
     function createFonts() {
         gulp.task('create:bower.fonts', ['clean:bower.fonts'], () => {
             createSrc('*', '/*.{ttf,eot,svg,woff,woff2}');
-            // createSrc(config.bower.assets, '/*.{gif,png,jpg,jpeg,cur,svg}');
         });
     }
 
     function createImages() {
         gulp.task('create:bower.images', ['clean:bower.images'], () => {
             createSrc('*', '/*.{gif,png,jpg,jpeg,cur,svg}');
-            // createSrc(config.bower.assets, '/*.{gif,png,jpg,jpeg,cur,svg}');
         });
     }
 
