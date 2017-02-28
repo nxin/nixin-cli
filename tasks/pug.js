@@ -10,16 +10,7 @@ import cached from 'gulp-cached';
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    // extending module dependencies with project dependencies
-    // using $ as alias
-    Object.assign($, {
-        pug: pug,
-        jadeGlobbing: jadeGlobbing,
-        cached: cached
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
@@ -39,7 +30,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:pug", () => {
-            $.del(config.destPublicDir + config.dest + "/markup/**/*.html", {
+            $.del(`${config.destPublicDir}${config.dest}/markup/**/*.html`, {
                 force: true
             });
         });
@@ -48,10 +39,10 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("pug", ["clean:pug"], () => {
             return gulp.src(config.source + config.pug.paths)
-                .pipe($.cached(config.destPublicDir + config.dest, {
+                .pipe(cached(config.destPublicDir + config.dest, {
                     extension: '.html'
                 }))
-                .pipe($.pug(config.pug.opts))
+                .pipe(pug(config.pug.opts))
                 .on('error', kernel.errors)
                 .pipe($.size({
                     showFiles: true

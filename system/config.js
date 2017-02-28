@@ -9,20 +9,20 @@ module.exports = (settings, $) => {
 
     // set production flag
     // --prod || -p \\ --env=prod
-    process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === "prod" || false;
+    process.isProd = $.argv.prod || $.argv.p || $.gutil.env.env === 'prod' || false;
 
     let config = {
-        source: "./source",
-        destPublicDir: "./public",
-        dest: "/dist",
-        styles: "styles",
-        scripts: "scripts",
-        images: "images",
-        fonts: "fonts",
-        sprites: "sprites",
-        tree: "flatten", // flatten || tree
-        app: "app",
-        vendor: "vendor",
+        source: './source',
+        destPublicDir: './public',
+        dest: '/dist',
+        styles: 'styles',
+        scripts: 'scripts',
+        images: 'images',
+        fonts: 'fonts',
+        sprites: 'sprites',
+        tree: 'flatten', // flatten || tree
+        app: 'app',
+        vendor: 'vendor',
         sourcemaps: {
             includeContent: true,
             addComment: true
@@ -55,7 +55,7 @@ module.exports = (settings, $) => {
             }
         },
         autoprefixer: {
-            browsers: ["> 0%"],
+            browsers: ['> 0%'],
             cascade: false,
             add: true
         },
@@ -64,9 +64,9 @@ module.exports = (settings, $) => {
             order: []
         },
         serve: {
-            host: "local.dev",
-            proxy: "local.dev/",
-            port: "9001"
+            host: 'localhost',
+            proxy: 'localhost',
+            port: '9001'
         }
     };
 

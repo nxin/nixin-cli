@@ -11,17 +11,7 @@ import buffer from 'vinyl-buffer';
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    // extending module dependencies with project dependencies
-    // using $ as alias
-    Object.assign($, {
-        imagemin: imagemin,
-        pngquant: pngquant,
-        spritesmith: spritesmith,
-        buffer: buffer
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
@@ -40,7 +30,7 @@ module.exports = (gulp, config, kernel, $) => {
     function clean() {
         gulp.task("clean:sprites", () => {
             $.del(kernel.setCleanStack("sprites"));
-            $.del(config.destPublicDir + config.dest + "/images/sprite--*");
+            $.del(`${config.destPublicDir}${config.dest}/images/sprite--*`);
         });
     }
 
@@ -76,13 +66,13 @@ module.exports = (gulp, config, kernel, $) => {
 
         gulp.task("sprites", () => {
             return gulp.src(kernel.setSourceStack("sprites", config.sprites.inputExt))
-                .pipe($.spritesmith(opts))
-                .pipe($.buffer())
+                .pipe(spritesmith(opts))
+                .pipe(buffer())
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
                 // .pipe(kernel.addSuffixPath())
-                .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
+                .pipe(imagemin(pngquant(config.imagemin.pngquant)))
                 .pipe(gulp.dest(config.destPublicDir + config.dest))
                 .pipe($.size({
                     showFiles: true

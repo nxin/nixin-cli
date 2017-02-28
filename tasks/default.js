@@ -8,6 +8,8 @@ import taskListing from 'gulp-task-listing';
 
 module.exports = (gulp, config, kernel, $) => {
 
+    'use strict';
+
     function brand() {
         console.log($.colors.green(" "));
         console.log($.colors.green(" __ _  _   __ __ __ _"));

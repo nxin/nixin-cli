@@ -5,6 +5,8 @@
 
 module.exports = (gulp, config, kernel, $) => {
 
+    'use strict';
+
     function create() {
         gulp.task("init", () => {
             let pkg = require('package.json');

@@ -14,7 +14,7 @@ import kernel from './system/kernel';
 
 module.exports = (gulp, settings) => {
 
-    "use strict";
+    'use strict';
 
     class Tasks {
         constructor(config, dependencies, kernel) {
@@ -25,7 +25,7 @@ module.exports = (gulp, settings) => {
 
         import(tasks) {
             tasks.forEach((task) => {
-                return require("./tasks/" + task)(gulp, this.config, this.kernel, this.$);
+                return require(`./tasks/${task}`)(gulp, this.config, this.kernel, this.$);
             });
         }
 

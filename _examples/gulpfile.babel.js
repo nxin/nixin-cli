@@ -58,7 +58,8 @@ Test.import([
     "browserify",
     "serve",
     "build",
-    "sprites"
+    "sprites",
+    "webpack"
 ]);
 
 

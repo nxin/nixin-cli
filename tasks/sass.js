@@ -13,29 +13,13 @@ import mirror from 'gulp-mirror';
 import cssnano from 'gulp-cssnano';
 import sassLint from 'gulp-sass-lint';
 import postcss from 'gulp-postcss';
+import gradientfixer from 'postcss-gradientfixer';
 import mergeMq from 'gulp-merge-media-queries';
 
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    // extending module dependencies with project dependencies
-    // using $ as alias
-    Object.assign($, {
-        sass: sass,
-        autoprefixer: autoprefixer,
-        sourcemaps: sourcemaps,
-        sassGlobbing: sassGlobbing,
-        cached: cached,
-        buffer: buffer,
-        mirror: mirror,
-        cssnano: cssnano,
-        sassLint: sassLint,
-        postcss: postcss,
-        mergeMq: mergeMq
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
@@ -50,7 +34,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     // extending default config with project config
     Object.assign(config.sass = {
-        source: ["/" + config.styles],
+        source: [`/${config.styles}`],
         dest: "",
         inputExt: "{scss,sass}",
         outputExt: "{css,css.map,css.gz}",
@@ -77,7 +61,7 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("sass", ["clean:sass"], (cb) => {
             return gulp.src(kernel.setSourceStack("sass", config.sass.inputExt))
-                .pipe($.sassLint({
+                .pipe(sassLint({
                     options: {
                         'formatter': 'stylish',
                         'merge-default-rules': false
@@ -89,27 +73,27 @@ module.exports = (gulp, config, kernel, $) => {
                     },
                     config: '.sass-lint.yml'
                 }))
-                .pipe($.sassLint.format())
+                .pipe(sassLint.format())
                 .pipe($.plumber())
-                .pipe($.cached(config.destPublicDir + config.dest, {
+                .pipe(cached(config.destPublicDir + config.dest, {
                     extension: '.css'
                 }))
-                .pipe($.buffer())
-                .pipe($.if(!process.isProd, $.sourcemaps.init()))
-                .pipe($.sassGlobbing())
-                .pipe($.sass(config.sass.opts))
+                .pipe(buffer())
+                .pipe($.if(!process.isProd, sourcemaps.init()))
+                .pipe(sassGlobbing())
+                .pipe(sass(config.sass.opts))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
-                .pipe($.mergeMq({ log: true }))
-                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
-                .pipe($.if(!process.isProd, $.sourcemaps.write({
+                .pipe(mergeMq({ log: true }))
+                .pipe(postcss([ autoprefixer(config.autoprefixer), gradientfixer() ]))
+                .pipe($.if(!process.isProd, sourcemaps.write({
                     includeContent: false, // !! outer files sourcemaps broken if true
                     addComment: true
                 })))
-                .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
-                .pipe($.if(process.isProd, $.mirror($.gzip())))
+                .pipe($.if(process.isProd, cssnano(config.sass.cssnano)))
+                .pipe($.if(process.isProd, mirror(gzip())))
                 .pipe($.size({
                     showFiles: true
                 }))

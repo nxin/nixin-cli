@@ -4,6 +4,7 @@
 
 import less from 'gulp-less';
 import autoprefixer from 'autoprefixer';
+import gradientfixer from 'postcss-gradientfixer';
 import sourcemaps from 'gulp-sourcemaps';
 import cssGlobbing from 'gulp-css-globbing';
 import cached from 'gulp-cached';
@@ -16,30 +17,14 @@ import postcss from 'postcss';
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    // extending module dependencies with project dependencies
-    // using $ as alias
-    Object.assign($, {
-        less: less,
-        autoprefixer: autoprefixer,
-        sourcemaps: sourcemaps,
-        cssGlobbing: cssGlobbing,
-        cached: cached,
-        buffer: buffer,
-        mirror: mirror,
-        cssnano: cssnano,
-        mergeMq: mergeMq,
-        postcss: postcss
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
 
     // extending default config with project config
     Object.assign(config.less = {
-        source: ["/" + config.styles],
+        source: [`/${config.styles}`],
         dest: "",
         inputExt: "less",
         outputExt: "{css,css.map,css.gz}",
@@ -59,25 +44,25 @@ module.exports = (gulp, config, kernel, $) => {
     function create() {
         gulp.task("less", ["clean:less"], () => {
             return gulp.src(kernel.setSourceStack("less", config.stylus.inputExt))
-                .pipe($.cached(config.destPublicDir + config.dest, {
+                .pipe(cached(config.destPublicDir + config.dest, {
                     extension: '.css'
                 }))
-                .pipe($.buffer())
-                .pipe($.if(!process.isProd, $.sourcemaps.init({loadMaps: true})))
-                .pipe($.cssGlobbing({
+                .pipe(buffer())
+                .pipe($.if(!process.isProd, sourcemaps.init({loadMaps: true})))
+                .pipe(cssGlobbing({
                     extensions: ['.less']
                 }))
-                .pipe($.less())
-                .pipe($.autoprefixer(config.autoprefixer))
+                .pipe(less())
+                .pipe(autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
-                .pipe($.mergeMq({ log: true }))
-                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
-                .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.cssnano()))
-                .pipe($.if(process.isProd, $.mirror($.gzip())))
+                .pipe(mergeMq({ log: true }))
+                .pipe(postcss([ autoprefixer(config.autoprefixer), gradientfixer() ]))
+                .pipe($.if(!process.isProd, sourcemaps.write(config.sourcemaps)))
+                .pipe($.if(process.isProd, cssnano()))
+                .pipe($.if(process.isProd, mirror(gzip())))
                 .pipe($.size({
                     showFiles: true
                 }))

@@ -16,20 +16,7 @@ import cssnano from 'gulp-cssnano';
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    Object.assign($, {
-        stylus: stylus,
-        cached: cached,
-        buffer: buffer,
-        inlineCss: inlineCss,
-        inject: inject,
-        injectStyle: injectStyle,
-        replace: replace,
-        autoprefixer: autoprefixer,
-        cssnano: cssnano,
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
@@ -39,19 +26,18 @@ module.exports = (gulp, config, kernel, $) => {
     });
 
 
-
     function inlineStyles() {
         gulp.task("inline:mail.styles", () => {
-            return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
-                .pipe($.inject(
-                    gulp.src(config.destPublicDir + config.dest + "/mail.css", {
+            return gulp.src(`${config.source}${config.mail.paths}/markup/**/*.html`)
+                .pipe(inject(
+                    gulp.src(`${config.destPublicDir}${config.dest}/mail.css`, {
                         read: false
                     }), {
                         relative: true,
                         starttag: "<!-- inject:mail:{{ext}} -->"
                     }
                 ))
-                .pipe($.inlineCss({
+                .pipe(inlineCss({
                     applyStyleTags: true,
                     applyLinkTags: true,
                     removeStyleTags: true,
@@ -60,21 +46,21 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.destPublicDir + config.dest + config.mail.paths + "/markup"));
+                .pipe(gulp.dest(`${config.destPublicDir}${config.dest}${config.mail.paths}/markup`));
         });
     }
 
     function convertStyles() {
         gulp.task("convert:mail.styles", () => {
-            return gulp.src(config.source + config.mail.paths + "/markup/**/*.html")
-                .pipe($.replace(/<link.*?href="(.+?\.css)"[^>]*>/g, function(s, filename) {
+            return gulp.src(`${config.source}${config.mail.paths}/markup/**/*.html`)
+                .pipe(replace(/<link.*?href="(.+?\.css)"[^>]*>/g, function(s, filename) {
                     let style = $.fs.readFileSync(filename, "utf8");
                     return "<style>\n" + style + "\n</style>";
                 }))
                 .pipe($.size({
                     showFiles: true
                 }))
-                .pipe(gulp.dest(config.destPublicDir + config.dest + config.mail.paths + "/markup"));
+                .pipe(gulp.dest(`${config.destPublicDir}${config.dest}${config.mail.paths}/markup`));
         });
     }
 
@@ -84,8 +70,8 @@ module.exports = (gulp, config, kernel, $) => {
     function clean() {
         gulp.task("clean:mail", () => {
             $.del([
-                config.dist + "/mail/markup",
-                config.dist + "/mail/styles"
+                `${config.dist}/mail/markup`,
+                `${config.dist}/mail/styles`
             ], {
                 force: true
             });
@@ -94,21 +80,20 @@ module.exports = (gulp, config, kernel, $) => {
 
     function createStyles() {
         gulp.task("create:mail.styles", () => {
-            return gulp.src(config.source + config.mail.paths + "/styles/*.styl")
-                .pipe($.cached(config.destPublicDir + config.dest, {
+            return gulp.src(`${config.source}${config.mail.paths}/styles/*.styl`)
+                .pipe(cached(config.destPublicDir + config.dest, {
                     extension: ".css"
                 }))
-                .pipe($.buffer())
-                .pipe($.sourcemaps.init())
-                .pipe($.stylus(config.stylus.opts))
-                .pipe($.if(process.isProd, $.stylus(config.stylus.opts)))
+                .pipe(buffer())
+                .pipe(sourcemaps.init())
+                .pipe(stylus(config.stylus.opts))
                 .on('error', kernel.errors)
-                .pipe($.autoprefixer(config.autoprefixer))
+                .pipe(postcss([ autoprefixer(config.autoprefixer) ]))
                 .pipe($.rename({
                     basename: config.mail
                 }))
-                .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
-                .pipe($.if(process.isProd, $.cssnano()))
+                .pipe($.if(!process.isProd, sourcemaps.write(config.sourcemaps)))
+                .pipe($.if(process.isProd, cssnano()))
                 .pipe($.size({
                     showFiles: true
                 }))

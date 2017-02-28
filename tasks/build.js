@@ -5,6 +5,8 @@
 
 module.exports = (gulp, config, kernel, $, _) => {
 
+    'use strict';
+
     // Public
     // ---------------------------------------------------------
 

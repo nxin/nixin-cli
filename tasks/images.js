@@ -14,20 +14,7 @@ import imageResize from 'gulp-image-resize';
 
 module.exports = (gulp, config, kernel, $) => {
 
-    // Dependencies
-    // ---------------------------------------------------------
-
-    // extending module dependencies with project dependencies
-    // using $ as alias
-    Object.assign($, {
-        imagemin: imagemin,
-        pngquant: pngquant,
-        gifsicle: gifsicle,
-        jpegtran: jpegtran,
-        svgo: svgo,
-        imageMagick: imageMagick,
-        imageResize: imageResize
-    });
+    'use strict';
 
     // Config
     // ---------------------------------------------------------
@@ -53,7 +40,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesJpeg() {
         gulp.task("create:images.jpeg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.jpeg))
-                .pipe($.imagemin($.jpegtran(config.imagemin.jpegtran)))
+                .pipe(imagemin(jpegtran(config.imagemin.jpegtran)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -67,7 +54,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesPng() {
         gulp.task("create:images.png", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.png))
-                .pipe($.imagemin($.pngquant(config.imagemin.pngquant)))
+                .pipe(imagemin(pngquant(config.imagemin.pngquant)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -82,7 +69,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesGif() {
         gulp.task("create:images.gif", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.gif))
-                .pipe($.imagemin($.gifsicle(config.imagemin.gifsicle)))
+                .pipe(imagemin(gifsicle(config.imagemin.gifsicle)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -96,7 +83,7 @@ module.exports = (gulp, config, kernel, $) => {
     function imagesSvg() {
         gulp.task("create:images.svg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.svg))
-                .pipe($.imagemin($.svgo(config.imagemin.svgo)))
+                .pipe(imagemin(svgo(config.imagemin.svgo)))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath);
                 }))
@@ -124,7 +111,7 @@ module.exports = (gulp, config, kernel, $) => {
                 let size = sizes[key];
 
                 gulp.src(config.source + "/resizeOrigin/" + "**/*.{png,jpg,gif}")
-                    .pipe($.imageResize({
+                    .pipe(imageResize({
                         width: size,
                         crop: false,
                         upscale: true
