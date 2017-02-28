@@ -3,6 +3,11 @@
 // ----------------------------------------------------------------------
 
 
+import pug from 'gulp-pug';
+import jadeGlobbing from 'gulp-jade-globbing';
+import cached from 'gulp-cached';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
@@ -11,9 +16,9 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        pug: require("gulp-pug"),
-        jadeGlobbing: require("gulp-jade-globbing"),
-        cached: require("gulp-cached")
+        pug: pug,
+        jadeGlobbing: jadeGlobbing,
+        cached: cached
     });
 
     // Config

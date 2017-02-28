@@ -3,6 +3,9 @@
 // ----------------------------------------------------------------------
 
 
+import gnirts from 'gulp-gnirts';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
@@ -11,7 +14,7 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        gnirts: require('gulp-gnirts')
+        gnirts: gnirts
     });
 
     // Config

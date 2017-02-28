@@ -3,6 +3,12 @@
 // ----------------------------------------------------------------------
 
 
+import imagemin from 'gulp-imagemin';
+import pngquant from 'imagemin-pngquant';
+import spritesmith from 'gulp.spritesmith-multi';
+import buffer from 'vinyl-buffer';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
@@ -11,10 +17,10 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        imagemin: require('gulp-imagemin'),
-        pngquant: require('imagemin-pngquant'),
-        spritesmith: require("gulp.spritesmith-multi"),
-        buffer: require("vinyl-buffer")
+        imagemin: imagemin,
+        pngquant: pngquant,
+        spritesmith: spritesmith,
+        buffer: buffer
     });
 
     // Config

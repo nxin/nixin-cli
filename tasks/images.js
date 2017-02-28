@@ -3,6 +3,15 @@
 // ----------------------------------------------------------------------
 
 
+import imagemin from 'gulp-imagemin';
+import pngquant from 'imagemin-pngquant';
+import gifsicle from 'imagemin-gifsicle';
+import jpegtran from 'imagemin-jpegtran';
+import svgo from 'imagemin-svgo';
+import imageMagick from 'gm';
+import imageResize from 'gulp-image-resize';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
@@ -11,13 +20,13 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        imagemin: require('gulp-imagemin'),
-        pngquant: require('imagemin-pngquant'),
-        gifsicle: require("imagemin-gifsicle"),
-        jpegtran: require("imagemin-jpegtran"),
-        svgo: require("imagemin-svgo"),
-        imageMagick: require("gm"),
-        imageResize: require("gulp-image-resize")
+        imagemin: imagemin,
+        pngquant: pngquant,
+        gifsicle: gifsicle,
+        jpegtran: jpegtran,
+        svgo: svgo,
+        imageMagick: imageMagick,
+        imageResize: imageResize
     });
 
     // Config

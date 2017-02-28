@@ -3,6 +3,10 @@
 // ----------------------------------------------------------------------
 
 
+import webpack from 'webpack';
+import webpackStream from 'webpack-stream';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
@@ -11,8 +15,8 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        webpack: require("webpack"),
-        webpackStream: require("webpack-stream")
+        webpack: webpack,
+        webpackStream: webpackStream
     });
 
     // Config

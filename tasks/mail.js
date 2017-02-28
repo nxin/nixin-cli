@@ -3,21 +3,32 @@
 // ----------------------------------------------------------------------
 
 
+import stylus from 'gulp-stylus';
+import cached from 'gulp-cached';
+import buffer from 'vinyl-buffer';
+import inlineCss from 'gulp-inline-css';
+import inject from 'gulp-inject';
+import injectStyle from 'gulp-style-inject';
+import replace from 'gulp-replace';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'gulp-cssnano';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     // Dependencies
     // ---------------------------------------------------------
 
     Object.assign($, {
-        stylus: require('gulp-stylus'),
-        cached: require("gulp-cached"),
-        buffer: require("vinyl-buffer"),
-        inlineCss: require("gulp-inline-css"),
-        inject: require("gulp-inject"),
-        injectStyle: require("gulp-style-inject"),
-        replace: require("gulp-replace"),
-        autoprefixer: require("gulp-autoprefixer"),
-        cssnano: require("gulp-cssnano"),
+        stylus: stylus,
+        cached: cached,
+        buffer: buffer,
+        inlineCss: inlineCss,
+        inject: inject,
+        injectStyle: injectStyle,
+        replace: replace,
+        autoprefixer: autoprefixer,
+        cssnano: cssnano,
     });
 
     // Config
