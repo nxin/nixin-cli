@@ -8,19 +8,18 @@
  */
 
 
-/*jshint esversion: 6 */
-"use strict";
-
 import gulp from "gulp";
+import nix from "nixin-cli";
 import rupture from "rupture";
 import jeet from "jeet";
 import rucksack from "rucksack-css";
 import poststylus from "poststylus";
 
 
-const Nix = require("nixin-cli")(gulp, {
-    source: __dirname + "/resources",
-    dest: __dirname + "/public/_dist",
+const Test = nix(gulp, {
+    source: "./resources",
+    destPublicDir: "./public",
+    dest: "/_dist",
     tree: "tree",
     app: "app",
     vendor: "vendor",
@@ -34,9 +33,6 @@ const Nix = require("nixin-cli")(gulp, {
         browserify: []
     },
     bower: {
-        assets: [
-            "bootstrap"
-        ],
         order: [
             "jquery/*",
             "bootstrap/*",
@@ -51,7 +47,7 @@ const Nix = require("nixin-cli")(gulp, {
 });
 
 
-Nix.get([
+Test.import([
     "default",
     "images",
     "fonts",
@@ -66,7 +62,7 @@ Nix.get([
 ]);
 
 
-Nix.set("build", ["bower"], [
+Test.define("build", ["bower"], [
     "images",
     "fonts",
     "bower",
@@ -75,5 +71,3 @@ Nix.set("build", ["bower"], [
     "browserify",
     "sprites"
 ]);
-
-

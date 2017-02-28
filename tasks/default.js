@@ -2,6 +2,10 @@
 // Default
 // ----------------------------------------------------------------------
 
+
+import taskListing from 'gulp-task-listing';
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     function brand() {
@@ -17,7 +21,6 @@ module.exports = (gulp, config, kernel, $) => {
 
     return gulp.task("default", () => {
         brand();
-        $.taskListing();
+        taskListing();
     });
 };
-

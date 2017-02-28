@@ -7,6 +7,10 @@
  |
  */
 
+import $ from './system/lib';
+import config from './system/config';
+import kernel from './system/kernel';
+
 
 module.exports = (gulp, settings) => {
 
@@ -14,33 +18,25 @@ module.exports = (gulp, settings) => {
 
     class Tasks {
         constructor(config, dependencies, kernel) {
-            this.config = config;
-            this.$ = dependencies;
-            this.kernel = kernel;
+            this.$ = dependencies(gulp);
+            this.config = config(settings, this.$);
+            this.kernel = kernel(gulp, this.config, this.$);
         }
 
-        get(tasks) {
+        import(tasks) {
             tasks.forEach((task) => {
                 return require("./tasks/" + task)(gulp, this.config, this.kernel, this.$);
             });
         }
 
-        set(taskName, seriesTasks, parallelsTasks) {
-            gulp.task(taskName, seriesTasks, () => {
-                if (parallelsTasks !== undefined) {
-                    $.runSequence(parallelsTasks)
+        define(name, tasks, callbackTasks) {
+            gulp.task(name, tasks, () => {
+                if (callbackTasks !== undefined) {
+                    this.$.runSequence(callbackTasks);
                 }
             });
         }
     }
-
-    const config = require("./system/config");
-    const $ = require("./system/lib");
-
-    Object.assign(config, settings);
-
-    const kernel = require("./system/kernel")(gulp, config, $);
-
 
     // --- API ------------------------------------------------------------
     return new Tasks(config, $, kernel);

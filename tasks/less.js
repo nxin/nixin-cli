@@ -2,7 +2,17 @@
 // Sass
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+import less from 'gulp-less';
+import autoprefixer from 'autoprefixer';
+import sourcemaps from 'gulp-sourcemaps';
+import cssGlobbing from 'gulp-css-globbing';
+import cached from 'gulp-cached';
+import buffer from 'vinyl-buffer';
+import mirror from 'gulp-mirror';
+import cssnano from 'gulp-cssnano';
+import mergeMq from 'gulp-merge-media-queries';
+import postcss from 'postcss';
+
 
 module.exports = (gulp, config, kernel, $) => {
 
@@ -12,14 +22,16 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        less: require("gulp-less"),
-        autoprefixer: require("gulp-autoprefixer"),
-        sourcemaps: require("gulp-sourcemaps"),
-        cssGlobbing: require('gulp-css-globbing'),
-        cached: require("gulp-cached"),
-        buffer: require("vinyl-buffer"),
-        mirror: require("gulp-mirror"),
-        cssnano: require("gulp-cssnano")
+        less: less,
+        autoprefixer: autoprefixer,
+        sourcemaps: sourcemaps,
+        cssGlobbing: cssGlobbing,
+        cached: cached,
+        buffer: buffer,
+        mirror: mirror,
+        cssnano: cssnano,
+        mergeMq: mergeMq,
+        postcss: postcss
     });
 
     // Config
@@ -40,7 +52,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:less", () => {
-            $.del(kernel.setCleanStack("less", config.app))
+            $.del(kernel.setCleanStack("less", config.app));
         });
     }
 
@@ -61,6 +73,8 @@ module.exports = (gulp, config, kernel, $) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
+                .pipe($.mergeMq({ log: true }))
+                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))

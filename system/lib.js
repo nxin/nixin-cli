@@ -2,34 +2,53 @@
 // Lib
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+import fs from 'fs';
+import del from 'del';
+import browserSync from 'browser-sync';
+import size from 'gulp-size';
+import rename from 'gulp-rename';
+import gulpIF from 'gulp-if';
+import argv from 'yargs';
+import runSequence from 'run-sequence';
+import shell from 'gulp-shell';
+import gutil from 'gulp-util';
+import colors from 'chalk';
+import hashmark from 'hashmark';
+import path from 'path';
+import merge from 'merge-stream';
+import stream from 'stream';
+import through from 'through2';
+import frep from 'frep';
+import eventStream from 'event-stream';
+import debug from 'gulp-debug';
+import prompt from 'gulp-prompt';
+import plumber from 'gulp-plumber';
+//import phantomjssmith from 'phantomjssmith';
 
-let gulp = require("gulp");
 
-$ = {
-    fs: require("fs"),
-    del: require("del"),
-    browserSync: require('browser-sync').create(),
-    size: require("gulp-size"),
-    rename: require("gulp-rename"),
-    taskListing: require("gulp-task-listing"),
-    if: require("gulp-if"),
-    argv: require("yargs").argv,
-    runSequence: require("run-sequence").use(gulp),
-    shell: require("gulp-shell"),
-    gutil: require("gulp-util"),
-    colors: require("chalk"),
-    hashmark: require("hashmark"),
-    path: require("path"),
-    merge: require("merge-stream"),
-    stream: require("stream"),
-    through: require("through2"),
-    frep: require("frep"),
-    eventStream: require("event-stream"),
-    debug: require("gulp-debug"),
-    // phantomjssmith: require("phantomjssmith"),
-    prompt: require("gulp-prompt"),
-    plumber: require("gulp-plumber")
+module.exports = (gulp) => {
+    return {
+        fs: fs,
+        del: del,
+        browserSync: browserSync.create(),
+        size: size,
+        rename: rename,
+        if: gulpIF,
+        argv: argv.argv,
+        runSequence: runSequence.use(gulp),
+        shell: shell,
+        gutil: gutil,
+        colors: colors,
+        hashmark: hashmark,
+        path: path,
+        merge: merge,
+        stream: stream,
+        through: through,
+        frep: frep,
+        eventStream: eventStream,
+        debug: debug,
+        // phantomjssmith: phantomjssmith,
+        prompt: prompt,
+        plumber: plumber
+    };
 };
-
-module.exports = $;

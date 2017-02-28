@@ -2,7 +2,6 @@
 // Kernel
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
 
 module.exports = (gulp, config, $) => {
 
@@ -19,13 +18,13 @@ module.exports = (gulp, config, $) => {
             this.push(null);
         };
 
-        return src
+        return src;
     }
 
     function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
         gulp.task(taskName, seriesTasks, () => {
             if (parallelsTasks !== undefined) {
-                $.runSequence(parallelsTasks)
+                $.runSequence(parallelsTasks);
             }
         });
     }
@@ -72,7 +71,7 @@ module.exports = (gulp, config, $) => {
         }
 
         if (config.tree === "flatten") {
-            cleanStack.push(config.destPublicDir + config.dest + taskPath + filename + "*." + config[taskName].outputExt)
+            cleanStack.push(config.destPublicDir + config.dest + taskPath + filename + "*." + config[taskName].outputExt);
         }
 
         if (config.tree === "tree") {
@@ -85,7 +84,7 @@ module.exports = (gulp, config, $) => {
                 }
             }
 
-            cleanStack.push(config.destPublicDir + config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt)
+            cleanStack.push(config.destPublicDir + config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt);
         }
 
         return cleanStack;
@@ -216,7 +215,7 @@ module.exports = (gulp, config, $) => {
                 return [{
                     pattern: /[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig,
                     replacement: './vendor$1'
-                }]
+                }];
             }
 
             /// @start !!!

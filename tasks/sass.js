@@ -2,7 +2,19 @@
 // Sass
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+
+import sass from 'gulp-sass';
+import autoprefixer from 'autoprefixer';
+import sourcemaps from 'gulp-sourcemaps';
+import sassGlobbing from 'gulp-sass-glob';
+import cached from 'gulp-cached';
+import buffer from 'vinyl-buffer';
+import mirror from 'gulp-mirror';
+import cssnano from 'gulp-cssnano';
+import sassLint from 'gulp-sass-lint';
+import postcss from 'gulp-postcss';
+import mergeMq from 'gulp-merge-media-queries';
+
 
 module.exports = (gulp, config, kernel, $) => {
 
@@ -12,16 +24,17 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        sass: require("gulp-sass"),
-        autoprefixer: require("autoprefixer"),
-        sourcemaps: require("gulp-sourcemaps"),
-        sassGlobbing: require("gulp-sass-glob"),
-        cached: require("gulp-cached"),
-        buffer: require("vinyl-buffer"),
-        mirror: require("gulp-mirror"),
-        cssnano: require("gulp-cssnano"),
-        sassLint: require("gulp-sass-lint"),
-        postcss: require("gulp-postcss")
+        sass: sass,
+        autoprefixer: autoprefixer,
+        sourcemaps: sourcemaps,
+        sassGlobbing: sassGlobbing,
+        cached: cached,
+        buffer: buffer,
+        mirror: mirror,
+        cssnano: cssnano,
+        sassLint: sassLint,
+        postcss: postcss,
+        mergeMq: mergeMq
     });
 
     // Config
@@ -89,11 +102,12 @@ module.exports = (gulp, config, kernel, $) => {
                     kernel.rewritePath(filepath, config.app);
                 }))
                 .pipe(kernel.addSuffixPath())
+                .pipe($.mergeMq({ log: true }))
+                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
                 .pipe($.if(!process.isProd, $.sourcemaps.write({
                     includeContent: false, // !! outer files sourcemaps broken if true
                     addComment: true
                 })))
-                .pipe($.postcss([$.autoprefixer(config.autoprefixer)]))
                 .pipe($.if(process.isProd, $.cssnano(config.sass.cssnano)))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))
                 .pipe($.size({

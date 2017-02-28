@@ -2,7 +2,22 @@
 // Browserify
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+
+import browserify from 'browserify';
+import cached from 'gulp-cached';
+import mirror from 'gulp-mirror';
+import sourcemaps from 'gulp-sourcemaps';
+import uglify from 'gulp-uglify';
+import gzip from 'gulp-gzip';
+import buffer from 'vinyl-buffer';
+import globify from 'require-globify';
+import obfuscate from 'gulp-js-obfuscator';
+import jshint from 'gulp-jshint';
+import jshintStylish from 'jshint-stylish';
+import babelify from 'babelify';
+import deamdify from 'deamdify';
+import es2015 from 'babel-preset-es2015';
+
 
 module.exports = (gulp, config, kernel, $) => {
 
@@ -12,20 +27,20 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        browserify: require("browserify"),
-        cached: require("gulp-cached"),
-        mirror: require("gulp-mirror"),
-        sourcemaps: require("gulp-sourcemaps"),
-        uglify: require("gulp-uglify"),
-        gzip: require("gulp-gzip"),
-        buffer: require("vinyl-buffer"),
-        globify: require("require-globify"),
-        // babelify: require("babelify"),
-        // deamdify: require("deamdify"),
-        obfuscate: require("gulp-js-obfuscator"),
-        // es2015: require("babel-preset-es2015"),
-        jshint: require("gulp-jshint"),
-        jshintStylish: require("jshint-stylish")
+        browserify: browserify,
+        cached: cached,
+        mirror: mirror,
+        sourcemaps: sourcemaps,
+        uglify: uglify,
+        gzip: gzip,
+        buffer: buffer,
+        globify: globify,
+        babelify: babelify,
+        deamdify: deamdify,
+        obfuscate: obfuscate,
+        es2015: es2015,
+        jshint: jshint,
+        jshintStylish: jshintStylish
     });
 
     // Config
@@ -57,7 +72,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:browserify", () => {
-            $.del(kernel.setCleanStack("browserify", config.app))
+            $.del(kernel.setCleanStack("browserify", config.app));
         });
     }
 

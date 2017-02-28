@@ -2,7 +2,21 @@
 // Stylus
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+
+import stylus from "gulp-stylus";
+import sourcemaps from "gulp-sourcemaps";
+import cached from "gulp-cached";
+import gzip from "gulp-gzip";
+import buffer from "vinyl-buffer";
+import mirror from "gulp-mirror";
+import cssnano from "gulp-cssnano";
+import mergeMq from "gulp-merge-media-queries";
+import autoprefixer from "autoprefixer";
+import postcss from "gulp-postcss";
+import gradientfixer from "postcss-gradientfixer";
+import stylint from "gulp-stylint";
+import stylintStylish from "stylint-stylish";
+
 
 module.exports = (gulp, config, kernel, $) => {
 
@@ -11,18 +25,19 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        stylus: require("gulp-stylus"),
-        autoprefixer: require("autoprefixer"),
-        sourcemaps: require("gulp-sourcemaps"),
-        cached: require("gulp-cached"),
-        gzip: require("gulp-gzip"),
-        buffer: require("vinyl-buffer"),
-        mirror: require("gulp-mirror"),
-        cssnano: require("gulp-cssnano"),
-        groupMq: require("gulp-group-css-media-queries"),
-        postcss: require("gulp-postcss"),
-        stylint: require("gulp-stylint"),
-        stylintStylish: require("stylint-stylish")
+        stylus: stylus,
+        autoprefixer: autoprefixer,
+        gradientfixer: gradientfixer,
+        sourcemaps: sourcemaps,
+        cached: cached,
+        gzip: gzip,
+        buffer: buffer,
+        mirror: mirror,
+        cssnano: cssnano,
+        mergeMq: mergeMq,
+        postcss: postcss,
+        stylint: stylint,
+        stylintStylish: stylintStylish
     });
 
     // --- Config -------------------------------------------------------
@@ -51,7 +66,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:stylus", () => {
-            $.del(kernel.setCleanStack("stylus", config.app))
+            $.del(kernel.setCleanStack("stylus", config.app));
         });
     }
 
@@ -89,8 +104,8 @@ module.exports = (gulp, config, kernel, $) => {
                 //         process.stdout.write(hr);
                 //     }
                 // })
-                .pipe($.postcss([ $.autoprefixer(config.autoprefixer) ]))
-                // .pipe($.groupMq()) //bug cannot read property '2' of null
+                .pipe($.mergeMq({ log: true }))
+                .pipe($.postcss([ $.autoprefixer(config.autoprefixer), $.gradientfixer() ]))
                 .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 .pipe($.if(process.isProd, $.cssnano()))
                 .pipe($.if(process.isProd, $.mirror($.gzip())))

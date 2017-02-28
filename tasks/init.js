@@ -1,3 +1,8 @@
+// ----------------------------------------------------------------------
+// Init
+// ----------------------------------------------------------------------
+
+
 module.exports = (gulp, config, kernel, $) => {
 
     function create() {
@@ -59,12 +64,12 @@ module.exports = (gulp, config, kernel, $) => {
                     console.log(res);
 
                 }))
-                .pipe(gulp.dest(config.destPublicDir + config.dest))
+                .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
     }
 
     return {
         init: init
-    }
+    };
 
 };

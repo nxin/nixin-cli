@@ -2,7 +2,6 @@
 // Mail
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
 
 module.exports = (gulp, config, kernel, $) => {
 

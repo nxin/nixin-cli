@@ -2,7 +2,6 @@
 // Webpack
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
 
 module.exports = (gulp, config, kernel, $) => {
 
@@ -41,7 +40,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     function clean() {
         gulp.task("clean:webpack", () => {
-            $.del(kernel.setCleanStack("webpack", config.app))
+            $.del(kernel.setCleanStack("webpack", config.app));
         });
     }
 

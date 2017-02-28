@@ -2,7 +2,14 @@
 // Bower
 // ----------------------------------------------------------------------
 
-/*jshint esversion: 6 */
+
+import order from 'gulp-order';
+import replace from 'gulp-replace';
+import concat from 'gulp-concat';
+import cssnano from 'cssnano';
+import uglify from 'gulp-uglify';
+import obfuscate from 'gulp-js-obfuscator';
+
 
 
 module.exports = (gulp, config, kernel, $) => {
@@ -13,12 +20,12 @@ module.exports = (gulp, config, kernel, $) => {
     // extending module dependencies with project dependencies
     // using $ as alias
     Object.assign($, {
-        order: require('gulp-order'),
-        replace: require('gulp-replace'),
-        concat: require('gulp-concat'),
-        cssnano: require('gulp-cssnano'),
-        uglify: require('gulp-uglify'),
-        obfuscate: require('gulp-js-obfuscator')
+        order: order,
+        replace: replace,
+        concat: concat,
+        cssnano: cssnano,
+        uglify: uglify,
+        obfuscate: obfuscate
     });
 
     // Config
