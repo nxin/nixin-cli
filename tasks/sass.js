@@ -15,6 +15,7 @@ import sassLint from 'gulp-sass-lint';
 import postcss from 'gulp-postcss';
 import gradientfixer from 'postcss-gradientfixer';
 import mergeMq from 'gulp-merge-media-queries';
+import gzip from 'gulp-gzip';
 
 
 module.exports = (gulp, config, kernel, $) => {

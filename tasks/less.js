@@ -53,7 +53,6 @@ module.exports = (gulp, config, kernel, $) => {
                     extensions: ['.less']
                 }))
                 .pipe(less())
-                .pipe(autoprefixer(config.autoprefixer))
                 .pipe($.rename((filepath) => {
                     kernel.rewritePath(filepath, config.app);
                 }))

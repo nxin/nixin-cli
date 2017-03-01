@@ -52,75 +52,76 @@ module.exports = (gulp, config, $) => {
         this.emit("end");
     }
 
-    function setCleanStack(taskName, filename = "") {
+    function setCleanStack(taskName, filename = '') {
 
         let cleanStack = [];
-        let taskPath = "/";
+        let taskPath = '/';
 
         switch (taskName) {
-            case "images":
-                taskPath = config.images.dest + "/";
+            case 'images':
+                taskPath = `${config.images.dest}/`;
                 break;
 
             case "fonts":
-                taskPath = config.fonts.dest + "/";
+                taskPath = `${config.fonts.dest}/`;
                 break;
 
             default:
                 break;
         }
 
-        if (config.tree === "flatten") {
-            cleanStack.push(config.destPublicDir + config.dest + taskPath + filename + "*." + config[taskName].outputExt);
+        if (config.tree === 'flatten') {
+            let path = `${config.destPublicDir}${config.dest}${taskPath}${filename}*.${config[taskName].outputExt}`;
+            cleanStack.push(path);
         }
 
-        if (config.tree === "tree") {
-            if (filename !== "") {
-                filename = "/" + filename;
-                if (taskPath === "/") {
-                    taskPath = "";
+        else if (config.tree === 'tree') {
+            if (filename !== '') {
+                filename = `/${filename}`;
+                if (taskPath === '/') {
+                    taskPath = '';
                 } else {
-                    filename = filename + "/";
+                    filename = `${filename}/`;
                 }
             }
-
-            cleanStack.push(config.destPublicDir + config.dest + "/**" + filename + taskPath + "*." + config[taskName].outputExt);
+            let path = `${config.destPublicDir}${config.dest}/**${filename}${taskPath}*.${config[taskName].outputExt}`;
+            cleanStack.push(path);
         }
 
         return cleanStack;
     }
 
     function setSourceStack(taskName, inputExt) {
-        let globPath = "";
+        let globPath = '';
 
         switch (taskName) {
-            case "images":
-            case "fonts":
-            case "sprites":
-                globPath = "{/**/*.,/*.}";
+            case 'images':
+            case 'fonts':
+            case 'sprites':
+                globPath = '{/**/*.,/*.}';
                 break;
             default:
-                globPath = "/*.";
+                globPath = '/*.';
                 break;
         }
 
         return [
-            config.source + config[taskName].source + globPath + inputExt,
-            config.source + "{/theme--*,/context--*,/theme--*/context--*}" + config[taskName].source + globPath + inputExt
+            `${config.source}${config[taskName].source}${globPath}${inputExt}`,
+            `${config.source}{/theme--*,/context--*,/theme--*/context--*}${config[taskName].source}${globPath}${inputExt}`
         ];
     }
 
     function setPathSuffix(filepath) {
 
-        let dir = filepath.dirname.split("/");
-        let path = "";
+        let dir = filepath.dirname.split('/');
+        let path = '';
 
         if (dir[1] !== undefined) {
             if (dir.length === 2) {
-                path = "-" + dir[0];
+                path = `-${dir[0]}`;
             }
             else {
-                path = "-" + dir[0] + "-" + dir[1];
+                path = `-${dir[0]}-${dir[1]}`;
             }
         }
 
@@ -129,15 +130,15 @@ module.exports = (gulp, config, $) => {
 
     function setPathPrefix(filepath) {
 
-        let dir = filepath.dirname.split("/");
-        let path = "";
+        let dir = filepath.dirname.split('/');
+        let path = '';
 
         if (dir[1] !== undefined) {
             if (dir.length === 2) {
-                path = "/" + dir[0] + "/";
+                path = `/${dir[0]}/`;
             }
             else {
-                path = "/" + dir[0] + "/" + dir[1] + "/";
+                path = `/${dir[0]}/${dir[1]}/`;
             }
         }
 
@@ -145,19 +146,19 @@ module.exports = (gulp, config, $) => {
     }
 
     function cleanSuffixPath(suffix) {
-        return suffix.replace("theme--", "").replace("context--", "").replace("//", "/");
+        return suffix.replace('theme--', '').replace('context--', '').replace('//', '/');
     }
 
     function setTaskPath(filepath) {
 
-        let taskPath = "";
+        let taskPath = '';
 
         if (config.images.regExt.test(filepath.extname) === true) {
-            taskPath = config.images.dest + "/";
+            taskPath = `${config.images.dest}/`;
         }
 
         if (config.fonts.regExt.test(filepath.extname) === true) {
-            taskPath = config.fonts.dest + "/";
+            taskPath = `${config.fonts.dest}/`;
         }
 
         return taskPath;
@@ -165,8 +166,8 @@ module.exports = (gulp, config, $) => {
 
     function rewritePath(filepath, filename) {
 
-        if (typeof filepath.basename !== "function") {
-            if (config.tree === "flatten") {
+        if (typeof filepath.basename !== 'function') {
+            if (config.tree === 'flatten') {
 
                 let suffixPath = setPathSuffix(filepath);
 
@@ -179,10 +180,10 @@ module.exports = (gulp, config, $) => {
                 }
             }
 
-            else if (config.tree === "tree") {
+            else if (config.tree === 'tree') {
                 let pathPrefix = setPathPrefix(filepath);
                 let taskPath = setTaskPath(filepath);
-                let prefixPath = "";
+                let prefixPath = '';
 
                 if (pathPrefix.indexOf(taskPath) !== -1) {
                     prefixPath = pathPrefix;
@@ -199,7 +200,7 @@ module.exports = (gulp, config, $) => {
                 }
             }
 
-            filepath.dirname = "";
+            filepath.dirname = '';
             filepath.basename = cleanSuffixPath(filepath.basename);
         }
 
@@ -211,7 +212,7 @@ module.exports = (gulp, config, $) => {
         function patterns(fileSuffix) {
 
             // set vendor path
-            if (isVendor === "vendor") {
+            if (isVendor === 'vendor') {
                 return [{
                     pattern: /[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig,
                     replacement: './vendor$1'
@@ -239,19 +240,19 @@ module.exports = (gulp, config, $) => {
 
             let fileContentTrimmed = String(file.contents).trim();
 
-            // let fileSuffix = file.path.split(config.app)[1].split(".css")[0];
-            let fileSuffix = "";
+            // let fileSuffix = file.path.split(config.app)[1].split('.css')[0];
+            let fileSuffix = '';
 
-            if (file.path.indexOf("sprite--") !== -1) {
-                fileSuffix = file.path.split("sprite--")[1].split(".png")[0];
+            if (file.path.indexOf('sprite--') !== -1) {
+                fileSuffix = file.path.split('sprite--')[1].split('.png')[0];
             }
             else if (file.path.indexOf(config.app) !== -1) {
-                fileSuffix = file.path.split(config.app)[1].split(".css")[0];
+                fileSuffix = file.path.split(config.app)[1].split('.css')[0];
             }
 
             fileSuffix = cleanSuffixPath(fileSuffix);
 
-            if (config.tree === "tree" || isVendor === "vendor") {
+            if (config.tree === 'tree' || isVendor === 'vendor') {
                 fileContentTrimmed = $.frep.strWithArr(fileContentTrimmed, patterns(fileSuffix));
             }
 
