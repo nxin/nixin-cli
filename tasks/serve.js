@@ -22,16 +22,16 @@ module.exports = (gulp, config, kernel, $) => {
     // Public Methods
     // ---------------------------------------------------------
 
-    function watch() {
+    let watch = () => {
         gulp.task("serve:watch", () => {
             gulp.watch(config.source + config.serve.stylus, ["stylus"]);
             gulp.watch(config.source + config.serve.sass, ["sass"]);
             gulp.watch(config.source + config.serve.browserify, ["browserify"]);
             // gulp.watch(config.destPublicDir + config.dest + config.serve.pug, $.browserSync.reload);
         });
-    }
+    };
 
-    function sync() {
+    let sync = () => {
         gulp.task("serve:sync", () => {
             $.browserSync.init({
                 watchTask: true,
@@ -45,11 +45,11 @@ module.exports = (gulp, config, kernel, $) => {
                 }
             });
         });
-    }
+    };
 
-    function serve() {
+    let serve = () => {
         gulp.task("serve", ["serve:watch", "serve:sync"]);
-    }
+    };
 
     // API
     // ---------------------------------------------------------

@@ -10,13 +10,13 @@ module.exports = (gulp, config, kernel, $, _) => {
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:build", () => {
             $.del(config.destPublicDir + config.dest, {force: "true"});
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         kernel.extendTask("build", ["bower"], [
             "browserify",
             "stylus",
@@ -24,11 +24,11 @@ module.exports = (gulp, config, kernel, $, _) => {
             "fonts",
             "images"
         ]);
-    }
+    };
 
-    function watch() {
+    let watch = () => {
         gulp.task("watch:build", ["build", "serve:watch"]);
-    }
+    };
 
     // API
     // ---------------------------------------------------------

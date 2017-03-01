@@ -26,7 +26,7 @@ module.exports = (gulp, config, kernel, $) => {
     });
 
 
-    function inlineStyles() {
+    let inlineStyles = () => {
         gulp.task("inline:mail.styles", () => {
             return gulp.src(`${config.source}${config.mail.paths}/markup/**/*.html`)
                 .pipe(inject(
@@ -48,9 +48,9 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(`${config.destPublicDir}${config.dest}${config.mail.paths}/markup`));
         });
-    }
+    };
 
-    function convertStyles() {
+    let convertStyles = () => {
         gulp.task("convert:mail.styles", () => {
             return gulp.src(`${config.source}${config.mail.paths}/markup/**/*.html`)
                 .pipe(replace(/<link.*?href="(.+?\.css)"[^>]*>/g, function(s, filename) {
@@ -62,12 +62,12 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(`${config.destPublicDir}${config.dest}${config.mail.paths}/markup`));
         });
-    }
+    };
 
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:mail", () => {
             $.del([
                 `${config.dist}/mail/markup`,
@@ -76,9 +76,9 @@ module.exports = (gulp, config, kernel, $) => {
                 force: true
             });
         });
-    }
+    };
 
-    function createStyles() {
+    let createStyles = () => {
         gulp.task("create:mail.styles", () => {
             return gulp.src(`${config.source}${config.mail.paths}/styles/*.styl`)
                 .pipe(cached(config.destPublicDir + config.dest, {
@@ -102,16 +102,16 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 })));
         });
-    }
+    };
 
-    function bundle() {
+    let bundle = () => {
         kernel.extendTask("mail", ["clean:mail"], [
             'create:mail.styles',
             ['inline:mail.styles'],
             ['inject:mail.styles'],
             ['convert:mail.styles']
         ]);
-    }
+    };
 
     // API
     // ---------------------------------------------------------

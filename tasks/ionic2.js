@@ -20,14 +20,13 @@ module.exports = (gulp, config, kernel, $) => {
     });
 
 
-    function clean(){
+    let clean = () => {
         gulp.task("clean:ionic", () => {
             // $.del(kernel.setCleanStack("ionic"));
         });
+    };
 
-    }
-
-    function create(){
+    let create = () => {
         gulp.task("ionic", ["clean:ionic"], () => {
             gulp.src(kernel.setSourceStack("ionic", config.ionic.inputExt))
                 .pipe($.rename((filepath) => {
@@ -38,8 +37,7 @@ module.exports = (gulp, config, kernel, $) => {
                     showFiles: true
                 }));
         });
-
-    }
+    };
 
     // return {
     //     clean: clean(),

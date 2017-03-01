@@ -7,7 +7,7 @@ module.exports = (gulp, config, kernel, $) => {
 
     'use strict';
 
-    function create() {
+    let create = () => {
         gulp.task("init", () => {
             let pkg = require('package.json');
 
@@ -68,7 +68,7 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
-    }
+    };
 
     return {
         init: init

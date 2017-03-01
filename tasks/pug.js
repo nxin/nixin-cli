@@ -28,15 +28,15 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:pug", () => {
             $.del(`${config.destPublicDir}${config.dest}/markup/**/*.html`, {
                 force: true
             });
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task("pug", ["clean:pug"], () => {
             return gulp.src(config.source + config.pug.paths)
                 .pipe(cached(config.destPublicDir + config.dest, {
@@ -52,7 +52,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 })));
         });
-    }
+    };
 
     // API
     // ---------------------------------------------------------

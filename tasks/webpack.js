@@ -40,13 +40,13 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:webpack", () => {
             $.del(kernel.setCleanStack("webpack", config.app));
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task('webpack', ["clean:webpack"], (cb) => {
             return gulp.src(kernel.setSourceStack("webpack", config.webpack.inputExt))
                 .pipe(jshint())
@@ -72,7 +72,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 }));
         });
-    }
+    };
 
 
     // API

@@ -27,14 +27,14 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:sprites", () => {
             $.del(kernel.setCleanStack("sprites"));
             $.del(`${config.destPublicDir}${config.dest}/images/sprite--*`);
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
 
         let opts = {
             // spritesmith: function (options, sprite, icons){
@@ -78,7 +78,7 @@ module.exports = (gulp, config, kernel, $) => {
                     showFiles: true
                 }));
         });
-    }
+    };
 
     return {
         clean: clean(),

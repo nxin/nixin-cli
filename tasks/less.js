@@ -35,13 +35,13 @@ module.exports = (gulp, config, kernel, $) => {
     // Public Methods
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:less", () => {
             $.del(kernel.setCleanStack("less", config.app));
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task("less", ["clean:less"], () => {
             return gulp.src(kernel.setSourceStack("less", config.stylus.inputExt))
                 .pipe(cached(config.destPublicDir + config.dest, {
@@ -70,7 +70,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 })));
         });
-    }
+    };
 
     // API
     // ---------------------------------------------------------

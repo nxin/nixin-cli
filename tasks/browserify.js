@@ -28,12 +28,9 @@ module.exports = (gulp, config, kernel, $) => {
 
     // merging project plugins with default module plugins
     // and assign to use option
-    let plugins = [
-        globify,
-        // deamdify,
-        // babelify.configure({
-        //     presets: [es2015]
-        // })
+    let plugins = [ globify, deamdify, babelify.configure({
+            presets: [es2015]
+        })
     ].concat(config.plugins.browserify);
 
     // extending default config with project config
@@ -47,39 +44,42 @@ module.exports = (gulp, config, kernel, $) => {
         uglify: config.uglify
     });
 
+    // Private
+    // ---------------------------------------------------------
+
+    let browserified = () => {
+        return $.through.obj(function (chunk, enc, callback) {
+            if (chunk.isBuffer()) {
+                let b = browserify({
+                    entries: chunk.path,
+                    transform: config.browserify.transform,
+                    debug: config.browserify.debug
+                })
+                // Any custom browserify stuff should go here
+                .transform(babelify.configure({
+                    presets: [es2015]
+                }));
+
+                chunk.contents = b.bundle();
+                this.push(chunk);
+
+            }
+            callback();
+        });
+    };
+
     // Public
     // ---------------------------------------------------------
 
-    function clean() {
-        gulp.task("clean:browserify", () => {
-            $.del(kernel.setCleanStack("browserify", config.app));
+    let clean = () => {
+        gulp.task('clean:browserify', () => {
+            $.del(kernel.setCleanStack('browserify', config.app));
         });
-    }
+    };
 
-    function create() {
-        gulp.task('browserify', ["clean:browserify"], (cb) => {
-            let browserified = () => {
-                return $.through.obj(function (chunk, enc, callback) {
-                    if (chunk.isBuffer()) {
-                        let b = browserify({
-                            entries: chunk.path,
-                            transform: config.browserify.transform,
-                            debug: config.browserify.debug
-                        });
-                        // Any custom browserify stuff should go here
-                        // .transform(babelify.configure({
-                        //     presets: [es2015]
-                        // }));
-
-                        chunk.contents = b.bundle();
-                        this.push(chunk);
-
-                    }
-                    callback();
-                });
-            };
-
-            return gulp.src(kernel.setSourceStack("browserify", config.browserify.inputExt))
+    let create = () => {
+        gulp.task('browserify', ['clean:browserify'], (cb) => {
+            return gulp.src(kernel.setSourceStack('browserify', config.browserify.inputExt))
                 .pipe(jshint())
                 .pipe(jshint.reporter(jshintStylish))
                 .pipe($.plumber())
@@ -103,7 +103,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 }));
         });
-    }
+    };
 
 
     // API

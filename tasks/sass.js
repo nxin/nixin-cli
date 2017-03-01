@@ -53,13 +53,13 @@ module.exports = (gulp, config, kernel, $) => {
     // Public Methods
     // ---------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:sass", () => {
             $.del(kernel.setCleanStack("sass", config.app));
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task("sass", ["clean:sass"], (cb) => {
             return gulp.src(kernel.setSourceStack("sass", config.sass.inputExt))
                 .pipe(sassLint({
@@ -103,7 +103,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 })));
         });
-    }
+    };
 
     // API
     // ---------------------------------------------------------

@@ -30,21 +30,21 @@ module.exports = (gulp, config, kernel, $) => {
     // ---------------------------------------------------------
 
     // get production flag state
-    function getEnv() {
+    let getEnv = () => {
         return process.isProd ? ' -p' : '';
-    }
+    };
 
     // create vendor assets bundle
-    function createVendor(source, files) {
+    let createVendor = (source, files) => {
         let vendor = [];
         for (let i = 0; i < source.length; i++) {
             vendor.push(`${config.source}/${config.vendor}/${source[i]}${files}`);
         }
         return vendor;
-    }
+    };
 
     // create vendor fonts/images bundle
-    function createSrc(plugin, files) {
+    let createSrc = (plugin, files) => {
         return gulp.src(createVendor(plugin, files))
             .pipe($.rename({
                 dirname: config.vendor
@@ -54,7 +54,7 @@ module.exports = (gulp, config, kernel, $) => {
             .pipe($.size({
                 showFiles: true
             }));
-    }
+    };
 
     // Public
     // ---------------------------------------------------------
@@ -65,36 +65,36 @@ module.exports = (gulp, config, kernel, $) => {
     //     });
     // }
 
-    function cleanStyles() {
-        gulp.task("clean:bower.styles", () => {
+    let cleanStyles = () => {
+        gulp.task('clean:bower.styles', () => {
             $.del(`${config.destPublicDir}${config.dest}/${config.vendor}*.{css,css.gz,css.map}`);
         });
-    }
+    };
 
-    function cleanScripts() {
-        gulp.task("clean:bower.scripts", () => {
+    let cleanScripts = () => {
+        gulp.task('clean:bower.scripts', () => {
             $.del(`${config.destPublicDir}${config.dest}/${config.vendor}*.{js,js.gz,js.map}`);
         });
-    }
+    };
 
-    function cleanImages() {
-        gulp.task("clean:bower.images", () => {
+    let cleanImages = () => {
+        gulp.task('clean:bower.images', () => {
             $.del(`${config.destPublicDir}${config.dest}/${config.vendor}/*.{jpeg,jpg,gif,png,svg}`);
         });
-    }
+    };
 
-    function cleanFonts() {
-        gulp.task("clean:bower.fonts", () => {
+    let cleanFonts = () => {
+        gulp.task('clean:bower.fonts', () => {
             $.del(`${config.destPublicDir}${config.dest}/${config.vendor}/*.{woff2,woff,ttf,svg,eot}`);
         });
-    }
+    };
 
-    // function install() {
-    //     gulp.task("install:bower2", ["clean:bower2.install"], $.shell.task(`bower-installer ${getEnv()}`));
-    // }
+    // let install = () => {
+    //     gulp.task('install:bower2', ['clean:bower2.install'], $.shell.task(`bower-installer ${getEnv()}`));
+    // };
 
-    function install() {
-        gulp.task('vendor:desktop', function () {
+    let install = () => {
+        gulp.task('vendor:desktop', () => {
             return gulp.src($.mainBowerFiles({
                 paths: '',
                 group: ['desktop', '!mobile'],
@@ -103,23 +103,23 @@ module.exports = (gulp, config, kernel, $) => {
                 includeDev: false
             }))
                 .pipe($.rename({
-                    dirname: "desktop"
+                    dirname: 'desktop'
                 }))
                 .pipe(gulp.dest(`${config.source}/${config.vendor}`));
         });
 
 
-        gulp.task('vendor:mobile', function () {
+        gulp.task('vendor:mobile', () => {
             return gulp.src($.mainBowerFiles({
                 paths: '',
                 group: ['!desktop', 'mobile'],
                 checkExistence: true,
                 debugging: true
             }))
-                .on('data', function (chunk) {
+                .on('data', (chunk) => {
                     let contents = chunk.contents.toString().trim();
                     let bufLength = process.stdout.columns;
-                    let hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
+                    let hr = '\n\n' + Array(bufLength).join('_') + '\n\n';
                     if (contents.length > 1) {
                         process.stdout.write('\n');
                         process.stdout.write(chunk.path);
@@ -128,14 +128,14 @@ module.exports = (gulp, config, kernel, $) => {
                     }
                 })
                 .pipe($.rename({
-                    dirname: "mobile"
+                    dirname: 'mobile'
                 }))
-                .pipe(gulp.dest(config.source + '/' + config.vendor));
+                .pipe(gulp.dest(`${config.source}/${config.vendor}`));
         });
-    }
+    };
 
-    function createStyles() {
-        gulp.task("create:bower.styles", ["clean:bower.styles"], () => {
+    let createStyles = () => {
+        gulp.task('create:bower.styles', ['clean:bower.styles'], () => {
             return gulp.src(config.bower.styles)
             // .on('data', function (chunk) {
             //     var contents = chunk.contents.toString().trim();
@@ -150,7 +150,7 @@ module.exports = (gulp, config, kernel, $) => {
             // })
             // .pipe(order(config.bower.order))
             // .pipe($.if(!process.isProd, $.sourcemaps.init()))
-                .pipe(concat(config.vendor + ".css"))
+                .pipe(concat(`${config.vendor}.css`))
                 .pipe(replace(/[^'"()]*(\/[\w-]*(\.(jpeg|jpg|gif|png|woff2|woff|ttf|svg|eot)))/ig, './vendor$1'))
                 // .pipe($.if(!process.isProd, $.sourcemaps.write(config.sourcemaps)))
                 // .pipe($.if(process.isProd, $.cssnano(config.bower.cssnano)))
@@ -163,10 +163,10 @@ module.exports = (gulp, config, kernel, $) => {
                     showFiles: true
                 }));
         });
-    }
+    };
 
-    function createScripts() {
-        gulp.task("create:bower.scripts", ["clean:bower.scripts"], function () {
+    let createScripts = () => {
+        gulp.task('create:bower.scripts', ['clean:bower.scripts'], () => {
             return gulp.src(config.bower.scripts)
             // .pipe(order(config.bower.order))
             // .pipe($.if(!process.isProd, sourcemaps.init()))
@@ -182,28 +182,28 @@ module.exports = (gulp, config, kernel, $) => {
                     showFiles: true
                 }));
         });
-    }
+    };
 
-    function createFonts() {
-        gulp.task("create:bower.fonts", ["clean:bower.fonts"], () => {
+    let createFonts = () => {
+        gulp.task('create:bower.fonts', ['clean:bower.fonts'], () => {
             createSrc(config.bower.assets, '/*.{ttf,eot,svg,woff,woff2}');
         });
-    }
+    };
 
-    function createImages() {
-        gulp.task("create:bower.images", ["clean:bower.images"], () => {
+    let createImages = () => {
+        gulp.task('create:bower.images', ['clean:bower.images'], () => {
             createSrc(config.bower.assets, '/*.{gif,png,jpg,jpeg,cur,svg}');
         });
-    }
+    };
 
-    function bundle() {
-        kernel.extendTask("bower2", ["install:bower"], [
-            "create:bower.styles",
-            "create:bower.scripts",
-            "create:bower.fonts",
-            "create:bower.images"
+    let bundle = () => {
+        kernel.extendTask('bower2', ['install:bower'], [
+            'create:bower.styles',
+            'create:bower.scripts',
+            'create:bower.fonts',
+            'create:bower.images'
         ]);
-    }
+    };
 
     // API
     // ---------------------------------------------------------

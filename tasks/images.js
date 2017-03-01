@@ -37,7 +37,7 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------------------
 
-    function imagesJpeg() {
+    let imagesJpeg = () => {
         gulp.task("create:images.jpeg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.jpeg))
                 .pipe(imagemin(jpegtran(config.imagemin.jpegtran)))
@@ -49,9 +49,9 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
-    }
+    };
 
-    function imagesPng() {
+    let imagesPng = () => {
         gulp.task("create:images.png", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.png))
                 .pipe(imagemin(pngquant(config.imagemin.pngquant)))
@@ -64,9 +64,9 @@ module.exports = (gulp, config, kernel, $) => {
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
 
         });
-    }
+    };
 
-    function imagesGif() {
+    let imagesGif = () => {
         gulp.task("create:images.gif", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.gif))
                 .pipe(imagemin(gifsicle(config.imagemin.gifsicle)))
@@ -78,9 +78,9 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
-    }
+    };
 
-    function imagesSvg() {
+    let imagesSvg = () => {
         gulp.task("create:images.svg", () => {
             gulp.src(kernel.setSourceStack("images", config.images.inputExt.svg))
                 .pipe(imagemin(svgo(config.imagemin.svgo)))
@@ -92,9 +92,9 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
-    }
+    };
 
-    function imagesResize() {
+    let imagesResize = () => {
         let sizes = {
             "xs": 128,
             "sm": 256,
@@ -125,19 +125,17 @@ module.exports = (gulp, config, kernel, $) => {
                     .pipe(gulp.dest(config.source + "/images/resized"));
             }
         });
-    }
+    };
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:images", () => {
             $.del(kernel.setCleanStack("images"));
         });
-    }
+    };
 
-    function create() {
-        // imagesResize((() => {
-            kernel.extendTask("images", ["clean:images"], ["create:images.png", "create:images.jpeg", "create:images.gif", "create:images.svg"]);
-        // })());
-    }
+    let create = () => {
+        kernel.extendTask("images", ["clean:images"], ["create:images.png", "create:images.jpeg", "create:images.gif", "create:images.svg"]);
+    };
 
     // API
     // ---------------------------------------------------------

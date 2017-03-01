@@ -46,13 +46,13 @@ module.exports = (gulp, config, kernel, $) => {
 
     // --- Public -------------------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task('clean:stylus', () => {
             $.del(kernel.setCleanStack('stylus', config.app));
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task('stylus', ['clean:stylus'], (cb) => {
             return gulp.src(kernel.setSourceStack('stylus', config.stylus.inputExt))
                 .pipe(stylint({
@@ -78,7 +78,7 @@ module.exports = (gulp, config, kernel, $) => {
                 // .on('data', function (chunk) {
                 //     var contents = chunk.contents.toString().trim();
                 //     var bufLength = process.stdout.columns;
-                //     var hr = '\n\n' + Array(bufLength).join("_") + '\n\n';
+                //     var hr = '\n\n' + Array(bufLength).join('_') + '\n\n';
                 //     if (contents.length > 1) {
                 //         process.stdout.write('\n');
                 //         process.stdout.write(chunk.path);
@@ -99,7 +99,7 @@ module.exports = (gulp, config, kernel, $) => {
                     stream: true
                 }));
         });
-    }
+    };
 
     // --- API ----------------------------------------------------------
 

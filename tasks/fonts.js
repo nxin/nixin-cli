@@ -22,13 +22,13 @@ module.exports = (gulp, config, kernel, $) => {
     // Public
     // ---------------------------------------------
 
-    function clean() {
+    let clean = () => {
         gulp.task("clean:fonts", () => {
             $.del(kernel.setCleanStack("fonts"));
         });
-    }
+    };
 
-    function create() {
+    let create = () => {
         gulp.task("fonts", ["clean:fonts"], () => {
             gulp.src(kernel.setSourceStack("fonts", config.fonts.inputExt))
                 .pipe($.rename((filepath) => {
@@ -39,7 +39,7 @@ module.exports = (gulp, config, kernel, $) => {
                 }))
                 .pipe(gulp.dest(config.destPublicDir + config.dest));
         });
-    }
+    };
 
     // API
     // ---------------------------------------------------------
@@ -48,5 +48,4 @@ module.exports = (gulp, config, kernel, $) => {
         clean: clean(),
         create: create()
     };
-
 };

@@ -5,13 +5,13 @@
 
 module.exports = (gulp, config, $) => {
 
-    function getSources(filename, string) {
+    let getSources = (filename, string) => {
         let src = $.stream.Readable({objectMode: true});
 
         src._read = function () {
             this.push(new $.gutil.File({
-                cwd: "",
-                base: "",
+                cwd: '',
+                base: '',
                 path: filename,
                 contents: new Buffer(string)
             }));
@@ -19,40 +19,40 @@ module.exports = (gulp, config, $) => {
         };
 
         return src;
-    }
+    };
 
-    function extendTask(taskName, seriesTasks, parallelsTasks, cb) {
+    let extendTask = (taskName, seriesTasks, parallelsTasks, cb) => {
         gulp.task(taskName, seriesTasks, () => {
             if (parallelsTasks !== undefined) {
                 $.runSequence(parallelsTasks);
             }
         });
-    }
+    };
 
-    function getErrors(res) {
-        $.gutil.log("in result");
+    let getErrors = (res) => {
+        $.gutil.log('in result');
         console.log(res);
-        res.on("end", () => {
+        res.on('end', () => {
             console.log('res.end');
             cb();
         });
-        res.on("data", () => {
-            console.log("res.data");
+        res.on('data', () => {
+            console.log('res.data');
         });
-    }
+    };
 
-    function errors() {
+    let errors = () => {
         // Send error to notification center with gulp-notify
         $.notify.onError({
-            title: "Compile Error",
-            message: "<%= error %>"
+            title: 'Compile Error',
+            message: '<%= error %>'
         }).apply(this, Array.prototype.slice.call(arguments));
 
         // Keep gulp from hanging on this task
-        this.emit("end");
-    }
+        this.emit('end');
+    };
 
-    function setCleanStack(taskName, filename = '') {
+    let setCleanStack = (taskName, filename = '') => {
 
         let cleanStack = [];
         let taskPath = '/';
@@ -89,9 +89,9 @@ module.exports = (gulp, config, $) => {
         }
 
         return cleanStack;
-    }
+    };
 
-    function setSourceStack(taskName, inputExt) {
+    let setSourceStack = (taskName, inputExt) => {
         let globPath = '';
 
         switch (taskName) {
@@ -109,9 +109,9 @@ module.exports = (gulp, config, $) => {
             `${config.source}${config[taskName].source}${globPath}${inputExt}`,
             `${config.source}{/theme--*,/context--*,/theme--*/context--*}${config[taskName].source}${globPath}${inputExt}`
         ];
-    }
+    };
 
-    function setPathSuffix(filepath) {
+    let setPathSuffix = (filepath) => {
 
         let dir = filepath.dirname.split('/');
         let path = '';
@@ -126,9 +126,9 @@ module.exports = (gulp, config, $) => {
         }
 
         return path;
-    }
+    };
 
-    function setPathPrefix(filepath) {
+    let setPathPrefix = (filepath) => {
 
         let dir = filepath.dirname.split('/');
         let path = '';
@@ -143,13 +143,13 @@ module.exports = (gulp, config, $) => {
         }
 
         return path;
-    }
+    };
 
-    function cleanSuffixPath(suffix) {
+    let cleanSuffixPath = (suffix) => {
         return suffix.replace('theme--', '').replace('context--', '').replace('//', '/');
-    }
+    };
 
-    function setTaskPath(filepath) {
+    let setTaskPath = (filepath) => {
 
         let taskPath = '';
 
@@ -162,9 +162,9 @@ module.exports = (gulp, config, $) => {
         }
 
         return taskPath;
-    }
+    };
 
-    function rewritePath(filepath, filename) {
+    let rewritePath = (filepath, filename) => {
 
         if (typeof filepath.basename !== 'function') {
             if (config.tree === 'flatten') {
@@ -174,7 +174,6 @@ module.exports = (gulp, config, $) => {
                 if (filename !== undefined) {
                     filepath.basename = setTaskPath(filepath) + $.path.basename(filename) + suffixPath;
                 }
-
                 else {
                     filepath.basename = setTaskPath(filepath) + filepath.basename + suffixPath;
                 }
@@ -187,14 +186,14 @@ module.exports = (gulp, config, $) => {
 
                 if (pathPrefix.indexOf(taskPath) !== -1) {
                     prefixPath = pathPrefix;
-                } else {
+                }
+                else {
                     prefixPath = pathPrefix + taskPath;
                 }
 
                 if (filename !== undefined) {
                     filepath.basename = prefixPath + $.path.basename(filename);
                 }
-
                 else {
                     filepath.basename = prefixPath + filepath.basename;
                 }
@@ -205,11 +204,10 @@ module.exports = (gulp, config, $) => {
         }
 
         return filepath;
-    }
+    };
 
-    function addSuffixPath(isVendor = null) {
-
-        function patterns(fileSuffix) {
+    let addSuffixPath = (isVendor = null) => {
+        let patterns = (fileSuffix) => {
 
             // set vendor path
             if (isVendor === 'vendor') {
@@ -234,9 +232,9 @@ module.exports = (gulp, config, $) => {
                 }
             ];
             /// @end !!!
-        }
+        };
 
-        function transform(file, cb) {
+        let transform = (file, cb) => {
 
             let fileContentTrimmed = String(file.contents).trim();
 
@@ -260,10 +258,10 @@ module.exports = (gulp, config, $) => {
 
             // if there was some error, just pass as the first parameter here
             cb(null, file);
-        }
+        };
 
         return $.eventStream.map(transform);
-    }
+    };
 
     return {
         getSources: getSources,
@@ -276,5 +274,4 @@ module.exports = (gulp, config, $) => {
         rewritePath: rewritePath,
         addSuffixPath: addSuffixPath
     };
-
 };
