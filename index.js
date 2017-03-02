@@ -40,12 +40,7 @@ module.exports = (gulp, settings) => {
         }
 
         define(name, tasks, callbackTasks) {
-
-            gulp.task(name, tasks, () => {
-                if (callbackTasks !== undefined) {
-                    this.$.runSequence(callbackTasks);
-                }
-            });
+            this.kernel.extendTask(name, tasks, callbackTasks);
         }
     }
 
